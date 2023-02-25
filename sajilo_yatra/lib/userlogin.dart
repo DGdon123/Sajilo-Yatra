@@ -22,7 +22,7 @@ class _FifthScreenState extends State<FifthScreen> {
   TextEditingController passwordController = TextEditingController();
   String? email;
   String? password;
-  final _storage = FlutterSecureStorage();
+  final storage = FlutterSecureStorage();
 
   Future<void> login() async {
     setState(() {
@@ -39,11 +39,23 @@ class _FifthScreenState extends State<FifthScreen> {
 
     if (users.length == 1) {
       final user = users.first;
-      final username = user["full_name"];
-      await _storage.write(key: 'full_name', value: username);
+      final fullName = user["full_name"];
+      final location = user["location"];
+      final email = user["email"];
+      final phoneNumber = user["phone_number"];
+      final gender = user["gender"];
+      final age = user["age"];
+      final dob = user["dob"].toString();
 
-      // Navigate to /seventh route
-      Navigator.pushNamed(context, '/seventh', arguments: username);
+      await storage.write(key: 'full_name', value: fullName);
+      await storage.write(key: 'location', value: location);
+      await storage.write(key: 'email', value: email);
+      await storage.write(key: 'phone_number', value: phoneNumber.toString());
+      await storage.write(key: 'gender', value: gender);
+      await storage.write(key: 'age', value: age.toString());
+      await storage.write(key: 'dob', value: dob);
+
+      Navigator.pushNamed(context, '/seventh', arguments: fullName);
     } else {
       final invalidCredentialsErrorBar = SnackBar(
         content: Text(

@@ -28,20 +28,24 @@ class _TenthRouteState extends State<TenthRoute> {
   TextEditingController dobController = TextEditingController();
   DateTime? dob2;
   TextEditingController dobController2 = TextEditingController();
+  Location _location = Location();
 
-  GoogleMapController? mapController; //contrller for Google map
+  GoogleMapController? _controller; //contrller for Google map
   Set<Marker> markers = Set(); //markers for google map
-  LatLng showLocation = LatLng(27.7089427, 85.3086209);
+  LatLng _initialcameraposition = LatLng(27.7089427, 85.3086209);
 
   TextEditingController fromController = TextEditingController();
   TextEditingController toController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _initializeMarkers();
-    uuid = Uuid();
-    sessionToken = uuid.v4();
+  void _onMapCreated(GoogleMapController _cntlr) {
+    _controller = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      _controller!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
+        ),
+      );
+    });
   }
 
   Future<void> PlacesAutocompleteField(TextEditingController controller) async {
@@ -56,22 +60,6 @@ class _TenthRouteState extends State<TenthRoute> {
         controller.text = result.description;
       });
     }
-  }
-
-  Future<void> _initializeMarkers() async {
-    BitmapDescriptor customMarker =
-        await MarkerIcon.getMarkerImage('assets/images/blue_circle.png', 100);
-    markers.add(Marker(
-      //add marker on google map
-      markerId: MarkerId(showLocation.toString()),
-      position: showLocation, //position of marker
-      infoWindow: InfoWindow(
-        //popup info
-        title: 'My Custom Title ',
-        snippet: 'My Custom Subtitle',
-      ),
-      icon: customMarker, //Icon for Marker
-    ));
   }
 
   @override
@@ -107,26 +95,11 @@ class _TenthRouteState extends State<TenthRoute> {
         children: [
           Expanded(
             child: GoogleMap(
-              //Map widget from google_maps_flutter package
-              zoomGesturesEnabled: true, //enable Zoom in, out on map
-              initialCameraPosition: CameraPosition(
-                //innital position in map
-                target: showLocation, //initial position
-                zoom: 20, //initial zoom level
-              ),
-              markers: {
-                Marker(
-                  markerId: MarkerId(showLocation.toString()),
-                  position: showLocation,
-                ),
-              }, //default circle marker for map
-              mapType: MapType.normal, //map type
-              onMapCreated: (controller) {
-                //method called when map is created
-                setState(() {
-                  mapController = controller;
-                });
-              },
+              initialCameraPosition:
+                  CameraPosition(target: _initialcameraposition),
+              mapType: MapType.normal,
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
             ),
           ),
           Padding(
