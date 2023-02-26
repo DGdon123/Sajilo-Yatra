@@ -1081,9 +1081,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
         selectedFontSize: 12,
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/fourth');
-          if (value == 1) Navigator.pushNamed(context, '/seventh');
+          if (value == 1) Navigator.pushNamed(context, '/eighth');
           if (value == 2) Navigator.pushNamed(context, '/eleventh');
-          if (value == 3) Navigator.pushNamed(context, '/eighth');
+          if (value == 3) Navigator.pushNamed(context, '/nineth');
           if (value == 4) {
             showDialog(
                 context: context,

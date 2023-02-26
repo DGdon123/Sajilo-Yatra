@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:sajilo_yatra/ui_helper.dart';
+
 class NinethScreen extends StatefulWidget {
   const NinethScreen({Key? key}) : super(key: key);
 
@@ -13,11 +15,11 @@ class NinethScreen extends StatefulWidget {
 }
 
 class _NinethScreenState extends State<NinethScreen> {
-  int currentIndex = 3;
+  int _selectedIndex = 3;
 
-  setBottomBarIndex(index) {
+  void _onItemTapped(int index) {
     setState(() {
-      currentIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -25,10 +27,10 @@ class _NinethScreenState extends State<NinethScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xFF4E93E8),
+      backgroundColor: Color(0xFFFFFFFF),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF2222222),
+        backgroundColor: const Color(0xFF0062DE),
         centerTitle: true,
         title: const Text('Help',
             style: TextStyle(
@@ -51,7 +53,7 @@ class _NinethScreenState extends State<NinethScreen> {
                 "FAQs",
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  color: Color(0xFFFFFFFFF),
+                  color: Color(0xFF0062DE),
                   fontSize: 14,
                   fontFamily: "BalooTammudu2",
                   fontWeight: FontWeight.w600,
@@ -64,7 +66,7 @@ class _NinethScreenState extends State<NinethScreen> {
                 "Frequently asked questions",
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  color: Color(0xFFFFFFFFF),
+                  color: Color(0xFF0062DE),
                   fontSize: 25.5,
                   height: 1.44,
                   fontFamily: "BalooTammudu2",
@@ -79,7 +81,7 @@ class _NinethScreenState extends State<NinethScreen> {
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   height: 0.85,
-                  color: Color(0xFFFFFFFFF),
+                  color: Color(0xFF0062DE),
                   fontSize: 16,
                   fontFamily: "Athiti",
                   fontWeight: FontWeight.w600,
@@ -90,18 +92,18 @@ class _NinethScreenState extends State<NinethScreen> {
               thickness: 3.7, // thickness of the line
               indent: 0, // empty space to the leading edge of divider.
               endIndent: 0, // empty space to the trailing edge of the divider.
-              color: Color(
-                  0xFFFFFFFFF), // The color to use when painting the line.
+              color:
+                  Color(0xFF0062DE), // The color to use when painting the line.
               height: 40, // The divider's height extent.
             ),
             Card(
                 margin: EdgeInsets.only(top: 0, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                color: Color(0xFFFFFFFF),
                 child: ExpansionTile(
                   title: Text(
                     "Is your payment platform secure?",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -354,197 +356,113 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
           ])))),
-          Container(
-            width: size.width,
-            height: 58,
-            margin: const EdgeInsets.only(bottom: 0.7),
-            color: Color(0xFFFFFFFF),
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: Size(size.width, 20),
-                ),
-                Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      heightFactor: 0.58,
-                      child: FloatingActionButton(
-                          elevation: 600,
-                          backgroundColor: Color(0xFFFFFFFF),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 5.7,
-                                color: Color(0xFF4E93E8),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF4E93E8),
+        iconSize: 28,
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Color(0xFFFFFFFF),
+        unselectedItemColor: Color(0xFF222222),
+        selectedFontSize: 12,
+        onTap: (value) {
+          if (value == 0) Navigator.pushNamed(context, '/fourth');
+          if (value == 1) Navigator.pushNamed(context, '/eighth');
+          if (value == 2) Navigator.pushNamed(context, '/eleventh');
+          if (value == 3) Navigator.pushNamed(context, '/nineth');
+          if (value == 4) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text("Logout"),
+                      content: Text("Are you sure you want to logout?"),
+                      actions: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.only(left: 39),
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                ),
+                                child: Text("Yes"),
+                                onPressed: () {
+                                  // Perform logout here
+                                  Navigator.pushNamed(context, '/third');
+                                },
                               ),
-                              //to set border radius to button
-                              borderRadius: BorderRadius.circular(35)),
-                          child: Image.asset(
-                            'images/sajilo.png',
-                            height: 100,
-                            fit: BoxFit.fill,
+                              UiHelper.horizontaSpace(hspace: Spacing.xxlarge),
+                              UiHelper.horizontaSpace(hspace: Spacing.large),
+                              Align(
+                                  alignment: Alignment.bottomRight,
+                                  widthFactor: 1.2,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    child: Text("No"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ))
+                            ],
                           ),
-                          onPressed: () {
-                            setState(() {
-                              Navigator.pushNamed(context, '/seventh');
-                              setBottomBarIndex(2);
-                            });
-                          }),
-                    ),
-                    Text("MENU",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: 1.7,
-                          fontFamily: "ReemKufiInk",
-                          fontSize: 12,
-                          color: currentIndex == 2
-                              ? Color(0xFF0062DE)
-                              : Color(0xFF222222),
-                        )),
-                  ],
-                ),
-                Container(
-                  width: size.width,
-                  height: 64,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Align(
-                            heightFactor: 0.9,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.home_filled,
-                                  size: 35,
-                                  color: currentIndex == 0
-                                      ? Color(0xFF0062DE)
-                                      : Color(0xFF222222),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    setBottomBarIndex(0);
-                                    Navigator.pushNamed(context, '/seventh');
-                                  });
-                                }),
-                          ),
-                          Text("HOME",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                height: 1.05,
-                                fontFamily: "ReemKufiInk",
-                                fontSize: 12,
-                                color: currentIndex == 0
-                                    ? Color(0xFF0062DE)
-                                    : Color(0xFF222222),
-                              )),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Align(
-                            heightFactor: 0.9,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.work,
-                                  size: 35,
-                                  color: currentIndex == 1
-                                      ? Color(0xFF0062DE)
-                                      : Color(0xFF222222),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    setBottomBarIndex(1);
-                                    Navigator.pushNamed(context, '/eighth');
-                                  });
-                                }),
-                          ),
-                          Text("BOOKINGS",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                height: 1.05,
-                                fontFamily: "ReemKufiInk",
-                                fontSize: 12,
-                                color: currentIndex == 1
-                                    ? Color(0xFF0062DE)
-                                    : Color(0xFF222222),
-                              )),
-                        ],
-                      ),
-                      Container(
-                        width: size.width * 0.12,
-                      ),
-                      Column(
-                        children: [
-                          Align(
-                            heightFactor: 0.9,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.help,
-                                  size: 35,
-                                  color: currentIndex == 3
-                                      ? Color(0xFF0062DE)
-                                      : Color(0xFF222222),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    Navigator.pushNamed(context, '/nineth');
-                                    setBottomBarIndex(3);
-                                  });
-                                }),
-                          ),
-                          Text("HELP",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                height: 1.05,
-                                fontFamily: "ReemKufiInk",
-                                fontSize: 12,
-                                color: currentIndex == 3
-                                    ? Color(0xFF0062DE)
-                                    : Color(0xFF222222),
-                              )),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Align(
-                            heightFactor: 0.9,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.logout_outlined,
-                                  size: 35,
-                                  color: currentIndex == 4
-                                      ? Color(0xFF0062DE)
-                                      : Color(0xFF222222),
-                                  semanticLabel: "Home",
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    Navigator.pushNamed(context, '/fifth');
-                                    setBottomBarIndex(4);
-                                  });
-                                }),
-                          ),
-                          Text("LOGOUT",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                height: 1.05,
-                                fontFamily: "ReemKufiInk",
-                                fontSize: 12,
-                                color: currentIndex == 4
-                                    ? Color(0xFF0062DE)
-                                    : Color(0xFF222222),
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        )
+                      ]);
+                });
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_filled),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: "Bookings",
+          ),
+          BottomNavigationBarItem(
+              icon: Container(
+                margin: const EdgeInsets.only(top: 20),
+              ), // empty container to align cart button in the center
+              label: "Menu"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.help),
+            label: "Help",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout_outlined),
+            label: "Logout",
           ),
         ],
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: FloatingActionButton(
+            elevation: 600,
+            backgroundColor: Color(0xFFFFFFFF),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 5.7,
+                  color: Color(0xFF4E93E8),
+                ),
+                //to set border radius to button
+                borderRadius: BorderRadius.circular(35)),
+            child: Image.asset(
+              'images/sajilo.png',
+              height: 100,
+              fit: BoxFit.fill,
+            ),
+            onPressed: () {
+              setState(() {
+                Navigator.pushNamed(context, '/seventh');
+              });
+            }),
+      ),
+      // position the cart button in the center of the bottom navigation bar
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
