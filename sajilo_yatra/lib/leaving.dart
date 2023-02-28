@@ -23,7 +23,7 @@ class _NinethRouteState extends State<NinethRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF4E93E8),
+      backgroundColor: const Color(0xFFFFFFFFF),
       appBar: AppBar(
         elevation: 0,
         leading: Builder(
@@ -35,12 +35,12 @@ class _NinethRouteState extends State<NinethRoute> {
                 size: 25,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/seventh');
+                Navigator.pushNamed(context, '/tenth');
               },
             );
           },
         ),
-        backgroundColor: Color(0xFF222222),
+        backgroundColor: Color(0xFF0062DE),
         title: const Text('Search',
             style: TextStyle(
               color: Color(0xFFFFFFFF),
@@ -56,7 +56,7 @@ class _NinethRouteState extends State<NinethRoute> {
             Container(
                 height: 132.4,
                 width: 395,
-                color: Color(0xFF222222),
+                color: Color(0xFF0062DE),
                 child: Column(children: [
                   Align(
                     alignment: Alignment.bottomLeft,

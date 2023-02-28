@@ -38,7 +38,7 @@ class _EighthScreenState extends State<EighthScreen> {
             );
           },
         ),
-        backgroundColor: Color(0xFF222222),
+        backgroundColor: Color(0xFF0062DE),
         title: const Text('Tickets',
             style: TextStyle(
               color: Color(0xFFFFFFFF),
@@ -49,7 +49,7 @@ class _EighthScreenState extends State<EighthScreen> {
             )),
       ),
       body: Container(
-        color: const Color(0xFF4E93E8),
+        color: const Color(0xFFFFFFFF),
         height: 800,
         child: Expanded(
           child: SingleChildScrollView(
@@ -69,29 +69,38 @@ class _EighthScreenState extends State<EighthScreen> {
                 "Search for Vehicle Tickets",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    height: 4,
+                    height: 3.5,
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFFFFF),
-                    fontSize: 17),
+                    color: Color(0xFF222222),
+                    fontSize: 19),
               ),
               Container(
                 height: 350.4,
                 width: 343,
-                margin: const EdgeInsets.only(top: 7),
+                margin: const EdgeInsets.only(top: 14),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 64, 140, 233),
+                  color: Color(0xFFFFFFFF),
                   borderRadius: const BorderRadius.all(Radius.circular(14)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      offset: Offset(0, 0),
+                      blurRadius: 10.0,
+                      spreadRadius: 2.0,
+                    ), //BoxShadow
+                    //BoxShadow
+                  ],
                 ),
                 child: Column(children: [
                   Container(
                     width: 290,
                     margin: const EdgeInsets.only(top: 26),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 64, 140, 233),
+                      color: const Color(0xFFFFFFFF),
                       border: Border.all(
-                          color: Color(0xFFFFFFFF),
-                          width: 3.5,
+                          color: Color.fromARGB(255, 242, 243, 245),
+                          width: 3,
                           style: BorderStyle.solid),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(8),
@@ -140,15 +149,15 @@ class _EighthScreenState extends State<EighthScreen> {
                       cursorColor: Colors.black,
                       decoration: const InputDecoration(
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 64, 140, 233),
+                        fillColor: const Color(0xFFFFFFFF),
                         prefixIcon: Icon(
                           Icons.near_me_rounded,
                           color: Color(0xFF222222),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Color(0xFFFFFFFFF),
-                              width: 3.5,
+                              color: Color.fromARGB(255, 242, 243, 245),
+                              width: 3,
                               style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
@@ -156,7 +165,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Color(0xFFFFFFFFF),
+                              color: Color.fromARGB(255, 242, 243, 245),
                               width: 2,
                               style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(
@@ -197,15 +206,15 @@ class _EighthScreenState extends State<EighthScreen> {
                       keyboardType: TextInputType.visiblePassword,
                       decoration: const InputDecoration(
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 64, 140, 233),
+                        fillColor: const Color(0xFFFFFFFF),
                         prefixIcon: Icon(
                           Icons.location_on_rounded,
                           color: Color(0xFF222222),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Color(0xFFFFFFFFF),
-                              width: 3.5,
+                              color: Color.fromARGB(255, 242, 243, 245),
+                              width: 3,
                               style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
@@ -213,7 +222,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Color(0xFFFFFFFFF),
+                              color: Color.fromARGB(255, 242, 243, 245),
                               width: 2,
                               style: BorderStyle.solid),
                           borderRadius: BorderRadius.all(
@@ -255,8 +264,7 @@ class _EighthScreenState extends State<EighthScreen> {
                               controller: dobController,
                               decoration: const InputDecoration(
                                 filled: true,
-                                fillColor:
-                                    const Color.fromARGB(255, 64, 140, 233),
+                                fillColor: const Color(0xFFFFFFFF),
                                 suffixIcon: Icon(
                                   Icons.calendar_month_rounded,
                                   size: 28,
@@ -264,8 +272,8 @@ class _EighthScreenState extends State<EighthScreen> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFFFFFFFF),
-                                      width: 3.5,
+                                      color: Color.fromARGB(255, 242, 243, 245),
+                                      width: 3,
                                       style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8),
@@ -273,7 +281,7 @@ class _EighthScreenState extends State<EighthScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF9BC2F2),
+                                      color: Color.fromARGB(255, 242, 243, 245),
                                       width: 2,
                                       style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(
@@ -327,8 +335,7 @@ class _EighthScreenState extends State<EighthScreen> {
                               controller: dobController2,
                               decoration: const InputDecoration(
                                 filled: true,
-                                fillColor:
-                                    const Color.fromARGB(255, 64, 140, 233),
+                                fillColor: const Color(0xFFFFFFFF),
                                 suffixIcon: Icon(
                                   Icons.calendar_month_rounded,
                                   size: 28,
@@ -336,8 +343,8 @@ class _EighthScreenState extends State<EighthScreen> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFFFFFFFF),
-                                      width: 3.5,
+                                      color: Color.fromARGB(255, 242, 243, 245),
+                                      width: 3,
                                       style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(8),
@@ -345,7 +352,7 @@ class _EighthScreenState extends State<EighthScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFF9BC2F2),
+                                      color: Color.fromARGB(255, 242, 243, 245),
                                       width: 2,
                                       style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(
@@ -402,7 +409,7 @@ class _EighthScreenState extends State<EighthScreen> {
                   width: 140,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF0062DE),
+                      primary: Color(0xFF222222),
 
                       shape: RoundedRectangleBorder(
                           //to set border radius to button

@@ -38,37 +38,15 @@ class _TenthRouteState extends State<TenthRoute> {
   String googleApikey = "AIzaSyBiaCtZxylkA-k_S7RUedlxNSrcor2Vsw8";
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
-  LatLng startLocation = LatLng(27.6602292, 85.308027); 
-  String location = "Search Location"; 
+  LatLng startLocation = LatLng(27.6602292, 85.308027);
+  String location = "Search Location";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Color(0xFFFFFFFF),
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/seventh');
-                },
-              );
-            },
-          ),
-          backgroundColor: Color(0xFF222222),
-          title: const Text('Ride',
-              style: TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontFamily: 'Roboto Bold',
-                fontSize: 22,
-                height: 1.19,
-                fontWeight: FontWeight.w500,
-              )),
+          title: Text("Place Picker in Google Map"),
+          backgroundColor: Colors.deepPurpleAccent,
         ),
         body: Stack(children: [
           GoogleMap(
@@ -104,7 +82,7 @@ class _TenthRouteState extends State<TenthRoute> {
           Center(
             //picker image on google map
             child: Image.asset(
-              "assets/images/picker.png",
+              "images/cover.png",
               width: 80,
             ),
           ),
@@ -158,7 +136,7 @@ class _TenthRouteState extends State<TenthRoute> {
                           width: MediaQuery.of(context).size.width - 40,
                           child: ListTile(
                             leading: Image.asset(
-                              "assets/images/picker.png",
+                              "images/cover.png",
                               width: 25,
                             ),
                             title: Text(
@@ -171,115 +149,5 @@ class _TenthRouteState extends State<TenthRoute> {
                     ),
                   )))
         ]));
-  }
-}
-
-class AddressSearch extends SearchDelegate<Suggestion> {
-  final sessionToken;
-
-  AddressSearch(this.sessionToken);
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    final theme = Theme.of(context);
-    return theme.copyWith(
-      appBarTheme: theme.appBarTheme.copyWith(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarTextStyle: theme.textTheme
-            .copyWith(
-              headline6: theme.textTheme.headline6!
-                  .copyWith(color: Colors.white, fontSize: 18),
-            )
-            .bodyText2,
-        titleTextStyle: theme.textTheme
-            .copyWith(
-              headline6: theme.textTheme.headline6!
-                  .copyWith(color: Colors.white, fontSize: 18),
-            )
-            .headline6,
-      ),
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      )
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        Navigator.pushNamed(context, '/eighth');
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // This is where the selected result is returned
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return FutureBuilder(
-      future: getSuggestions(query, sessionToken),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final suggestions = snapshot.data as List<Suggestion>;
-        return ListView.builder(
-          itemCount: suggestions.length,
-          itemBuilder: (context, index) {
-            final suggestion = suggestions[index];
-            return ListTile(
-              title: Text(suggestion.description),
-              onTap: () {
-                close(context, suggestion);
-              },
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Future<List<Suggestion>> getSuggestions(
-      String query, String sessionToken) async {
-    final apiKey = 'AIzaSyBiaCtZxylkA-k_S7RUedlxNSrcor2Vsw8';
-    final url =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$query&sessiontoken=$sessionToken&key=$apiKey';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final predictions =
-          json.decode(await response.body)['predictions'] as List<dynamic>;
-      final suggestions = predictions
-          .map<Suggestion>((p) => Suggestion(
-                p['place_id'] as String,
-                p['description'] as String,
-              ))
-          .toList();
-
-      return suggestions;
-    } else {
-      throw Exception(
-          'Failed to get suggestions (status code ${response.statusCode}): ${response.body}');
-    }
   }
 }

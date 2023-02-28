@@ -98,7 +98,7 @@ class _NinethScreenState extends State<NinethScreen> {
             ),
             Card(
                 margin: EdgeInsets.only(top: 0, left: 12, right: 12),
-                color: Color(0xFFFFFFFF),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "Is your payment platform secure?",
@@ -111,7 +111,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -123,7 +123,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "Yes, it is the most safest payment platform ever done. \nUsers would perform cash transactions hand to hand \nwith the vehicle owner.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -134,13 +134,13 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin: EdgeInsets.only(top: 15, left: 12, right: 12),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "How do I change my account email and password?",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -148,7 +148,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -160,7 +160,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "You can change your password by clicking forgot \npassword and resetting your password but, you are \nnot reset your email. If you want to use another \nemail, you have to register it in the application.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -171,13 +171,13 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin: EdgeInsets.only(top: 15, left: 12, right: 12),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "Drivers do not respond",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -185,7 +185,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -197,7 +197,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "If a driver has not responded to your ride request, try \nincreasing the price for the ride, then resubmit your \nrequest. Bear in mind that during rush hour drivers \nare busier, so expect to pay more for the ride.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -208,13 +208,13 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin: EdgeInsets.only(top: 15, left: 12, right: 12),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "How to leave a review for a driver",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -222,7 +222,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -234,7 +234,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "Once the app immediately after the ride is completed. \nYou will see a window where you can evaluate \nthe driver and write a review. If you did not enjoy \nyour ride and you decide to write a negative \nreview, don’t worry - the driver will not see that \nit was you.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -245,13 +245,13 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin: EdgeInsets.only(top: 15, left: 12, right: 12),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "How to find belongings I left behind",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -259,7 +259,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -271,7 +271,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "If you have left your belongings in the vehicle, write \nto us at dipeshgurung797@gmail.com. Include the \ntime and route of your ride, and if possible tell \nus the car’s make, color, and registration number. \nWe’ll help find your belongings.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -282,13 +282,13 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin: EdgeInsets.only(top: 15, left: 12, right: 12),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "Are there smoking breaks or stop-offs?",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -296,7 +296,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -308,7 +308,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "Some of our trips have breaks planned into the \nschedule for the purposes of providing driving breaks \nand rest periods for the drivers. However, our aim is \nto get you to your destination as quickly as possible, \nwhich is why we don't schedule any other type of \nbreak.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -319,13 +319,14 @@ class _NinethScreenState extends State<NinethScreen> {
                   ],
                 )),
             Card(
-                margin: EdgeInsets.only(top: 12, left: 12, right: 12),
-                color: Color(0xFF2222222),
+                margin:
+                    EdgeInsets.only(top: 15, left: 12, right: 12, bottom: 15),
+                color: Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: Text(
                     "I’m running a little late. Will the vehicle wait for me?",
                     style: TextStyle(
-                        color: Color(0xFFFFFFFF),
+                        color: Color(0xFF222222),
                         fontSize: 16.8,
                         fontFamily: "Cambay",
                         fontWeight: FontWeight.w600),
@@ -333,7 +334,7 @@ class _NinethScreenState extends State<NinethScreen> {
                   trailing: Icon(
                     Icons.keyboard_arrow_down_rounded,
                     size: 28,
-                    color: Color(0xFFFFFFFF),
+                    color: Color(0xFF222222),
                   ),
                   children: [
                     Container(
@@ -345,7 +346,7 @@ class _NinethScreenState extends State<NinethScreen> {
                         child: Text(
                           "Unfortunately, the vehicle cannot wait for delayed \npassengers. Our vehicles travel within a network and \nare bound to a timetable. Please ensure that you are \nat the stop at least 15 minutes before departure.\n\nIf you realize that you’re not going to make it, you can \ncancel your ride up to 15 minutes before departure via \nBooking screen.",
                           style: TextStyle(
-                            color: Color(0xFF2222222),
+                            color: Colors.grey,
                             fontSize: 15,
                             fontFamily: "Athiti",
                             fontWeight: FontWeight.w600,
@@ -367,7 +368,7 @@ class _NinethScreenState extends State<NinethScreen> {
         unselectedItemColor: Color(0xFF222222),
         selectedFontSize: 12,
         onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/fourth');
+          if (value == 0) Navigator.pushNamed(context, '/seventh');
           if (value == 1) Navigator.pushNamed(context, '/eighth');
           if (value == 2) Navigator.pushNamed(context, '/eleventh');
           if (value == 3) Navigator.pushNamed(context, '/nineth');
