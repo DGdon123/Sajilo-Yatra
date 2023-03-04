@@ -125,7 +125,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF222222),
+                                  color: Color(0xFF0062DE),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -182,7 +182,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF222222),
+                                  color: Color(0xFF0062DE),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -1076,8 +1076,8 @@ class _ThirdRouteState extends State<ThirdRoute> {
         iconSize: 28,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFFFFFFFF),
-        unselectedItemColor: Color(0xFF222222),
+        selectedItemColor: Color(0xFF222222),
+        unselectedItemColor: Color(0xFFFFFFFF),
         selectedFontSize: 12,
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/fourth');

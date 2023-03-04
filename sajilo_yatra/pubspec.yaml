@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -39,7 +38,7 @@ dependencies:
   firebase_core: ^2.4.1
   cloud_firestore: ^4.3.1
   firebase_auth: ^4.2.5
-  
+ 
 
   hovering: ^1.0.4
   http: ^0.13.4
@@ -57,9 +56,21 @@ dependencies:
   google_maps_flutter: ^2.2.4
   location: ^4.4.0
   google_api_headers: ^1.5.0+1
-  flutter_google_places_hoc081098: ^1.2.0
+ 
   google_maps_webservice: ^0.0.20-nullsafety.5
   geocoding: ^2.0.5
+  flutter_map: ^3.1.0
+  syncfusion_flutter_maps: ^20.4.52
+  geolocator: ^9.0.2
+  dotenv: ^4.1.0
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.2
+  
+  
+ 
+ 
+ 
+ 
   
 
 
@@ -74,6 +85,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  mapbox_gl: ^0.16.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

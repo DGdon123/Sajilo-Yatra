@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/splashscreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FifthRoute extends StatefulWidget {
   const FifthRoute({Key? key}) : super(key: key);
@@ -15,16 +16,58 @@ class _FifthRouteState extends State<FifthRoute> {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   bool _isObscure = true;
+  bool _rememberMe = false;
+  var size, height, width;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? email;
   String? password;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadSavedLoginDetails();
+  }
+
+  void _onRememberMeChanged(bool? newValue) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _rememberMe = newValue ?? false;
+      if (_rememberMe) {
+        prefs.setString('email', emailController.text);
+        prefs.setString('password', passwordController.text);
+      } else {
+        prefs.remove('email');
+        prefs.remove('password');
+      }
+    });
+  }
+
+  void _loadSavedLoginDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+    String? password = prefs.getString('password');
+    if (email != null && password != null) {
+      emailController.text = email;
+      passwordController.text = password;
+      setState(() {
+        _rememberMe = true;
+      });
+    }
+  }
 
   Future<void> login() async {
     setState(() {
       email = emailController.text;
       password = passwordController.text;
     });
+
+    if (_rememberMe) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', email!);
+      prefs.setString('password', password!);
+    }
 
     final snapshot = await db.collection("vehicle_owners").get();
     final vehicleOwners = snapshot.docs
@@ -55,6 +98,9 @@ class _FifthRouteState extends State<FifthRoute> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
     return Container(
       child: Scaffold(
         backgroundColor: Color(0xFF4E93E8),
@@ -66,7 +112,7 @@ class _FifthRouteState extends State<FifthRoute> {
                   children: [
                     Align(
                       alignment: Alignment.bottomCenter,
-                      heightFactor: 1.8,
+                      heightFactor: 1.65,
                       child: Image.asset(
                         "images/logos.png",
                         width: 227,
@@ -157,7 +203,7 @@ class _FifthRouteState extends State<FifthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(bottom: 38.5, top: 7),
+                            margin: const EdgeInsets.only(bottom: 20, top: 7),
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: _isObscure,
@@ -225,6 +271,30 @@ class _FifthRouteState extends State<FifthRoute> {
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
                                   color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.49,
+                      height: height * 0.04,
+                      margin: const EdgeInsets.only(right: 122, bottom: 35),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            checkColor: Color(0xFFFFFFFF),
+                            activeColor: Color(0xFF0062DE),
+                            value: _rememberMe,
+                            onChanged: _onRememberMeChanged,
+                          ),
+                          Text(
+                            'Remember me',
+                            style: TextStyle(
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF2222222),
+                              fontSize: width * 0.042,
                             ),
                           ),
                         ],
@@ -327,13 +397,13 @@ class _FifthRouteState extends State<FifthRoute> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 4),
+                      margin: const EdgeInsets.only(top: 0),
                       child: Row(
                         children: [
                           const Align(
                             alignment: Alignment.bottomRight,
                             widthFactor: 1.38,
-                            heightFactor: 1,
+                            heightFactor: 0.9,
                             child: Text(
                               "Don't have any account?",
                               style: TextStyle(
@@ -346,7 +416,7 @@ class _FifthRouteState extends State<FifthRoute> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/sixth');
+                              Navigator.pushNamed(context, '/fifth');
                             },
                             child: const Align(
                               alignment: Alignment.bottomRight,
@@ -354,7 +424,7 @@ class _FifthRouteState extends State<FifthRoute> {
                               child: Text(
                                 "Register",
                                 style: TextStyle(
-                                    height: 4.97,
+                                    height: 4.05,
                                     fontFamily: "K2D",
                                     fontWeight: FontWeight.w600,
                                     color: const Color(0xFF222222),
