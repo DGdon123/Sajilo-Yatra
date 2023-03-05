@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
 import 'package:sajilo_yatra/profile.dart';
-import 'package:dotenv/dotenv.dart';
 
 import 'package:sajilo_yatra/ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
@@ -12,9 +11,10 @@ import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
 import 'going.dart';
+import 'package:dotenv/dotenv.dart';
+
 import 'leaving.dart';
-import 'map/pages/widgets/map_success_widget.dart';
-import 'models/current_location.dart';
+
 import 'userlogin.dart';
 import 'loginas.dart';
 import 'splashscreen.dart';
@@ -22,6 +22,7 @@ import 'splashscreen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await dotenv.load(fileName: "assets/.env");
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -44,9 +45,7 @@ Future<void> main() async {
       '/tenth': (context) => const EighthScreen(),
       '/eleventh': (context) => const NinethRoute(),
       '/tweleventh': (context) => const TenthScreen(),
-      '/thirteenth': (context) => MapSuccessWidget(
-          currentUserLocation:
-              CurrentUserLocationEntity(latitude: 0.0, longitude: 0.0)),
+      '/thirteenth': (context) => const TenthRoute(),
       '/fourteenth': (context) => const FourthRoute(
             userId: '',
           ),
