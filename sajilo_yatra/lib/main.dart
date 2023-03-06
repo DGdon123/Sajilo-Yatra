@@ -1,28 +1,35 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
+import 'package:sajilo_yatra/map/pages/map_page.dart';
 import 'package:sajilo_yatra/profile.dart';
 
-import 'package:sajilo_yatra/ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
+
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
 import 'going.dart';
-import 'package:dotenv/dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'leaving.dart';
 
+import 'map/pages/map_layout.dart';
+import 'map/widgets/map_success_widget.dart';
 import 'userlogin.dart';
 import 'loginas.dart';
 import 'splashscreen.dart';
 
+late SharedPreferences sharedPreferences;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await dotenv.load(fileName: "assets/.env");
+  sharedPreferences = await SharedPreferences.getInstance();
+  await dotenv.load(fileName: "assets/config/.env");
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -45,7 +52,7 @@ Future<void> main() async {
       '/tenth': (context) => const EighthScreen(),
       '/eleventh': (context) => const NinethRoute(),
       '/tweleventh': (context) => const TenthScreen(),
-      '/thirteenth': (context) => const TenthRoute(),
+      '/thirteenth': (context) => const MapPage(),
       '/fourteenth': (context) => const FourthRoute(
             userId: '',
           ),

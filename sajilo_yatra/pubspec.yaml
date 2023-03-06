@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.16.0 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^2.4.1
   cloud_firestore: ^4.3.1
   firebase_auth: ^4.2.5
+  equatable: ^2.0.3
  
 
   hovering: ^1.0.4
@@ -51,10 +52,10 @@ dependencies:
   firebase_database: ^10.0.13
  
   uuid: ^3.0.7
-  shared_preferences: ^2.0.18
+  shared_preferences: ^2.0.13
   flutter_secure_storage: ^8.0.0
   google_maps_flutter: ^2.2.4
-  location: ^4.4.0
+  location: ^4.3.0
   google_api_headers: ^1.5.0+1
  
   google_maps_webservice: ^0.0.20-nullsafety.5
@@ -62,10 +63,34 @@ dependencies:
   flutter_map: ^3.1.0
   syncfusion_flutter_maps: ^20.4.52
   geolocator: ^9.0.2
-  dotenv: ^4.1.0
+  flutter_dotenv: ^5.0.2
+ 
+  dio: ^4.0.4
+  google_fonts: ^4.0.3
+  flutter_rating_bar: ^4.0.0
+  flutter_mapbox_navigation: ^0.0.26
+  mapbox_gl: ^0.15.0
+  flutter_bloc: ^8.1.2
+
+
+
 
 dependency_overrides:
   firebase_core_platform_interface: ^4.5.1
+  mapbox_gl:
+    git:
+      url: https://github.com/srmanc/maps.git
+      ref: 7eead7c3fa4b59f553ee15a33ab12e8c564e60ac
+  mapbox_gl_platform_interface:
+    git:
+      url: https://github.com/srmanc/maps.git
+      ref: 7eead7c3fa4b59f553ee15a33ab12e8c564e60ac
+      path: mapbox_gl_platform_interface
+  mapbox_gl_web:
+    git:
+      url: https://github.com/srmanc/maps.git
+      ref: 7eead7c3fa4b59f553ee15a33ab12e8c564e60ac
+      path: mapbox_gl_web
   
 dev_dependencies:
   build_runner:
@@ -96,6 +121,8 @@ flutter:
       - images/ticket.png
       - images/yatra.jpeg
       - images/yu.png
+      - assets/
+      - assets/config/.env
   #   - images/a_dot_ham.jpeg
       
 
