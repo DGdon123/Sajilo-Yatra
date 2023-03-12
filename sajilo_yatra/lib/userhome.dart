@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sajilo_yatra/screens/home.dart';
+import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -134,7 +136,12 @@ class _ThirdRouteState extends State<ThirdRoute> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/tenth');
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EighthScreen()),
+                            (Route<dynamic> route) => false,
+                          );
                         }),
                   ),
                   Container(
@@ -191,7 +198,11 @@ class _ThirdRouteState extends State<ThirdRoute> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/thirteenth');
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                            (Route<dynamic> route) => false,
+                          );
                         }),
                   ),
                 ],

@@ -5,7 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EighthScreen extends StatefulWidget {
-  const EighthScreen({Key? key}) : super(key: key);
+  final String? going;
+  final String? leaving;
+
+  const EighthScreen({
+    Key? key,
+    this.going,
+    this.leaving,
+  }) : super(key: key);
 
   @override
   State<EighthScreen> createState() => _EighthScreenState();
@@ -20,6 +27,24 @@ class _EighthScreenState extends State<EighthScreen> {
   DateTime? dob2;
   TextEditingController dobController2 = TextEditingController();
   String? drop;
+  late TextEditingController _goingController;
+  late TextEditingController _leavingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _goingController = TextEditingController(text: widget.going);
+    _leavingController = TextEditingController(text: widget.leaving);
+  }
+
+  @override
+  void dispose() {
+    _goingController.dispose();
+    _leavingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -144,6 +169,7 @@ class _EighthScreenState extends State<EighthScreen> {
                     margin: const EdgeInsets.only(top: 12),
                     width: 290,
                     child: TextFormField(
+                      controller: _leavingController,
                       readOnly: true,
                       maxLines: 1,
                       cursorColor: Colors.black,
@@ -200,6 +226,7 @@ class _EighthScreenState extends State<EighthScreen> {
                     margin: const EdgeInsets.only(top: 12),
                     width: 290,
                     child: TextFormField(
+                      controller: _goingController,
                       maxLines: 1,
                       readOnly: true,
                       cursorColor: Colors.black,

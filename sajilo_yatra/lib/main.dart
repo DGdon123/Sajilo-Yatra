@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
-import 'package:sajilo_yatra/map/pages/map_page.dart';
+
 import 'package:sajilo_yatra/profile.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
@@ -17,8 +17,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'leaving.dart';
 
-import 'map/pages/map_layout.dart';
-import 'map/widgets/map_success_widget.dart';
 import 'userlogin.dart';
 import 'loginas.dart';
 import 'splashscreen.dart';
@@ -26,10 +24,12 @@ import 'splashscreen.dart';
 late SharedPreferences sharedPreferences;
 
 Future<void> main() async {
+  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _textEditingController1 = TextEditingController();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
-  await dotenv.load(fileName: "assets/config/.env");
+  await dotenv.load(fileName: ".env");
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -49,10 +49,16 @@ Future<void> main() async {
           ),
       '/eighth': (context) => const EighthRoute(),
       '/nineth': (context) => const NinethScreen(),
-      '/tenth': (context) => const EighthScreen(),
+
+      '/tenth': (context) {
+        final arguments =
+            ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+        return EighthScreen(
+            going: arguments['tweleventh'], leaving: arguments['eleventh']);
+      },
       '/eleventh': (context) => const NinethRoute(),
       '/tweleventh': (context) => const TenthScreen(),
-      '/thirteenth': (context) => const MapPage(),
+
       '/fourteenth': (context) => const FourthRoute(
             userId: '',
           ),
