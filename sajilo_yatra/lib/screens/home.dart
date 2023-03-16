@@ -34,8 +34,7 @@ class _HomeState extends State<Home> {
         body: Stack(
       children: [
         MapboxMap(
-          accessToken: dotenv.env[
-              'pk.eyJ1IjoiZGdkb24tMTIzIiwiYSI6ImNsZXZxaGg4MDA3OW4zcGtjcnowNnE5YzIifQ.LN_GIFZ0LVgXL95ZqX7FEQ'],
+          accessToken: dotenv.env['MAPBOX_ACCESS_TOKEN'],
           initialCameraPosition: _initialCameraPosition,
           myLocationEnabled: true,
         ),

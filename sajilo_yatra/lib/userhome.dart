@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sajilo_yatra/screens/home.dart';
+import 'package:sajilo_yatra/screens/prepare_ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -200,7 +201,8 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => Home()),
+                            MaterialPageRoute(
+                                builder: (context) => PrepareRide()),
                             (Route<dynamic> route) => false,
                           );
                         }),
@@ -1091,7 +1093,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
         unselectedItemColor: Color(0xFFFFFFFF),
         selectedFontSize: 12,
         onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/fourth');
+          if (value == 0) Navigator.pushNamed(context, '/seventh');
           if (value == 1) Navigator.pushNamed(context, '/eighth');
           if (value == 2) Navigator.pushNamed(context, '/eleventh');
           if (value == 3) Navigator.pushNamed(context, '/nineth');

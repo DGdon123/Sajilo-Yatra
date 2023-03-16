@@ -176,6 +176,7 @@ class _NinethRouteState extends State<NinethRoute> {
                                 '/tenth',
                                 arguments: {
                                   'leaving': _textEditingController.text,
+                                  'going': _textEditingController1.text
                                 },
                               );
                             }),

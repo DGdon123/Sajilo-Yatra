@@ -364,8 +364,8 @@ class _NinethScreenState extends State<NinethScreen> {
         iconSize: 28,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFFFFFFFF),
-        unselectedItemColor: Color(0xFF222222),
+        selectedItemColor: Color(0xFF222222),
+        unselectedItemColor: Color(0xFFFFFFFF),
         selectedFontSize: 12,
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/seventh');

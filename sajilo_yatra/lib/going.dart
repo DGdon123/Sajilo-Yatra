@@ -176,6 +176,7 @@ class _TenthScreenState extends State<TenthScreen> {
                               '/tenth',
                               arguments: {
                                 'going': _textEditingController.text,
+                                'leaving': _textEditingController1.text
                               },
                             );
                           },

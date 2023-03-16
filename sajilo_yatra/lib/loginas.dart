@@ -9,21 +9,30 @@ class FirstScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFF4E93E8),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 70.0,
-            width: 250.2,
-            margin: const EdgeInsets.only(
-              top: 300,
+            margin: const EdgeInsets.only(top: 140),
+            child: Image.asset(
+              'images/logos.png',
+              width: 270,
+              height: 250,
+              fit: BoxFit.fill,
             ),
+          ),
+          Container(
+            height: 68.0,
+            width: 250.2,
+            margin: const EdgeInsets.only(top: 65),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF9BC2F2), //background color of button
+                primary: Color.fromARGB(
+                    255, 118, 173, 240), //background color of button
                 //border width and color
 
                 shape: RoundedRectangleBorder(
                     //to set border radius to button
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(8)),
               ),
               child: const Text(
                 "Login As User",
@@ -34,7 +43,7 @@ class FirstScreen extends StatelessWidget {
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFFFFFFF),
-                    fontSize: 17),
+                    fontSize: 16),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/third');
@@ -46,33 +55,34 @@ class FirstScreen extends StatelessWidget {
                 top: 20,
               ),
               width: UiHelper.displayWidth(context) * 1,
-              height: UiHelper.displayHeight(context) * 0.0035,
+              height: UiHelper.displayHeight(context) * 0.003,
               color: Color(0xFFFFFFFF)),
           Container(
-            height: 70.0,
+            height: 68.0,
             width: 250.2,
             margin: const EdgeInsets.only(
               top: 20,
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF9BC2F2), //background color of button
+                primary: Color.fromARGB(
+                    255, 118, 173, 240), //background color of button
                 //border width and color
 
                 shape: RoundedRectangleBorder(
                     //to set border radius to button
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(8)),
               ),
               child: const Text(
                 "Login As Vehicle Owner",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    height: 0.64,
+                    height: 0.69,
                     letterSpacing: 0.5,
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFFFFFFF),
-                    fontSize: 17),
+                    fontSize: 16),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/fourth');
