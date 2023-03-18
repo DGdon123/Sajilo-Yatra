@@ -14,7 +14,8 @@ import 'package:sajilo_yatra/tickets.dart';
 import 'helpers/mapbox_handler.dart';
 
 class TenthScreen extends StatefulWidget {
-  const TenthScreen({Key? key}) : super(key: key);
+  final String? leaving;
+  const TenthScreen({Key? key, this.leaving}) : super(key: key);
 
   @override
   State<TenthScreen> createState() => _TenthScreenState();
@@ -48,6 +49,12 @@ class _TenthScreenState extends State<TenthScreen> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController1 = TextEditingController(text: widget.leaving);
   }
 
   @override
@@ -171,14 +178,13 @@ class _TenthScreenState extends State<TenthScreen> {
                             return null;
                           },
                           onEditingComplete: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/tenth',
-                              arguments: {
-                                'going': _textEditingController.text,
-                                'leaving': _textEditingController1.text
-                              },
-                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EighthScreen(
+                                          leaving: _textEditingController1.text,
+                                          going: _textEditingController.text,
+                                        )));
                           },
                         ),
                       ),

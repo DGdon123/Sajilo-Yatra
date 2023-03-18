@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:sajilo_yatra/requests/mapbox_search.dart';
 import 'package:sajilo_yatra/tickets.dart';
 
+import 'going.dart';
 import 'helpers/mapbox_handler.dart';
 
 class NinethRoute extends StatefulWidget {
@@ -113,73 +114,72 @@ class _NinethRouteState extends State<NinethRoute> {
                         ),
                         width: 288,
                         child: TextFormField(
-                            controller: _textEditingController,
-                            maxLines: 1,
-                            cursorColor: Colors.black,
-                            keyboardType: TextInputType.visiblePassword,
-                            onChanged: (value) => searchPlacesInNepal(),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFFFFFFF),
-                              prefixIcon: Icon(
-                                Icons.search_rounded,
-                                size: 28,
-                                color: Color(0xFF222222),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFFFFFFF),
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(9),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFFFFFFFF),
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(9),
-                                ),
-                              ),
-                              hintText: 'Leaving From',
-                              hintStyle: TextStyle(
-                                height: 0.9,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF222222),
-                                fontSize: 16,
-                              ),
-                              suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                          controller: _textEditingController,
+                          maxLines: 1,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.visiblePassword,
+                          onChanged: (value) => searchPlacesInNepal(),
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Color(0xFFFFFFFF),
+                            prefixIcon: Icon(
+                              Icons.search_rounded,
+                              size: 28,
+                              color: Color(0xFF222222),
                             ),
-                            style: const TextStyle(
-                              fontSize: 16,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xFFFFFFFF),
+                                width: 2,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(9),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xFFFFFFFF),
+                                width: 2,
+                                style: BorderStyle.solid,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(9),
+                              ),
+                            ),
+                            hintText: 'Leaving From',
+                            hintStyle: TextStyle(
+                              height: 0.9,
                               fontFamily: "Mulish",
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF222222),
+                              fontSize: 16,
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Leaving field cannot be empty';
-                              } else if (_places.isEmpty) {
-                                return 'No matching places found';
-                              }
-                              return null;
-                            },
-                            onEditingComplete: () {
-                              Navigator.pushNamed(
+                            suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontFamily: "Mulish",
+                            fontWeight: FontWeight.w600,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Leaving field cannot be empty';
+                            } else if (_places.isEmpty) {
+                              return 'No matching places found';
+                            }
+                            return null;
+                          },
+                          onEditingComplete: () {
+                            Navigator.push(
                                 context,
-                                '/tenth',
-                                arguments: {
-                                  'leaving': _textEditingController.text,
-                                  'going': _textEditingController1.text
-                                },
-                              );
-                            }),
+                                MaterialPageRoute(
+                                    builder: (context) => TenthScreen(
+                                          leaving: _textEditingController.text,
+                                        )));
+                          },
+                        ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(right: 0),

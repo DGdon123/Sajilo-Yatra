@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
+import 'package:sajilo_yatra/offers/offerone.dart';
 
 import 'package:sajilo_yatra/profile.dart';
+import 'package:sajilo_yatra/ride.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
 
@@ -11,12 +13,14 @@ import 'package:sajilo_yatra/userregister.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
+import 'forgotpassword.dart';
 import 'going.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'leaving.dart';
 
+import 'menu.dart';
 import 'userlogin.dart';
 import 'loginas.dart';
 import 'splashscreen.dart';
@@ -50,18 +54,18 @@ Future<void> main() async {
       '/eighth': (context) => const EighthRoute(),
       '/nineth': (context) => const NinethScreen(),
 
-      '/tenth': (context) {
-        final arguments =
-            ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-        return EighthScreen(
-            going: arguments['tweleventh'], leaving: arguments['eleventh']);
-      },
+      '/tenth': (context) => const EighthScreen(),
+
       '/eleventh': (context) => const NinethRoute(),
       '/tweleventh': (context) => const TenthScreen(),
 
       '/fourteenth': (context) => const FourthRoute(
             userId: '',
           ),
+      '/fifteenth': (context) => ForgotPasswordScreen(),
+      '/sixteenth': (context) => const OfferOne(),
+      '/seventeenth': (context) => const Menu(),
+      '/eighteenth': (context) => const Ride(),
     },
   ));
 }

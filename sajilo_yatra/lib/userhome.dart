@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sajilo_yatra/ride.dart';
 import 'package:sajilo_yatra/screens/home.dart';
 import 'package:sajilo_yatra/screens/prepare_ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
@@ -115,8 +116,8 @@ class _ThirdRouteState extends State<ThirdRoute> {
                               margin: const EdgeInsets.only(top: 12),
                               child: Image.asset(
                                 "images/ticket.png",
-                                width: UiHelper.displayWidth(context) * 0.12,
-                                height: UiHelper.displayHeight(context) * 0.055,
+                                width: UiHelper.displayWidth(context) * 0.167,
+                                height: UiHelper.displayHeight(context) * 0.058,
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -128,7 +129,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF0062DE),
+                                  color: Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -174,23 +175,23 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         child: Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(top: 22),
+                              margin: const EdgeInsets.only(top: 32),
                               child: Image.asset(
                                 "images/ride.png",
-                                width: UiHelper.displayWidth(context) * 0.15,
-                                height: UiHelper.displayHeight(context) * 0.035,
+                                width: UiHelper.displayWidth(context) * 0.170,
+                                height: UiHelper.displayHeight(context) * 0.037,
                                 fit: BoxFit.fill,
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(top: 17.3),
+                              margin: const EdgeInsets.only(top: 8.3),
                               child: Text(
                                 "Ride",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF0062DE),
+                                  color: Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -201,193 +202,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => PrepareRide()),
+                            MaterialPageRoute(builder: (context) => Ride()),
                             (Route<dynamic> route) => false,
                           );
                         }),
-                  ),
-                ],
-              ),
-              UiHelper.verticalSpace(vspace: Spacing.medium),
-              Container(
-                width: UiHelper.displayWidth(context) * 1,
-                height: UiHelper.displayHeight(context) * 0.012,
-                color: Color(0xFFF3F3F3),
-              ),
-              UiHelper.verticalSpace(vspace: Spacing.small),
-              Row(
-                children: [
-                  UiHelper.horizontaSpace(hspace: Spacing.xlarge),
-                  const Text(
-                    "Take a ride to",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        height: 2,
-                        fontFamily: "OpenSans",
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF0062DE),
-                        fontSize: 19.5),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 3, top: 5),
-                    width: UiHelper.displayWidth(context) * 0.93,
-                    height: UiHelper.displayHeight(context) * 0.09,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 242, 243, 245),
-                      border: Border.all(
-                          color: Color(0xFFFFFFFF),
-                          width: 3.5,
-                          style: BorderStyle.solid),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/eighth');
-                          },
-                          child: Container(
-                            width: UiHelper.displayWidth(context) * 0.44,
-                            height: UiHelper.displayHeight(context) * 0.096,
-                            margin: const EdgeInsets.only(),
-                            child: Row(children: [
-                              UiHelper.horizontaSpace(hspace: Spacing.medium),
-                              Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFFFFFF),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(80)),
-                                ),
-                                child: Icon(
-                                  Icons.home_filled,
-                                  size: 23,
-                                  color: Color(0xFF222222),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  UiHelper.verticalSpace(vspace: Spacing.small),
-                                  Row(
-                                    children: [
-                                      UiHelper.horizontaSpace(
-                                          hspace: Spacing.medium),
-                                      const Text(
-                                        "Home",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: "Podkova",
-                                            fontWeight: FontWeight.w900,
-                                            color: Color(0xFF222222),
-                                            fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                  UiHelper.verticalSpace(
-                                      vspace: Spacing.xxsmall),
-                                  Row(
-                                    children: [
-                                      UiHelper.horizontaSpace(
-                                          hspace: Spacing.medium),
-                                      const Text(
-                                        "Set home address",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.grey,
-                                            fontSize: 12.4),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ]),
-                          ),
-                        ),
-                        UiHelper.horizontaSpace(hspace: Spacing.small),
-                        Container(
-                          width: UiHelper.displayWidth(context) * 0.0071,
-                          height: UiHelper.displayHeight(context) * 0.055,
-                          color: Colors.grey,
-                        ),
-                        UiHelper.horizontaSpace(hspace: Spacing.xsmall),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/eighth');
-                          },
-                          child: Container(
-                            width: UiHelper.displayWidth(context) * 0.44,
-                            height: UiHelper.displayHeight(context) * 0.096,
-                            margin: const EdgeInsets.only(),
-                            child: Row(children: [
-                              UiHelper.horizontaSpace(hspace: Spacing.medium),
-                              Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFFFFFF),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(80)),
-                                ),
-                                child: Icon(
-                                  Icons.business_center_rounded,
-                                  size: 23,
-                                  color: Color(0xFF222222),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  UiHelper.verticalSpace(vspace: Spacing.small),
-                                  Row(
-                                    children: [
-                                      UiHelper.horizontaSpace(
-                                          hspace: Spacing.medium),
-                                      const Text(
-                                        "Work",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: "Podkova",
-                                            fontWeight: FontWeight.w900,
-                                            color: Color(0xFF222222),
-                                            fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                  UiHelper.verticalSpace(
-                                      vspace: Spacing.xxsmall),
-                                  Row(
-                                    children: [
-                                      UiHelper.horizontaSpace(
-                                          hspace: Spacing.medium),
-                                      const Text(
-                                        "Set work address",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            fontFamily: "OpenSans",
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.grey,
-                                            fontSize: 12.4),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ]),
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ],
               ),
@@ -418,7 +236,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
         ),
         Container(
           margin: const EdgeInsets.only(top: 15),
-          height: 225,
+          height: UiHelper.displayHeight(context) * 0.47,
           child: Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -529,7 +347,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ),
                                   ],
                                 ),
-                                onPressed: () {}),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/sixteenth');
+                                }),
                           ),
                         ),
                         Align(
@@ -634,7 +454,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ),
                                   ],
                                 ),
-                                onPressed: () {}),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/sixteenth');
+                                }),
                           ),
                         ),
                       ],
@@ -746,7 +568,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       ),
                                     ],
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/sixteenth');
+                                  }),
                             ),
                           ),
                           Align(
@@ -852,7 +676,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       ),
                                     ],
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/sixteenth');
+                                  }),
                             ),
                           ),
                         ],
@@ -965,7 +791,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       ),
                                     ],
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/sixteenth');
+                                  }),
                             ),
                           ),
                           Align(
@@ -1071,7 +899,9 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       ),
                                     ],
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/sixteenth');
+                                  }),
                             ),
                           ),
                         ],
@@ -1095,7 +925,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/seventh');
           if (value == 1) Navigator.pushNamed(context, '/eighth');
-          if (value == 2) Navigator.pushNamed(context, '/eleventh');
+          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
           if (value == 3) Navigator.pushNamed(context, '/nineth');
           if (value == 4) {
             showDialog(
@@ -1183,7 +1013,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
             ),
             onPressed: () {
               setState(() {
-                Navigator.pushNamed(context, '/seventh');
+                Navigator.pushNamed(context, '/seventeenth');
               });
             }),
       ),

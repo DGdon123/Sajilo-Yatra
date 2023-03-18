@@ -7,15 +7,15 @@ import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class EighthRoute extends StatefulWidget {
-  const EighthRoute({Key? key}) : super(key: key);
+class Menu extends StatefulWidget {
+  const Menu({Key? key}) : super(key: key);
 
   @override
-  State<EighthRoute> createState() => _EighthRouteState();
+  State<Menu> createState() => _MenuState();
 }
 
-class _EighthRouteState extends State<EighthRoute> {
-  int _selectedIndex = 1;
+class _MenuState extends State<Menu> {
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,7 +41,7 @@ class _EighthRouteState extends State<EighthRoute> {
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0062DE),
         centerTitle: true,
-        title: const Text('Bookings',
+        title: const Text('Menu',
             style: TextStyle(
               color: Color(0xFFFFFFFF),
               fontFamily: 'ComicNeue',
@@ -50,77 +50,102 @@ class _EighthRouteState extends State<EighthRoute> {
             )),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      heightFactor: 0.6,
-                      child: Container(
-                        width: 395,
-                        height: 70,
-                        color: Color(0xFFFFFFFF),
-                        child: Text(
-                          "You have no bookings yet.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Color(0xFF0062DE),
-                              fontSize: 19.5,
-                              fontFamily: "Cambay",
-                              fontWeight: FontWeight.w900,
-                              height: 3.85),
-                        ),
+      body: Container(
+        child: ListView.builder(
+          itemCount: 4, // replace with your desired number of items
+          itemBuilder: (BuildContext context, int index) {
+            switch (index) {
+              case 0:
+                return Container(
+                  height: 20,
+                  color: Color(0xFFF1F0F6),
+                );
+              case 1:
+                return ListTile(
+                    leading: const Icon(
+                      Icons.help_outline_rounded,
+                      color: Color(0xFF004BA4),
+                      size: 26,
+                    ),
+                    title: const Text('FAQs',
+                        style: TextStyle(
+                            color: Color(0xFF2222222),
+                            fontFamily: "Lato",
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500)),
+                    subtitle: Container(
+                      height: 1,
+                      color: Color(0xFFF1F0F6),
+                    ),
+                    trailing: Container(
+                      alignment: Alignment.centerRight,
+                      child: const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Color(0xFFD6D6D6),
+                        size: 22,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      heightFactor: 1.8,
-                      widthFactor: 4.4,
-                      child: Icon(
-                        Icons.event_busy_rounded,
-                        size: 170,
-                        color: Color(0xFF222222),
-                      ),
-                    ),
-                    Container(
-                      height: 34.4,
-                      width: 140,
-                      margin: const EdgeInsets.only(bottom: 185),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF222222),
-
-                          shape: RoundedRectangleBorder(
-                              //to set border radius to button
-                              borderRadius: BorderRadius.circular(
-                                  12)), //background color of button
-                        ),
-                        child: const Text(
-                          "Book Now",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              height: 1.2,
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFFFFFFF),
-                              fontSize: 16),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/seventh');
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+                    onTap: (() {
+                      Navigator.pushNamed(context, '/second');
+                    }));
+              case 2:
+                return ListTile(
+                  leading: const Icon(
+                    Icons.notifications_rounded,
+                    color: Color(0xFF004BA4),
+                    size: 26,
+                  ),
+                  title: const Text('सूचनाहरू',
+                      style: TextStyle(
+                          color: Color(0xFF004BA4),
+                          fontFamily: "Cabin",
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500)),
+                  onTap: (() {
+                    Navigator.pushNamed(context, '/twentyoneth');
+                  }),
+                );
+              case 3:
+                return ListTile(
+                  leading: const Icon(
+                    Icons.question_mark_rounded,
+                    color: Color(0xFF004BA4),
+                    size: 26,
+                  ),
+                  title: const Text('सल्लाह सुझाव',
+                      style: TextStyle(
+                          color: Color(0xFF004BA4),
+                          fontFamily: "Cabin",
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500)),
+                  onTap: (() {
+                    Navigator.pushNamed(context, '/sixteenth');
+                  }),
+                );
+              case 4:
+                return ListTile(
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Color(0xFF004BA4),
+                    size: 26,
+                  ),
+                  title: const Text('सेटिङ',
+                      style: TextStyle(
+                          color: Color(0xFF004BA4),
+                          fontFamily: "Cabin",
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500)),
+                  onTap: (() {
+                    Navigator.pushNamed(context, '/twentytwoth');
+                  }),
+                );
+              default:
+                return null;
+            }
+          },
+        ),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF4E93E8),
         iconSize: 28,
@@ -132,7 +157,7 @@ class _EighthRouteState extends State<EighthRoute> {
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/seventh');
           if (value == 1) Navigator.pushNamed(context, '/eighth');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
+          if (value == 2) Navigator.pushNamed(context, '/eleventh');
           if (value == 3) Navigator.pushNamed(context, '/nineth');
           if (value == 4) {
             showDialog(
@@ -220,7 +245,7 @@ class _EighthRouteState extends State<EighthRoute> {
             ),
             onPressed: () {
               setState(() {
-                Navigator.pushNamed(context, '/seventeenth');
+                Navigator.pushNamed(context, '/seventh');
               });
             }),
       ),

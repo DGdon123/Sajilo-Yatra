@@ -55,6 +55,31 @@ class _FifthScreenState extends State<FifthScreen> {
     }
   }
 
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Password reset email sent"),
+        ),
+      );
+
+      final snapshot =
+          await db.collection("users").where("email", isEqualTo: email).get();
+      final users = snapshot.docs.map((doc) => doc.reference).toList();
+
+      if (users.length == 1) {
+        final userRef = users.first;
+        await userRef.update({
+          "password": "reset"
+        }); // replace "reset" with the actual new password
+      }
+    } catch (error) {
+      print(error.toString());
+      throw error;
+    }
+  }
+
   Future<void> login() async {
     setState(() {
       email = emailController.text;
@@ -407,15 +432,21 @@ class _FifthScreenState extends State<FifthScreen> {
                         ),
                       ),
                     ),
-                    const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifteenth');
+                      },
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
                             fontFamily: "Cairo",
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF222222),
-                            fontSize: 15),
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                     Container(
