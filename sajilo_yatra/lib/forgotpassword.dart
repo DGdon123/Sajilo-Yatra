@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sajilo_yatra/ui_helper.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -65,7 +66,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Forgot Password"),
+        elevation: 0,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Color(0xFFFFFFFF),
+                size: 25,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            );
+          },
+        ),
+        backgroundColor: Color(0xFF0062DE),
+        title: Text('Forgot Password',
+            style: TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontFamily: 'ComicNeue',
+              fontSize: UiHelper.displayWidth(context) * 0.05,
+              fontWeight: FontWeight.w900,
+            )),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -76,34 +99,116 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your email";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 16.0),
-                    TextFormField(
-                      controller: _newPasswordController,
-                      obscureText: _isObscured,
-                      decoration: InputDecoration(
-                        labelText: "New Password",
-                        suffixIcon: IconButton(
-                          icon: Icon(_isObscured
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _isObscured = !_isObscured;
-                            });
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextFormField(
+                          controller: _emailController,
+                          maxLines: 1,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(
+                              Icons.mail_rounded,
+                              color: Color(0xFF222222),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFFA6AEB0),
+                                  width: 2,
+                                  style: BorderStyle.solid),
+                            ),
+                            labelText: 'Email',
+                            hintText: 'Enter Your Email',
+                            hintStyle: TextStyle(
+                              height: UiHelper.displayHeight(context) * 0.0023,
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFA6AEB0),
+                              fontSize: UiHelper.displayWidth(context) * 0.043,
+                            ),
+                            labelStyle: TextStyle(
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF222222),
+                              fontSize: UiHelper.displayWidth(context) * 0.047,
+                            ),
+                            suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                          ),
+                          style: TextStyle(
+                            fontSize: UiHelper.displayWidth(context) * 0.045,
+                            fontFamily: "Mulish",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFA6AEB0),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Email field cannot be empty';
+                            }
+                            return '';
                           },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: UiHelper.displayWidth(context) * 0.8,
+                      margin: const EdgeInsets.only(bottom: 28.5, top: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextFormField(
+                          controller: _newPasswordController,
+                          obscureText: _isObscured,
+                          maxLines: 1,
+                          cursorColor: Colors.black,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isObscured
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color(0xFF271C24),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscured = !_isObscured;
+                                  });
+                                }),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFFA6AEB0),
+                                  width: 2,
+                                  style: BorderStyle.solid),
+                            ),
+                            labelText: 'New Password',
+                            hintText: 'Enter Your New Password',
+                            hintStyle: TextStyle(
+                              height: UiHelper.displayHeight(context) * 0.0023,
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFA6AEB0),
+                              fontSize: UiHelper.displayWidth(context) * 0.043,
+                            ),
+                            labelStyle: TextStyle(
+                              fontFamily: "Mulish",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF222222),
+                              fontSize: UiHelper.displayWidth(context) * 0.047,
+                            ),
+                            suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Password field cannot be empty';
+                            }
+                            return '';
+                          },
+                          style: TextStyle(
+                            fontSize: UiHelper.displayWidth(context) * 0.045,
+                            fontFamily: "Mulish",
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFA6AEB0),
+                          ),
                         ),
                       ),
                     ),

@@ -22,7 +22,7 @@ class FirstScreen extends StatelessWidget {
           ),
           Container(
             height: 68.0,
-            width: 250.2,
+            width: UiHelper.displayWidth(context) * 0.63,
             margin: const EdgeInsets.only(top: 65),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -34,7 +34,7 @@ class FirstScreen extends StatelessWidget {
                     //to set border radius to button
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text(
+              child: Text(
                 "Login As User",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -43,7 +43,7 @@ class FirstScreen extends StatelessWidget {
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFFFFFFF),
-                    fontSize: 16),
+                    fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/third');
@@ -55,11 +55,11 @@ class FirstScreen extends StatelessWidget {
                 top: 20,
               ),
               width: UiHelper.displayWidth(context) * 1,
-              height: UiHelper.displayHeight(context) * 0.004,
+              height: UiHelper.displayHeight(context) * 0.0047,
               color: Color(0xFFFFFFFF)),
           Container(
             height: 68.0,
-            width: 250.2,
+            width: UiHelper.displayWidth(context) * 0.63,
             margin: const EdgeInsets.only(
               top: 20,
             ),
@@ -73,7 +73,7 @@ class FirstScreen extends StatelessWidget {
                     //to set border radius to button
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text(
+              child: Text(
                 "Login As Vehicle Owner",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -82,7 +82,7 @@ class FirstScreen extends StatelessWidget {
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFFFFFFF),
-                    fontSize: 16),
+                    fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/fourth');

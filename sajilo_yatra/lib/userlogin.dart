@@ -250,7 +250,7 @@ class _FifthScreenState extends State<FifthScreen> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(bottom: 20, top: 7),
+                            margin: const EdgeInsets.only(bottom: 18, top: 8.5),
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: _isObscure,
@@ -353,7 +353,7 @@ class _FifthScreenState extends State<FifthScreen> {
                       child: Container(
                         height: 54.4,
                         width: 190,
-                        margin: const EdgeInsets.only(bottom: 5.55),
+                        margin: const EdgeInsets.only(bottom: 4),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: const Color(
