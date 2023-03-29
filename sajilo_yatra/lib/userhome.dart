@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sajilo_yatra/ride.dart';
-import 'package:sajilo_yatra/screens/home.dart';
-import 'package:sajilo_yatra/screens/prepare_ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';

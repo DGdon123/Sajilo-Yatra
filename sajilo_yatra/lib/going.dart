@@ -8,10 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
-import 'package:sajilo_yatra/requests/mapbox_search.dart';
-import 'package:sajilo_yatra/tickets.dart';
 
-import 'helpers/mapbox_handler.dart';
+import 'package:sajilo_yatra/tickets.dart';
 
 class TenthScreen extends StatefulWidget {
   final String? leaving;

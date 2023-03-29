@@ -51,98 +51,113 @@ class _MenuState extends State<Menu> {
         elevation: 0,
       ),
       body: Container(
-        child: ListView.builder(
-          itemCount: 4, // replace with your desired number of items
-          itemBuilder: (BuildContext context, int index) {
-            switch (index) {
-              case 0:
-                return Container(
-                  height: 20,
-                  color: Color(0xFFF1F0F6),
-                );
-              case 1:
-                return ListTile(
-                    leading: const Icon(
-                      Icons.help_outline_rounded,
-                      color: Color(0xFF004BA4),
-                      size: 26,
-                    ),
-                    title: const Text('FAQs',
-                        style: TextStyle(
-                            color: Color(0xFF2222222),
-                            fontFamily: "Lato",
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500)),
-                    subtitle: Container(
-                      height: 1,
-                      color: Color(0xFFF1F0F6),
-                    ),
-                    trailing: Container(
-                      alignment: Alignment.centerRight,
-                      child: const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Color(0xFFD6D6D6),
-                        size: 22,
-                      ),
-                    ),
-                    onTap: (() {
-                      Navigator.pushNamed(context, '/second');
-                    }));
-              case 2:
-                return ListTile(
-                  leading: const Icon(
-                    Icons.notifications_rounded,
-                    color: Color(0xFF004BA4),
-                    size: 26,
-                  ),
-                  title: const Text('सूचनाहरू',
-                      style: TextStyle(
-                          color: Color(0xFF004BA4),
-                          fontFamily: "Cabin",
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500)),
-                  onTap: (() {
-                    Navigator.pushNamed(context, '/twentyoneth');
-                  }),
-                );
-              case 3:
-                return ListTile(
-                  leading: const Icon(
-                    Icons.question_mark_rounded,
-                    color: Color(0xFF004BA4),
-                    size: 26,
-                  ),
-                  title: const Text('सल्लाह सुझाव',
-                      style: TextStyle(
-                          color: Color(0xFF004BA4),
-                          fontFamily: "Cabin",
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500)),
-                  onTap: (() {
-                    Navigator.pushNamed(context, '/sixteenth');
-                  }),
-                );
-              case 4:
-                return ListTile(
-                  leading: const Icon(
-                    Icons.settings,
-                    color: Color(0xFF004BA4),
-                    size: 26,
-                  ),
-                  title: const Text('सेटिङ',
-                      style: TextStyle(
-                          color: Color(0xFF004BA4),
-                          fontFamily: "Cabin",
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500)),
-                  onTap: (() {
-                    Navigator.pushNamed(context, '/twentytwoth');
-                  }),
-                );
-              default:
-                return null;
-            }
-          },
+        child: ListView(
+          children: [
+            Container(
+              height: UiHelper.displayHeight(context) * 0.019,
+              color: Color(0xFFEFEEF3),
+            ),
+            ListTile(
+                leading: Icon(
+                  Icons.edit_document,
+                  color: Color(0xFF0062DE),
+                  size: UiHelper.displayWidth(context) * 0.07,
+                ),
+                title: Text('Write Feedback',
+                    style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontFamily: "NotoSans",
+                        fontSize: UiHelper.displayWidth(context) * 0.04,
+                        fontWeight: FontWeight.w400)),
+                trailing: Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: Color(0xFFD6D6D6),
+                  size: UiHelper.displayWidth(context) * 0.08,
+                ),
+                onTap: (() {
+                  Navigator.pushNamed(context, '/ninetenth');
+                })),
+            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
+            Container(
+              height: UiHelper.displayHeight(context) * 0.0015,
+              color: Color(0xFFD6D6D6),
+            ),
+            ListTile(
+                leading: Icon(
+                  Icons.help_outline_rounded,
+                  color: Color(0xFF0062DE),
+                  size: UiHelper.displayWidth(context) * 0.07,
+                ),
+                title: Text('FAQs',
+                    style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontFamily: "NotoSans",
+                        fontSize: UiHelper.displayWidth(context) * 0.04,
+                        fontWeight: FontWeight.w400)),
+                trailing: Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: Color(0xFFD6D6D6),
+                  size: UiHelper.displayWidth(context) * 0.08,
+                ),
+                onTap: (() {
+                  Navigator.pushNamed(context, '/nineth');
+                })),
+            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
+            Container(
+              height: UiHelper.displayHeight(context) * 0.0015,
+              color: Color(0xFFD6D6D6),
+            ),
+            ListTile(
+                leading: Icon(
+                  Icons.info_outline_rounded,
+                  color: Color(0xFF0062DE),
+                  size: UiHelper.displayWidth(context) * 0.07,
+                ),
+                title: Text('About Us',
+                    style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontFamily: "NotoSans",
+                        fontSize: UiHelper.displayWidth(context) * 0.04,
+                        fontWeight: FontWeight.w400)),
+                trailing: Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: Color(0xFFD6D6D6),
+                  size: UiHelper.displayWidth(context) * 0.08,
+                ),
+                onTap: (() {
+                  Navigator.pushNamed(context, '/eighth');
+                })),
+            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
+            Container(
+              height: UiHelper.displayHeight(context) * 0.0015,
+              color: Color(0xFFD6D6D6),
+            ),
+            ListTile(
+                leading: Icon(
+                  Icons.phone,
+                  color: Color(0xFF0062DE),
+                  size: UiHelper.displayWidth(context) * 0.07,
+                ),
+                title: Text('Contact Us',
+                    style: TextStyle(
+                        color: Color(0xFF222222),
+                        fontFamily: "NotoSans",
+                        fontSize: UiHelper.displayWidth(context) * 0.04,
+                        fontWeight: FontWeight.w400)),
+                trailing: Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  color: Color(0xFFD6D6D6),
+                  size: UiHelper.displayWidth(context) * 0.08,
+                ),
+                onTap: (() {
+                  Navigator.pushNamed(context, '/eighth');
+                })),
+            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
+            Container(
+              height: UiHelper.displayHeight(context) * 0.0015,
+              color: Color(0xFFD6D6D6),
+            ),
+          ],
         ),
       ),
 

@@ -13,6 +13,7 @@ import 'package:sajilo_yatra/userregister.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
+import 'feedbacks.dart';
 import 'forgotpassword.dart';
 import 'going.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,7 @@ Future<void> main() async {
       '/sixteenth': (context) => const OfferOne(),
       '/seventeenth': (context) => const Menu(),
       '/eighteenth': (context) => const Ride(),
+      '/ninetenth': (context) => const FeedbacksScreen(),
     },
   ));
 }
