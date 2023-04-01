@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class RideTwo extends StatefulWidget {
+  final String? city;
   const RideTwo({
     Key? key,
+    this.city,
   }) : super(key: key);
 
   @override
@@ -22,16 +24,17 @@ class _RideTwoState extends State<RideTwo> {
   DateTime? dob2;
   TextEditingController dobController2 = TextEditingController();
   String? drop;
-  TextEditingController? _goingController;
-  TextEditingController? _leavingController;
 
+  TextEditingController? _cityController;
   @override
   void initState() {
     super.initState();
+    _cityController = TextEditingController(text: widget.city);
   }
 
   @override
   void dispose() {
+    _cityController!.dispose();
     super.dispose();
   }
 
@@ -46,7 +49,7 @@ class _RideTwoState extends State<RideTwo> {
               child: Column(
             children: [
               Container(
-                height: 350.4,
+                height: 275.4,
                 width: 343,
                 margin: const EdgeInsets.only(top: 14),
                 decoration: BoxDecoration(
@@ -57,7 +60,7 @@ class _RideTwoState extends State<RideTwo> {
                       color: Colors.grey.withOpacity(0.2),
                       offset: Offset(0, 0),
                       blurRadius: 10.0,
-                      spreadRadius: 2.0,
+                      spreadRadius: 5.0,
                     ), //BoxShadow
                     //BoxShadow
                   ],
@@ -114,7 +117,7 @@ class _RideTwoState extends State<RideTwo> {
                     margin: const EdgeInsets.only(top: 12),
                     width: 290,
                     child: TextFormField(
-                      controller: _leavingController,
+                      controller: _cityController,
                       readOnly: true,
                       maxLines: 1,
                       cursorColor: Colors.black,
@@ -163,7 +166,7 @@ class _RideTwoState extends State<RideTwo> {
                         return '';
                       },
                       onTap: () {
-                        Navigator.pushNamed(context, '/eleventh');
+                        Navigator.pushNamed(context, '/line5');
                       },
                     ),
                   ),

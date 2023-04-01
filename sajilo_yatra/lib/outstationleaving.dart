@@ -8,19 +8,20 @@ import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
+import 'package:sajilo_yatra/outstationgoing.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
 
 import 'going.dart';
 
-class NinethRoute extends StatefulWidget {
-  const NinethRoute({Key? key}) : super(key: key);
+class OutRoute extends StatefulWidget {
+  const OutRoute({Key? key}) : super(key: key);
 
   @override
-  State<NinethRoute> createState() => _NinethRouteState();
+  State<OutRoute> createState() => _OutRouteState();
 }
 
-class _NinethRouteState extends State<NinethRoute> {
+class _OutRouteState extends State<OutRoute> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingController1 = TextEditingController();
   List<String> _places = [];
@@ -73,7 +74,7 @@ class _NinethRouteState extends State<NinethRoute> {
                 size: 25,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/tenth');
+                Navigator.pop(context);
               },
             );
           },
@@ -182,7 +183,7 @@ class _NinethRouteState extends State<NinethRoute> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TenthScreen(
+                                    builder: (context) => OutStation(
                                           leaving: _textEditingController.text,
                                         )));
                           },

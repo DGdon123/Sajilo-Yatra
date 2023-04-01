@@ -8,24 +8,24 @@ import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
+import 'package:sajilo_yatra/ride.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
+import 'package:sajilo_yatra/ui_helper.dart';
 
-import 'going.dart';
-
-class NinethRoute extends StatefulWidget {
-  const NinethRoute({Key? key}) : super(key: key);
+class City extends StatefulWidget {
+  const City({Key? key}) : super(key: key);
 
   @override
-  State<NinethRoute> createState() => _NinethRouteState();
+  State<City> createState() => _CityState();
 }
 
-class _NinethRouteState extends State<NinethRoute> {
+class _CityState extends State<City> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingController1 = TextEditingController();
   List<String> _places = [];
 
-  Future<void> searchPlacesInNepal() async {
+  Future<void> searchCitiesInNepal() async {
     final query = _textEditingController.text;
     final url =
         'https://api.mapbox.com/geocoding/v5/mapbox.places/$query.json?country=np&access_token=pk.eyJ1IjoiZGdkb24tMTIzIiwiYSI6ImNsZjF2NG5lbTBjYXEzem52aGo0ZTF6aHUifQ.DEvWGUYA_ELjd4mZV8MbcA';
@@ -35,18 +35,16 @@ class _NinethRouteState extends State<NinethRoute> {
       final data = jsonDecode(response.body);
 
       final features = data['features'] as List<dynamic>;
-      final places = <String>[];
+      final cities = <String>[];
       for (final feature in features) {
         final placeTypes = feature['place_type'] as List<dynamic>;
-        if (placeTypes.contains('district') ||
-            placeTypes.contains('place') ||
-            placeTypes.contains('locality')) {
-          final placeName = feature['place_name'] as String;
-          places.add(placeName);
+        if (placeTypes.contains('place') && !placeTypes.contains('locality')) {
+          final cityName = feature['text'] as String;
+          cities.add(cityName);
         }
       }
 
-      setState(() => _places = places);
+      setState(() => _places = cities);
     } catch (e) {
       print('Failed to get search results from Mapbox: $e');
     }
@@ -56,6 +54,11 @@ class _NinethRouteState extends State<NinethRoute> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -73,7 +76,7 @@ class _NinethRouteState extends State<NinethRoute> {
                 size: 25,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/tenth');
+                Navigator.pop(context);
               },
             );
           },
@@ -96,20 +99,23 @@ class _NinethRouteState extends State<NinethRoute> {
               width: 399,
               color: Color(0xFF0062DE),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    widthFactor: 1.4,
-                    child: Text(
-                      "Leaving From",
-                      style: TextStyle(
-                        height: 1.5,
-                        fontFamily: "Mulish",
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 40,
+                  Row(
+                    children: [
+                      UiHelper.horizontaSpace(hspace: Spacing.xlarge),
+                      Text(
+                        "City",
+                        style: TextStyle(
+                          height: 1.5,
+                          fontFamily: "Mulish",
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFFFFFFF),
+                          fontSize: 40,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -125,7 +131,7 @@ class _NinethRouteState extends State<NinethRoute> {
                           maxLines: 1,
                           cursorColor: Colors.black,
                           keyboardType: TextInputType.visiblePassword,
-                          onChanged: (value) => searchPlacesInNepal(),
+                          onChanged: (value) => searchCitiesInNepal(),
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Color(0xFFFFFFFF),
@@ -154,7 +160,7 @@ class _NinethRouteState extends State<NinethRoute> {
                                 Radius.circular(9),
                               ),
                             ),
-                            hintText: 'Leaving From',
+                            hintText: 'Enter City',
                             hintStyle: TextStyle(
                               height: 0.9,
                               fontFamily: "Mulish",
@@ -182,8 +188,8 @@ class _NinethRouteState extends State<NinethRoute> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TenthScreen(
-                                          leaving: _textEditingController.text,
+                                    builder: (context) => Ride(
+                                          city: _textEditingController.text,
                                         )));
                           },
                         ),

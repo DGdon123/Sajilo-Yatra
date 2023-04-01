@@ -3,6 +3,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sajilo_yatra/search.dart';
 
 class EighthScreen extends StatefulWidget {
   final String? going;
@@ -112,7 +113,7 @@ class _EighthScreenState extends State<EighthScreen> {
                       color: Colors.grey.withOpacity(0.2),
                       offset: Offset(0, 0),
                       blurRadius: 10.0,
-                      spreadRadius: 2.0,
+                      spreadRadius: 5.0,
                     ), //BoxShadow
                     //BoxShadow
                   ],
@@ -454,7 +455,13 @@ class _EighthScreenState extends State<EighthScreen> {
                           fontSize: 16),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/seventh');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen(
+                                    leaving: _leavingController.text,
+                                    going: _goingController.text,
+                                  )));
                     },
                   ),
                 ),

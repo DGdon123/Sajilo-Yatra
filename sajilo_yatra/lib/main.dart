@@ -2,17 +2,24 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
 import 'package:sajilo_yatra/offers/offerone.dart';
+import 'package:sajilo_yatra/outstationgoing.dart';
+import 'package:sajilo_yatra/outstationleaving.dart';
+import 'package:sajilo_yatra/payment.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'package:sajilo_yatra/profile.dart';
 import 'package:sajilo_yatra/ride.dart';
+import 'package:sajilo_yatra/search.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
 
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
+import 'package:sajilo_yatra/vehicleownerforgotpassword.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
+import 'city.dart';
 import 'feedbacks.dart';
 import 'forgotpassword.dart';
 import 'going.dart';
@@ -36,38 +43,55 @@ Future<void> main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    // Start the app with the "/" named route. In this case, the app starts
-    // on the FirstScreen widget.
-    initialRoute: '/',
-    routes: {
-      // When navigating to the "/" route, build the FirstScreen widget.
-      '/': (context) => const MyHomePage(),
-      '/second': (context) => const FirstScreen(),
-      '/third': (context) => const FifthScreen(),
-      '/fourth': (context) => const FifthRoute(),
-      '/fifth': (context) => const SixthScreen(),
-      '/sixth': (context) => const SixthRoute(),
-      '/seventh': (context) => ThirdRoute(
-            userId: '',
-          ),
-      '/eighth': (context) => const EighthRoute(),
-      '/nineth': (context) => const NinethScreen(),
+  runApp(KhaltiScope(
+      publicKey: "test_public_key_51ce9cb3f72743fe899ec90e5e72690b",
+      enabledDebugging: true,
+      builder: (context, navKey) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // Start the app with the "/" named route. In this case, the app starts
+          // on the FirstScreen widget.
+          initialRoute: '/',
+          routes: {
+            // When navigating to the "/" route, build the FirstScreen widget.
+            '/': (context) => const MyHomePage(),
+            '/second': (context) => const FirstScreen(),
+            '/third': (context) => const FifthScreen(),
+            '/fourth': (context) => const FifthRoute(),
+            '/fifth': (context) => const SixthScreen(),
+            '/sixth': (context) => const SixthRoute(),
+            '/seventh': (context) => ThirdRoute(
+                  userId: '',
+                ),
+            '/eighth': (context) => const EighthRoute(),
+            '/nineth': (context) => const NinethScreen(),
 
-      '/tenth': (context) => const EighthScreen(),
+            '/tenth': (context) => const EighthScreen(),
 
-      '/eleventh': (context) => const NinethRoute(),
-      '/tweleventh': (context) => const TenthScreen(),
+            '/eleventh': (context) => const NinethRoute(),
+            '/tweleventh': (context) => const TenthScreen(),
 
-      '/fourteenth': (context) => const FourthRoute(
-            userId: '',
-          ),
-      '/fifteenth': (context) => ForgotPasswordScreen(),
-      '/sixteenth': (context) => const OfferOne(),
-      '/seventeenth': (context) => const Menu(),
-      '/eighteenth': (context) => const Ride(),
-      '/ninetenth': (context) => const FeedbacksScreen(),
-    },
-  ));
+            '/fourteenth': (context) => const FourthRoute(
+                  userId: '',
+                ),
+            '/fifteenth': (context) => ForgotPasswordScreen(),
+            '/sixteenth': (context) => const OfferOne(),
+            '/seventeenth': (context) => const Menu(),
+            '/eighteenth': (context) => const Ride(),
+            '/ninetenth': (context) => const FeedbacksScreen(),
+            '/twenty': (context) => const SearchScreen(),
+            '/line1': (context) => ForgotScreen(),
+            '/line2': (context) => const Payment(
+                  userId: '',
+                ),
+            '/line3': (context) => const OutStation(),
+            '/line4': (context) => const OutRoute(),
+            '/line5': (context) => const City(),
+          },
+          navigatorKey: navKey,
+          localizationsDelegates: const [
+            KhaltiLocalizations.delegate,
+          ],
+        );
+      }));
 }

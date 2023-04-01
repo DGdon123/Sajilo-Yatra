@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FifthRoute extends StatefulWidget {
   const FifthRoute({Key? key}) : super(key: key);
@@ -22,6 +23,9 @@ class _FifthRouteState extends State<FifthRoute> {
   TextEditingController passwordController = TextEditingController();
   String? email;
   String? password;
+  Color originalButtonColor = Color(0xFF0062DE);
+  Color? _buttonColor;
+  final storage = FlutterSecureStorage();
 
   @override
   void initState() {
@@ -77,6 +81,31 @@ class _FifthRouteState extends State<FifthRoute> {
         .toList();
 
     if (vehicleOwners.length == 1) {
+      final user = vehicleOwners.first;
+      final fullName = user["full_name"];
+      final location = user["location"];
+      final email = user["email"];
+      final phoneNumber = user["phone"];
+      final gender = user["gender"];
+      final age = user["age"];
+      final vehicleFacility = user["vehicle_facility"];
+      final vehicleName = user["vehicle_name"];
+      final vehicleSeats = user["vehicle_seats"];
+      final vehicleType = user["vehicle_type"];
+      final dob = user["dob"].toString();
+
+      await storage.write(key: 'full_name', value: fullName);
+      await storage.write(key: 'location', value: location);
+      await storage.write(key: 'email', value: email);
+      await storage.write(key: 'vehicle_name', value: vehicleName);
+      await storage.write(key: 'vehicle_facility', value: vehicleFacility);
+      await storage.write(key: 'vehicle_seats', value: vehicleSeats.toString());
+      await storage.write(key: 'vehicle_type', value: vehicleType);
+      await storage.write(key: 'phone_number', value: phoneNumber.toString());
+      await storage.write(key: 'gender', value: gender);
+      await storage.write(key: 'age', value: age.toString());
+      await storage.write(key: 'dob', value: dob);
+
       Navigator.pushNamed(context, '/seventh');
     } else {
       final invalidCredentialsErrorBar = SnackBar(
@@ -203,7 +232,7 @@ class _FifthRouteState extends State<FifthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(bottom: 20, top: 7),
+                            margin: const EdgeInsets.only(bottom: 18, top: 8.5),
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: _isObscure,
@@ -306,7 +335,7 @@ class _FifthRouteState extends State<FifthRoute> {
                       child: Container(
                         height: 54.4,
                         width: 190,
-                        margin: const EdgeInsets.only(bottom: 5.55),
+                        margin: const EdgeInsets.only(bottom: 4),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: const Color(
@@ -385,15 +414,21 @@ class _FifthRouteState extends State<FifthRoute> {
                         ),
                       ),
                     ),
-                    const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/line1');
+                      },
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
                             fontFamily: "Cairo",
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF222222),
-                            fontSize: 15),
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ),
                     Container(

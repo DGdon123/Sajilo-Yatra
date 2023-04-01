@@ -8,19 +8,20 @@ import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
+import 'package:sajilo_yatra/ride.dart';
+import 'package:sajilo_yatra/rideone.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
 
-import 'going.dart';
-
-class NinethRoute extends StatefulWidget {
-  const NinethRoute({Key? key}) : super(key: key);
+class OutStation extends StatefulWidget {
+  final String? leaving;
+  const OutStation({Key? key, this.leaving}) : super(key: key);
 
   @override
-  State<NinethRoute> createState() => _NinethRouteState();
+  State<OutStation> createState() => _OutStationState();
 }
 
-class _NinethRouteState extends State<NinethRoute> {
+class _OutStationState extends State<OutStation> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingController1 = TextEditingController();
   List<String> _places = [];
@@ -59,6 +60,12 @@ class _NinethRouteState extends State<NinethRoute> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _textEditingController1 = TextEditingController(text: widget.leaving);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
@@ -73,7 +80,7 @@ class _NinethRouteState extends State<NinethRoute> {
                 size: 25,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/tenth');
+                Navigator.pop(context);
               },
             );
           },
@@ -99,9 +106,9 @@ class _NinethRouteState extends State<NinethRoute> {
                 children: [
                   Align(
                     alignment: Alignment.bottomLeft,
-                    widthFactor: 1.4,
+                    widthFactor: 2.05,
                     child: Text(
-                      "Leaving From",
+                      "Going To",
                       style: TextStyle(
                         height: 1.5,
                         fontFamily: "Mulish",
@@ -154,7 +161,7 @@ class _NinethRouteState extends State<NinethRoute> {
                                 Radius.circular(9),
                               ),
                             ),
-                            hintText: 'Leaving From',
+                            hintText: 'Going To',
                             hintStyle: TextStyle(
                               height: 0.9,
                               fontFamily: "Mulish",
@@ -182,8 +189,9 @@ class _NinethRouteState extends State<NinethRoute> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => TenthScreen(
-                                          leaving: _textEditingController.text,
+                                    builder: (context) => Ride(
+                                          leaving: _textEditingController1.text,
+                                          going: _textEditingController.text,
                                         )));
                           },
                         ),

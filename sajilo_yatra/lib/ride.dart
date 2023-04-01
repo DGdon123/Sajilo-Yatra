@@ -8,9 +8,10 @@ import 'package:sajilo_yatra/ridetwo.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class Ride extends StatefulWidget {
-  const Ride({
-    Key? key,
-  }) : super(key: key);
+  final String? going;
+  final String? leaving;
+  final String? city;
+  const Ride({Key? key, this.going, this.leaving, this.city}) : super(key: key);
 
   @override
   State<Ride> createState() => _RideState();
@@ -27,10 +28,14 @@ class _RideState extends State<Ride> {
   String? drop;
   late TextEditingController _goingController;
   late TextEditingController _leavingController;
+  late TextEditingController _cityController;
 
   @override
   void initState() {
     super.initState();
+    _goingController = TextEditingController(text: widget.going);
+    _leavingController = TextEditingController(text: widget.leaving);
+    _cityController = TextEditingController(text: widget.city);
   }
 
   @override
@@ -43,12 +48,13 @@ class _RideState extends State<Ride> {
   TabBar get _tabBar => TabBar(
         labelPadding: const EdgeInsets.only(top: 2),
         labelStyle: TextStyle(
-            fontSize: UiHelper.displayWidth(context) * 0.037,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF0E0E0E)),
-        labelColor: Color(0xFF0E0E0E),
-        unselectedLabelColor: Color(0xFF4D4D4D),
-        indicatorColor: Color(0xFF004BA4),
+          fontSize: UiHelper.displayWidth(context) * 0.037,
+          fontWeight: FontWeight.bold,
+          color: Colors.transparent,
+        ),
+        labelColor: Color(0xFFFFFFFF),
+        unselectedLabelColor: Color(0xFF9BC2F2),
+        indicatorColor: Color(0xFF9BC2F2),
         tabs: [
           Tab(text: 'Outstation'),
           Tab(text: 'Local'),
@@ -88,14 +94,17 @@ class _RideState extends State<Ride> {
             bottom: PreferredSize(
               preferredSize: _tabBar.preferredSize,
               child: Material(
-                color: Color(0xFFFFFFFF), //<-- SEE HERE
+                color: Color(0xFF0062DE), //<-- SEE HERE
                 child: _tabBar,
               ),
             ),
           ),
           body: TabBarView(children: [
-            RideOne(),
-            RideTwo(),
+            RideOne(
+              leaving: _leavingController.text,
+              going: _goingController.text,
+            ),
+            RideTwo(city: _cityController.text),
           ])),
     );
   }

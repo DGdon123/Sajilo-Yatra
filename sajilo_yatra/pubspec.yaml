@@ -72,6 +72,7 @@ dependencies:
  
   flutter_bloc: ^8.1.2
   mapbox_search: ^3.0.1+2
+  khalti_flutter: ^2.2.1
   
 dependency_overrides:
   firebase_core_platform_interface: ^4.5.1
@@ -302,6 +303,10 @@ flutter:
        fonts:
          - asset: lib/fonts/Poppins-Medium.ttf
            weight: 500 
+     - family: PublicSans
+       fonts:
+         - asset: lib/fonts/PublicSans-Regular.ttf
+           weight: 400 
      
          
           

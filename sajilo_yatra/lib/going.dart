@@ -34,8 +34,16 @@ class _TenthScreenState extends State<TenthScreen> {
       final data = jsonDecode(response.body);
 
       final features = data['features'] as List<dynamic>;
-      final places =
-          features.map((feature) => feature['place_name'] as String).toList();
+      final places = <String>[];
+      for (final feature in features) {
+        final placeTypes = feature['place_type'] as List<dynamic>;
+        if (placeTypes.contains('district') ||
+            placeTypes.contains('place') ||
+            placeTypes.contains('locality')) {
+          final placeName = feature['place_name'] as String;
+          places.add(placeName);
+        }
+      }
 
       setState(() => _places = places);
     } catch (e) {

@@ -3,10 +3,15 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sajilo_yatra/outstationgoing.dart';
 
 class RideOne extends StatefulWidget {
+  final String? going;
+  final String? leaving;
   const RideOne({
     Key? key,
+    this.going,
+    this.leaving,
   }) : super(key: key);
 
   @override
@@ -28,10 +33,14 @@ class _RideOneState extends State<RideOne> {
   @override
   void initState() {
     super.initState();
+    _goingController = TextEditingController(text: widget.going);
+    _leavingController = TextEditingController(text: widget.leaving);
   }
 
   @override
   void dispose() {
+    _goingController!.dispose();
+    _leavingController!.dispose();
     super.dispose();
   }
 
@@ -57,7 +66,7 @@ class _RideOneState extends State<RideOne> {
                       color: Colors.grey.withOpacity(0.2),
                       offset: Offset(0, 0),
                       blurRadius: 10.0,
-                      spreadRadius: 2.0,
+                      spreadRadius: 5.0,
                     ), //BoxShadow
                     //BoxShadow
                   ],
@@ -163,7 +172,7 @@ class _RideOneState extends State<RideOne> {
                         return '';
                       },
                       onTap: () {
-                        Navigator.pushNamed(context, '/eleventh');
+                        Navigator.pushNamed(context, '/line4');
                       },
                     ),
                   ),
@@ -221,7 +230,7 @@ class _RideOneState extends State<RideOne> {
                         return '';
                       },
                       onTap: () {
-                        Navigator.pushNamed(context, '/tweleventh');
+                        Navigator.pushNamed(context, '/line3');
                       },
                     ),
                   ),
@@ -398,9 +407,7 @@ class _RideOneState extends State<RideOne> {
                           color: Color(0xFFFFFFFF),
                           fontSize: 16),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/seventh');
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ),
