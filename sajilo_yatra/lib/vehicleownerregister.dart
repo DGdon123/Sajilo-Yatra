@@ -18,18 +18,28 @@ class _SixthRouteState extends State<SixthRoute> {
   int? age;
   dynamic phonenumber;
   String? vehiclename;
-  int? vehiclenumber;
   String? location;
+  String? vehiclenum;
+  int? seat;
   DateTime? dob;
   // Initial Selected Value
   String? dropdownvalue;
   String? drop;
+  String? pin;
 
   // List of items in our dropdown menu
   var items = ['Male', 'Female', 'Others'];
   var item1 = [];
   var vehicle = ['Bus', 'Jeep', 'MicroBus', 'Taxi', 'Others'];
   var vehicle1 = [];
+  var vehicle2 = [
+    'AC Sleeper (2 + 1)',
+    'NON-AC Seater/Sleeper (2 + 1)',
+    'AC Seater/Sleeper (2 + 1)',
+    'NON-AC Push Back Seater (2 + 2)'
+        'None'
+  ];
+  var vehicle3 = [];
   bool _isObscure = true;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -40,6 +50,7 @@ class _SixthRouteState extends State<SixthRoute> {
   TextEditingController typeController = TextEditingController();
   TextEditingController numController = TextEditingController();
   TextEditingController vehnameController = TextEditingController();
+  TextEditingController seatController = TextEditingController();
   TextEditingController dobController = TextEditingController();
 
   register() async {
@@ -49,11 +60,13 @@ class _SixthRouteState extends State<SixthRoute> {
         dropdownvalue == null ||
         drop == null ||
         age == null ||
+        pin == null ||
         phonenumber == null ||
         location == null ||
         dob == null ||
         vehiclename == null ||
-        vehiclenumber == null) {
+        vehiclenum == null ||
+        seat == null) {
       final emptyFieldErrorBar = SnackBar(
         content: Text(
           "Please fill out all the fields!",
@@ -78,8 +91,10 @@ class _SixthRouteState extends State<SixthRoute> {
         'phone': phonenumber,
         'vehicle_name': vehiclename,
         'vehicle_type': drop,
-        'vehicle_number': vehiclenumber,
+        'vehicle_number': vehiclenum,
         'location': location,
+        'vehicle_facility': pin,
+        'vehicle_seats': seat,
         'dob': dob
       });
       Navigator.pushNamed(context, '/seventh');
@@ -99,7 +114,7 @@ class _SixthRouteState extends State<SixthRoute> {
                   children: [
                     Align(
                       alignment: Alignment.bottomCenter,
-                      heightFactor: 1.55,
+                      heightFactor: 1.45,
                       child: Image.asset(
                         "images/logos.png",
                         width: 227,
@@ -109,12 +124,12 @@ class _SixthRouteState extends State<SixthRoute> {
                     ),
                     const Align(
                       alignment: Alignment.bottomCenter,
-                      heightFactor: 0.0001,
+                      heightFactor: 0.008,
                       child: Text(
                         "Sign Up to login",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            height: 0.8,
+                            height: 0.4,
                             letterSpacing: 0.3,
                             fontFamily: "KumbhSans",
                             fontWeight: FontWeight.w700,
@@ -123,11 +138,11 @@ class _SixthRouteState extends State<SixthRoute> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 36),
+                      margin: const EdgeInsets.only(top: 38),
                       child: Column(
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(bottom: 6.1),
+                            margin: const EdgeInsets.only(bottom: 9.4),
                             width: 290,
                             child: TextFormField(
                               controller: nameController,
@@ -253,7 +268,7 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6),
+                            margin: const EdgeInsets.only(top: 9.4),
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: _isObscure,
@@ -330,7 +345,7 @@ class _SixthRouteState extends State<SixthRoute> {
                                 width: 161,
                                 height: 61.14,
                                 margin: const EdgeInsets.only(
-                                    top: 5.6, left: 52.05),
+                                    top: 9.4, left: 52.05),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF9BC2F2),
                                   border: Border.all(
@@ -342,7 +357,7 @@ class _SixthRouteState extends State<SixthRoute> {
                                   ),
                                 ),
                                 child: DropdownButton2(
-                                  dropdownMaxHeight: 100,
+                                  dropdownMaxHeight: 155,
                                   itemSplashColor: Color(0xFF9BC2F2),
                                   itemPadding: const EdgeInsets.only(left: 16),
                                   itemHighlightColor: Color(0xFF9BC2F2),
@@ -380,7 +395,7 @@ class _SixthRouteState extends State<SixthRoute> {
                               Container(
                                 width: 119,
                                 margin:
-                                    const EdgeInsets.only(top: 6.1, left: 7.5),
+                                    const EdgeInsets.only(top: 9.4, left: 7.5),
                                 child: TextFormField(
                                   controller: ageController,
                                   maxLines: 1,
@@ -413,7 +428,7 @@ class _SixthRouteState extends State<SixthRoute> {
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF222222),
-                                        fontSize: 16.7),
+                                        fontSize: 13.8),
                                     labelStyle: TextStyle(
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
@@ -443,7 +458,7 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5),
+                            margin: const EdgeInsets.only(top: 9.4),
                             child: TextFormField(
                               controller: phoneController,
                               maxLines: 1,
@@ -507,7 +522,71 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5),
+                            margin: const EdgeInsets.only(top: 9.4),
+                            child: TextFormField(
+                              controller: locationController,
+                              maxLines: 1,
+                              cursorColor: Colors.black,
+                              keyboardType: TextInputType.visiblePassword,
+                              decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Color(0xFF9BC2F2),
+                                suffixIcon: Icon(
+                                  Icons.location_on,
+                                  size: 28,
+                                  color: Color(0xFF222222),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF9BC2F2),
+                                      width: 2,
+                                      style: BorderStyle.solid),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(12),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF9BC2F2),
+                                      width: 2,
+                                      style: BorderStyle.solid),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(12),
+                                  ),
+                                ),
+                                labelText: 'Location',
+                                hintText: 'Enter Your Location',
+                                hintStyle: TextStyle(
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF222222),
+                                    fontSize: 16.7),
+                                labelStyle: TextStyle(
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF222222),
+                                    fontSize: 17.7),
+                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Phone number field cannot be empty';
+                                }
+                                return '';
+                              },
+                              onChanged: (String val) {
+                                location = val;
+                              },
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 0, 0, 0)),
+                            ),
+                          ),
+                          Container(
+                            width: 290,
+                            margin: const EdgeInsets.only(top: 9.4),
                             child: TextFormField(
                               controller: vehnameController,
                               maxLines: 1,
@@ -571,7 +650,7 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5),
+                            margin: const EdgeInsets.only(top: 9.4),
                             decoration: BoxDecoration(
                               color: const Color(0xFF9BC2F2),
                               border: Border.all(
@@ -583,7 +662,7 @@ class _SixthRouteState extends State<SixthRoute> {
                               ),
                             ),
                             child: DropdownButton2(
-                              dropdownMaxHeight: 100,
+                              dropdownMaxHeight: 255,
                               itemSplashColor: Color(0xFF9BC2F2),
                               itemPadding: const EdgeInsets.only(left: 16),
                               itemHighlightColor: Color(0xFF9BC2F2),
@@ -619,15 +698,20 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5),
+                            margin: const EdgeInsets.only(top: 9.4),
                             child: TextFormField(
-                              controller: numController,
+                              controller: typeController,
                               maxLines: 1,
                               cursorColor: Colors.black,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.visiblePassword,
                               decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Color(0xFF9BC2F2),
+                                suffixIcon: Icon(
+                                  Icons.edit,
+                                  size: 28,
+                                  color: Color(0xFF222222),
+                                ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFF9BC2F2),
@@ -662,12 +746,12 @@ class _SixthRouteState extends State<SixthRoute> {
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Vehicle Number field cannot be empty';
+                                  return 'Location field cannot be empty';
                                 }
                                 return '';
                               },
                               onChanged: (String val) {
-                                vehiclenumber = int.parse(val);
+                                vehiclenum = val;
                               },
                               style: const TextStyle(
                                   fontSize: 18,
@@ -678,17 +762,17 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5),
+                            margin: const EdgeInsets.only(top: 9.4),
                             child: TextFormField(
-                              controller: locationController,
+                              controller: seatController,
                               maxLines: 1,
                               cursorColor: Colors.black,
-                              keyboardType: TextInputType.visiblePassword,
+                              keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
                                 filled: true,
                                 fillColor: Color(0xFF9BC2F2),
                                 suffixIcon: Icon(
-                                  Icons.location_on,
+                                  Icons.event_seat_rounded,
                                   size: 28,
                                   color: Color(0xFF222222),
                                 ),
@@ -710,13 +794,13 @@ class _SixthRouteState extends State<SixthRoute> {
                                     Radius.circular(12),
                                   ),
                                 ),
-                                labelText: 'Location',
-                                hintText: 'Enter Your Location',
+                                labelText: 'Vehicle Seats',
+                                hintText: 'Enter Number of Vehicle Seats',
                                 hintStyle: TextStyle(
                                     fontFamily: "Mulish",
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xFF222222),
-                                    fontSize: 16.7),
+                                    fontSize: 15.6),
                                 labelStyle: TextStyle(
                                     fontFamily: "Mulish",
                                     fontWeight: FontWeight.w600,
@@ -731,7 +815,7 @@ class _SixthRouteState extends State<SixthRoute> {
                                 return '';
                               },
                               onChanged: (String val) {
-                                location = val;
+                                seat = int.parse(val);
                               },
                               style: const TextStyle(
                                   fontSize: 18,
@@ -742,7 +826,55 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(top: 6.5, bottom: 34),
+                            margin: const EdgeInsets.only(top: 9.4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF9BC2F2),
+                              border: Border.all(
+                                  color: Color(0xFF9BC2F2),
+                                  width: 2,
+                                  style: BorderStyle.solid),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                            child: DropdownButton2(
+                              dropdownMaxHeight: 245,
+                              itemSplashColor: Color(0xFF9BC2F2),
+                              itemPadding: const EdgeInsets.only(left: 16),
+                              itemHighlightColor: Color(0xFF9BC2F2),
+                              isExpanded: true,
+                              iconSize: 42,
+                              buttonPadding:
+                                  const EdgeInsets.only(top: 5, bottom: 5),
+                              iconEnabledColor: const Color(0xFF222222),
+                              iconDisabledColor: const Color(0xFF222222),
+                              style: const TextStyle(
+                                  height: 1,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF222222),
+                                  fontSize: 14.4),
+                              underline: Container(color: Colors.transparent),
+                              hint: const Text(
+                                "Select Vehicle Facility",
+                                style: TextStyle(
+                                    fontSize: 16.7, color: Color(0xFF222222)),
+                              ),
+                              value: pin,
+                              items: vehicle2.map((itemone) {
+                                return DropdownMenuItem(
+                                    value: itemone, child: Text(itemone));
+                              }).toList(),
+                              onChanged: (String? newvalue) {
+                                setState(() {
+                                  pin = newvalue!;
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 290,
+                            margin: const EdgeInsets.only(top: 9.4, bottom: 34),
                             child: Column(
                               children: [
                                 TextFormField(

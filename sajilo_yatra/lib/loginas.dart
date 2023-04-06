@@ -55,7 +55,7 @@ class FirstScreen extends StatelessWidget {
                 top: 20,
               ),
               width: UiHelper.displayWidth(context) * 1,
-              height: UiHelper.displayHeight(context) * 0.0047,
+              height: UiHelper.displayHeight(context) * 0.0053,
               color: Color(0xFFFFFFFF)),
           Container(
             height: 68.0,

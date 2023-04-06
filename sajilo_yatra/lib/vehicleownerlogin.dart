@@ -232,7 +232,7 @@ class _FifthRouteState extends State<FifthRoute> {
                           ),
                           Container(
                             width: 290,
-                            margin: const EdgeInsets.only(bottom: 18, top: 8.5),
+                            margin: const EdgeInsets.only(bottom: 18, top: 9.8),
                             child: TextFormField(
                               controller: passwordController,
                               obscureText: _isObscure,
@@ -451,7 +451,7 @@ class _FifthRouteState extends State<FifthRoute> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/fifth');
+                              Navigator.pushNamed(context, '/sixth');
                             },
                             child: const Align(
                               alignment: Alignment.bottomRight,
