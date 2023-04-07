@@ -106,7 +106,7 @@ class _FifthRouteState extends State<FifthRoute> {
       await storage.write(key: 'age', value: age.toString());
       await storage.write(key: 'dob', value: dob);
 
-      Navigator.pushNamed(context, '/seventh');
+      Navigator.pushNamed(context, '/line7');
     } else {
       final invalidCredentialsErrorBar = SnackBar(
         content: Text(
@@ -416,7 +416,7 @@ class _FifthRouteState extends State<FifthRoute> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/line1');
+                        Navigator.pushNamed(context, '/line6');
                       },
                       child: Align(
                         alignment: Alignment.bottomCenter,

@@ -33,11 +33,11 @@ class _SixthRouteState extends State<SixthRoute> {
   var vehicle = ['Bus', 'Jeep', 'MicroBus', 'Taxi', 'Others'];
   var vehicle1 = [];
   var vehicle2 = [
+    'None',
     'AC Sleeper (2 + 1)',
     'NON-AC Seater/Sleeper (2 + 1)',
     'AC Seater/Sleeper (2 + 1)',
-    'NON-AC Push Back Seater (2 + 2)'
-        'None'
+    'NON-AC Push Back Seater (2 + 2)',
   ];
   var vehicle3 = [];
   bool _isObscure = true;
@@ -838,7 +838,7 @@ class _SixthRouteState extends State<SixthRoute> {
                               ),
                             ),
                             child: DropdownButton2(
-                              dropdownMaxHeight: 245,
+                              dropdownMaxHeight: 265,
                               itemSplashColor: Color(0xFF9BC2F2),
                               itemPadding: const EdgeInsets.only(left: 16),
                               itemHighlightColor: Color(0xFF9BC2F2),
@@ -998,7 +998,7 @@ class _SixthRouteState extends State<SixthRoute> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/third');
+                              Navigator.pushNamed(context, '/fourth');
                             },
                             child: const Align(
                               alignment: Alignment.bottomRight,

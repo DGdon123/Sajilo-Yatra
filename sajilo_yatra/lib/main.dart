@@ -15,7 +15,10 @@ import 'package:sajilo_yatra/tickets.dart';
 
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
+import 'package:sajilo_yatra/vehiclegoing.dart';
+import 'package:sajilo_yatra/vehicleleaving.dart';
 import 'package:sajilo_yatra/vehicleownerforgotpassword.dart';
+import 'package:sajilo_yatra/vehicleownerhome.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'bookings.dart';
@@ -80,13 +83,19 @@ Future<void> main() async {
             '/eighteenth': (context) => const Ride(),
             '/ninetenth': (context) => const FeedbacksScreen(),
             '/twenty': (context) => const SearchScreen(),
-            '/line1': (context) => ForgotScreen(),
+
             '/line2': (context) => const Payment(
                   userId: '',
                 ),
             '/line3': (context) => const OutStation(),
             '/line4': (context) => const OutRoute(),
             '/line5': (context) => const City(),
+            '/line6': (context) => PasswordScreen(),
+            '/line7': (context) => VehicleHome(
+                  userId: '',
+                ),
+            '/line8': (context) => const VehicleLeaving(),
+            '/line9': (context) => const VehicleGoing(),
           },
           navigatorKey: navKey,
           localizationsDelegates: const [

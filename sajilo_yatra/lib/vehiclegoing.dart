@@ -8,19 +8,19 @@ import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
-import 'package:sajilo_yatra/ride.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
-import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:sajilo_yatra/vehicleownerhome.dart';
 
-class City extends StatefulWidget {
-  const City({Key? key}) : super(key: key);
+class VehicleGoing extends StatefulWidget {
+  final String? leaving;
+  const VehicleGoing({Key? key, this.leaving}) : super(key: key);
 
   @override
-  State<City> createState() => _CityState();
+  State<VehicleGoing> createState() => _VehicleGoingState();
 }
 
-class _CityState extends State<City> {
+class _VehicleGoingState extends State<VehicleGoing> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingController1 = TextEditingController();
   List<String> _places = [];
@@ -56,6 +56,7 @@ class _CityState extends State<City> {
   @override
   void initState() {
     super.initState();
+    _textEditingController1 = TextEditingController(text: widget.leaving);
   }
 
   @override
@@ -96,23 +97,20 @@ class _CityState extends State<City> {
               width: 399,
               color: Color(0xFF0062DE),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      UiHelper.horizontaSpace(hspace: Spacing.xlarge),
-                      Text(
-                        "City",
-                        style: TextStyle(
-                          height: 1.5,
-                          fontFamily: "Mulish",
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 40,
-                        ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    widthFactor: 2.05,
+                    child: Text(
+                      "Going To",
+                      style: TextStyle(
+                        height: 1.5,
+                        fontFamily: "Mulish",
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFFFFFFF),
+                        fontSize: 40,
                       ),
-                    ],
+                    ),
                   ),
                   Row(
                     children: [
@@ -157,7 +155,7 @@ class _CityState extends State<City> {
                                 Radius.circular(9),
                               ),
                             ),
-                            hintText: 'Enter City',
+                            hintText: 'Going To',
                             hintStyle: TextStyle(
                               height: 0.9,
                               fontFamily: "Mulish",
@@ -185,8 +183,10 @@ class _CityState extends State<City> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Ride(
-                                          city: _textEditingController.text,
+                                    builder: (context) => VehicleHome(
+                                          leaving: _textEditingController1.text,
+                                          going: _textEditingController.text,
+                                          userId: '',
                                         )));
                           },
                         ),

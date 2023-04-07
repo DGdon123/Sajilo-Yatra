@@ -52,16 +52,16 @@ class FirstScreen extends StatelessWidget {
           ),
           Container(
               margin: const EdgeInsets.only(
-                top: 20,
+                top: 25,
               ),
               width: UiHelper.displayWidth(context) * 1,
-              height: UiHelper.displayHeight(context) * 0.0053,
+              height: UiHelper.displayHeight(context) * 0.0037,
               color: Color(0xFFFFFFFF)),
           Container(
             height: 68.0,
             width: UiHelper.displayWidth(context) * 0.63,
             margin: const EdgeInsets.only(
-              top: 20,
+              top: 25,
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(

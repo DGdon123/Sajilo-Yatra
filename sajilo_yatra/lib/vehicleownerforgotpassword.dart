@@ -1,73 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class ForgotScreen extends StatefulWidget {
+class PasswordScreen extends StatefulWidget {
   @override
-  _ForgotScreenState createState() => _ForgotScreenState();
+  _PasswordScreenState createState() => _PasswordScreenState();
 }
 
-class _ForgotScreenState extends State<ForgotScreen> {
-  final _auth = FirebaseAuth.instance;
+class _PasswordScreenState extends State<PasswordScreen> {
   final _formKey = GlobalKey<FormState>();
+  final storage = FlutterSecureStorage();
   final _emailController = TextEditingController();
   final _newPasswordController = TextEditingController();
 
   bool _isLoading = false;
   bool _isObscured = true;
 
-  void _resetPassword() async {
-    final email = _emailController.text.trim();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final CollectionReference _usersCollection =
+      FirebaseFirestore.instance.collection('vehicle_owners');
 
+  Future<void> resetPassword(String email) async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
-
       // Send password reset email
       await _auth.sendPasswordResetEmail(email: email);
 
-      // Automatically update password field in Firestore
-      final newPassword = _newPasswordController.text.trim();
-      if (newPassword.isNotEmpty) {
-        await FirebaseFirestore.instance
-            .collection("vehicle_owners")
-            .where("email", isEqualTo: email)
-            .get()
-            .then((querySnapshot) {
-          querySnapshot.docs.forEach((doc) async {
-            await doc.reference.update({"password": newPassword});
-          });
-        });
+      // Update user's document in Firestore to reflect password reset request
+      final userDoc = await _usersCollection.doc(email).get();
+      if (userDoc.exists) {
+        await userDoc.reference.update({'password_reset_requested': true});
+      } else {
+        await _usersCollection
+            .doc(email)
+            .set({'password_reset_requested': true});
       }
-
-      setState(() {
-        _isLoading = false;
-      });
     } catch (e) {
-      // Handle reset password errors
-      String errorMessage = e.toString();
-      print(errorMessage);
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          errorMessage,
-          style: TextStyle(
-            color: Color(0xFFFFFFFF),
-            fontSize: 14.2,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Nunito',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        duration: const Duration(milliseconds: 1400),
-        backgroundColor: Color(0xFF0062DE),
-      ));
-
-      setState(() {
-        _isLoading = false;
-      });
+      print('Error resetting password: $e');
     }
   }
 
@@ -250,7 +220,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
                               fontSize: UiHelper.displayWidth(context) * 0.048,
                             ),
                           ),
-                          onPressed: _resetPassword,
+                          onPressed: () async {
+                            await resetPassword(_emailController.text);
+                          },
                         ),
                       ),
                     ),
