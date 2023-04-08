@@ -512,7 +512,7 @@ class _PaymentState extends State<Payment> {
                     referenceId = success.idx;
                   });
 
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/seventh');
                 })
           ],
         );
