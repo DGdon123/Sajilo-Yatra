@@ -10,34 +10,75 @@ class PasswordScreen extends StatefulWidget {
 }
 
 class _PasswordScreenState extends State<PasswordScreen> {
+  final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  final storage = FlutterSecureStorage();
   final _emailController = TextEditingController();
   final _newPasswordController = TextEditingController();
 
   bool _isLoading = false;
   bool _isObscured = true;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final CollectionReference _usersCollection =
-      FirebaseFirestore.instance.collection('vehicle_owners');
-
-  Future<void> resetPassword(String email) async {
-    try {
-      // Send password reset email
-      await _auth.sendPasswordResetEmail(email: email);
-
-      // Update user's document in Firestore to reflect password reset request
-      final userDoc = await _usersCollection.doc(email).get();
-      if (userDoc.exists) {
-        await userDoc.reference.update({'password_reset_requested': true});
+  void _resetPassword() async {
+    final email = _emailController.text.trim();
+    final newPassword = _newPasswordController.text.trim();
+    if (newPassword.isNotEmpty) {
+      final userDocs = await FirebaseFirestore.instance
+          .collection("vehicle_owners")
+          .where("email", isEqualTo: email)
+          .get();
+      if (userDocs.docs.isNotEmpty) {
+        final userDoc = userDocs.docs.first;
+        try {
+          await userDoc.reference.update({"password": newPassword});
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Password updated successfully",
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 14.2,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Nunito',
+              ),
+              textAlign: TextAlign.center,
+            ),
+            duration: const Duration(milliseconds: 1200),
+            backgroundColor: Color(0xFF0062DE),
+          ));
+          print("Password updated successfully in Firestore");
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Error updating password in Firestore",
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 14.2,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Nunito',
+              ),
+              textAlign: TextAlign.center,
+            ),
+            duration: const Duration(milliseconds: 1200),
+            backgroundColor: Color(0xFF0062DE),
+          ));
+          print("Error updating password in Firestore: $e");
+        }
       } else {
-        await _usersCollection
-            .doc(email)
-            .set({'password_reset_requested': true});
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            "No user found with email $email in Firestore",
+            style: TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 14.2,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Nunito',
+            ),
+            textAlign: TextAlign.center,
+          ),
+          duration: const Duration(milliseconds: 1200),
+          backgroundColor: Color(0xFF0062DE),
+        ));
+        print("No user found with email $email in Firestore");
       }
-    } catch (e) {
-      print('Error resetting password: $e');
     }
   }
 
@@ -220,9 +261,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                               fontSize: UiHelper.displayWidth(context) * 0.048,
                             ),
                           ),
-                          onPressed: () async {
-                            await resetPassword(_emailController.text);
-                          },
+                          onPressed: _resetPassword,
                         ),
                       ),
                     ),

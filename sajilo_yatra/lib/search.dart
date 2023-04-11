@@ -194,7 +194,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             )));
               },
               child: Container(
-                height: UiHelper.displayHeight(context) * 0.234,
+                height: UiHelper.displayHeight(context) * 0.5,
                 color: Color(0xFF9BC2F2),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: fireStore,

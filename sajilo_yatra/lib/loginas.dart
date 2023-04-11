@@ -32,7 +32,7 @@ class FirstScreen extends StatelessWidget {
 
                 shape: RoundedRectangleBorder(
                     //to set border radius to button
-                    borderRadius: BorderRadius.circular(8)),
+                    borderRadius: BorderRadius.circular(6)),
               ),
               child: Text(
                 "Login As User",
@@ -52,16 +52,16 @@ class FirstScreen extends StatelessWidget {
           ),
           Container(
               margin: const EdgeInsets.only(
-                top: 25,
+                top: 28,
               ),
               width: UiHelper.displayWidth(context) * 1,
-              height: UiHelper.displayHeight(context) * 0.0037,
-              color: Color(0xFFFFFFFF)),
+              height: UiHelper.displayHeight(context) * 0.004,
+              color: Color(0xFF9BC2F2)),
           Container(
             height: 68.0,
             width: UiHelper.displayWidth(context) * 0.63,
             margin: const EdgeInsets.only(
-              top: 25,
+              top: 28,
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -71,7 +71,7 @@ class FirstScreen extends StatelessWidget {
 
                 shape: RoundedRectangleBorder(
                     //to set border radius to button
-                    borderRadius: BorderRadius.circular(8)),
+                    borderRadius: BorderRadius.circular(6)),
               ),
               child: Text(
                 "Login As Vehicle Owner",

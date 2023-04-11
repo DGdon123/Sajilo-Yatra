@@ -478,10 +478,10 @@ class _PaymentState extends State<Payment> {
   }
 
   payWithKhaltiInApp() {
-    int originalAmount = 70000;
+    int originalAmount = 1000;
     int discountAmount = discountPrices[_discountController.text] ??
         0; // get discount amount for entered code, default to 0 if code not found
-    int discountedAmount = originalAmount - (discountAmount * 1000);
+    int discountedAmount = originalAmount - (discountAmount * 100);
     KhaltiScope.of(context).pay(
       config: PaymentConfig(
         amount: discountedAmount, //in paisa

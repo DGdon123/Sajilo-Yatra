@@ -94,7 +94,9 @@ class _FourthRouteState extends State<FourthRoute> {
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Center(
             child: isLoading
-                ? const CircularProgressIndicator()
+                ? const CircularProgressIndicator(
+                    color: Color(0xFF0062DE),
+                  )
                 : Column(children: [
                     Container(
                         width: UiHelper.displayWidth(context) * 1,
@@ -102,6 +104,31 @@ class _FourthRouteState extends State<FourthRoute> {
                           painter: CurvePainter(),
                           child: Column(
                             children: [
+                              Container(
+                                margin: const EdgeInsets.only(top: 15),
+                                width: UiHelper.displayWidth(context) * 0.3,
+                                height: UiHelper.displayHeight(context) * 0.15,
+                                decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage(
+                                        "images/hello.jpg",
+                                      ),
+                                      fit: BoxFit.fill),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(80)),
+                                ),
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 15),
+                                  alignment: Alignment.bottomCenter,
+                                  child: Icon(
+                                    Icons.photo_camera_rounded,
+                                    color: Color(0xFFFFFFFF),
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
                               Text(
                                 username!,
                                 textAlign: TextAlign.center,

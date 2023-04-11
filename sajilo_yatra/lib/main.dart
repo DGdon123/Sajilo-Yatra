@@ -46,6 +46,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
+ 
 
   runApp(KhaltiScope(
       publicKey: "test_public_key_51ce9cb3f72743fe899ec90e5e72690b",

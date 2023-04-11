@@ -107,6 +107,7 @@ flutter:
       - images/ticket.png
       - images/yatra.jpeg
       - images/yu.png
+      - images/hello.jpg
       - .env
   
      
