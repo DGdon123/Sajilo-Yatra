@@ -24,6 +24,7 @@ import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'package:sajilo_yatra/vehicletickets.dart';
 import 'bookings.dart';
 import 'city.dart';
+import 'editprofile.dart';
 import 'feedbacks.dart';
 import 'forgotpassword.dart';
 import 'going.dart';
@@ -46,7 +47,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
- 
 
   runApp(KhaltiScope(
       publicKey: "test_public_key_51ce9cb3f72743fe899ec90e5e72690b",
@@ -101,6 +101,9 @@ Future<void> main() async {
             '/line8': (context) => const VehicleLeaving(),
             '/line9': (context) => const VehicleGoing(),
             '/line10': (context) => const VehicleTickets(),
+            '/line11': (context) => const Edit(
+                  userId: '',
+                ),
           },
           navigatorKey: navKey,
           localizationsDelegates: const [
