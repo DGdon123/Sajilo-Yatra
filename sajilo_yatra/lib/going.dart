@@ -97,14 +97,14 @@ class _TenthScreenState extends State<TenthScreen> {
         child: Column(
           children: [
             Container(
-              height: 150.4,
+              height: 140.4,
               width: 399,
               color: Color(0xFF0062DE),
               child: Column(
                 children: [
                   Align(
                     alignment: Alignment.bottomLeft,
-                    widthFactor: 2.05,
+                    widthFactor: 2.65,
                     child: Text(
                       "Going To",
                       style: TextStyle(
@@ -112,7 +112,7 @@ class _TenthScreenState extends State<TenthScreen> {
                         fontFamily: "Mulish",
                         fontWeight: FontWeight.w600,
                         color: Color(0xFFFFFFFF),
-                        fontSize: 40,
+                        fontSize: 30,
                       ),
                     ),
                   ),
@@ -124,7 +124,7 @@ class _TenthScreenState extends State<TenthScreen> {
                           right: 10,
                           left: 16,
                         ),
-                        width: 288,
+                        width: 260,
                         child: TextFormField(
                           controller: _textEditingController,
                           maxLines: 1,

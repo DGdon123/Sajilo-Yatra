@@ -9,12 +9,23 @@ class Payment extends StatefulWidget {
   final String? going;
   final String? leaving;
   final String userId;
-  const Payment({
-    Key? key,
-    this.going,
-    this.leaving,
-    required this.userId,
-  }) : super(key: key);
+  final String? veh;
+  final String? fac;
+  final String? date;
+  final String? arrive;
+  final String? depart;
+
+  const Payment(
+      {Key? key,
+      this.going,
+      this.leaving,
+      required this.userId,
+      this.veh,
+      this.fac,
+      this.date,
+      this.arrive,
+      this.depart})
+      : super(key: key);
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -22,6 +33,7 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   final _storage = FlutterSecureStorage();
+  final db = FirebaseFirestore.instance;
   String referenceId = "";
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
@@ -40,6 +52,11 @@ class _PaymentState extends State<Payment> {
   String? gen;
   String? aging;
   String? dobing;
+  String? date;
+  String? vehiclename;
+  String? vehiclefacility;
+  String? arrive;
+  String? depart;
 
   Map<String, int> discountPrices = {
     "YGFJY899": 50,
@@ -59,6 +76,11 @@ class _PaymentState extends State<Payment> {
     _getSavedData();
     dobController = TextEditingController(text: widget.going);
     dobController2 = TextEditingController(text: widget.leaving);
+    vehiclename = widget.veh;
+    vehiclefacility = widget.fac;
+    date = widget.date;
+    arrive = widget.arrive;
+    depart = widget.depart;
   }
 
   void _getSavedData() async {
@@ -122,6 +144,18 @@ class _PaymentState extends State<Payment> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Container(
+                          child: Text(
+                            vehiclename!,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: "Cambay",
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF0062DE),
+                              fontSize: UiHelper.displayWidth(context) * 0.065,
+                            ),
+                          ),
+                        ),
+                        Container(
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: TextFormField(
@@ -141,8 +175,8 @@ class _PaymentState extends State<Payment> {
                                       width: 2,
                                       style: BorderStyle.solid),
                                 ),
-                                labelText: 'Full Name',
-                                hintText: username,
+                                labelText: 'Full Name *',
+                                hintText: 'Enter Your Full Name',
                                 hintStyle: TextStyle(
                                   height:
                                       UiHelper.displayHeight(context) * 0.002,
@@ -197,8 +231,8 @@ class _PaymentState extends State<Payment> {
                                       width: 2,
                                       style: BorderStyle.solid),
                                 ),
-                                labelText: 'Email',
-                                hintText: emailing,
+                                labelText: 'Email *',
+                                hintText: 'Enter Your Email',
                                 hintStyle: TextStyle(
                                   height:
                                       UiHelper.displayHeight(context) * 0.002,
@@ -253,8 +287,8 @@ class _PaymentState extends State<Payment> {
                                       width: 2,
                                       style: BorderStyle.solid),
                                 ),
-                                labelText: 'Phone Number',
-                                hintText: phonenumber,
+                                labelText: 'Phone Number *',
+                                hintText: 'Enter Your Phone Number',
                                 hintStyle: TextStyle(
                                   height:
                                       UiHelper.displayHeight(context) * 0.002,
@@ -309,7 +343,7 @@ class _PaymentState extends State<Payment> {
                                       width: 2,
                                       style: BorderStyle.solid),
                                 ),
-                                labelText: 'Seats',
+                                labelText: 'Seats *',
                                 hintText: 'Enter Number of Seats',
                                 hintStyle: TextStyle(
                                   height:
@@ -478,13 +512,12 @@ class _PaymentState extends State<Payment> {
   }
 
   payWithKhaltiInApp() {
-    int originalAmount = 1000;
-    int discountAmount = discountPrices[_discountController.text] ??
-        0; // get discount amount for entered code, default to 0 if code not found
+    int originalAmount = 10000;
+    int discountAmount = discountPrices[_discountController.text] ?? 0;
     int discountedAmount = originalAmount - (discountAmount * 100);
     KhaltiScope.of(context).pay(
       config: PaymentConfig(
-        amount: discountedAmount, //in paisa
+        amount: discountedAmount,
         productIdentity: 'Product Id',
         productName: 'Product Name',
         mobileReadOnly: false,
@@ -492,32 +525,63 @@ class _PaymentState extends State<Payment> {
       preferences: [
         PaymentPreference.khalti,
       ],
-      onSuccess: onSuccess,
+      onSuccess: (PaymentSuccessModel success) {
+        // pass discountedAmount as a parameter to onSuccess function
+        onSuccess(success, discountedAmount);
+      },
       onFailure: onFailure,
       onCancel: onCancel,
     );
   }
 
-  void onSuccess(PaymentSuccessModel success) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Payment Successful'),
-          actions: [
-            SimpleDialogOption(
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    referenceId = success.idx;
-                  });
-
-                  Navigator.pushNamed(context, '/seventh');
-                })
-          ],
-        );
-      },
-    );
+  void onSuccess(PaymentSuccessModel success, int discountedAmount) {
+    // add booking data to the 'bookings' collection
+    db.collection('bookings').add({
+      'arrival': dobController2.text,
+      'departure': dobController.text,
+      'date': date,
+      'arrive': arrive,
+      'depart': depart,
+      'seats': _seatController.text,
+      'price': discountedAmount / 100,
+      'vehicle_facility': vehiclefacility,
+      'vehicle_name': vehiclename
+    }).then((value) {
+      // show success message and navigate to the next screen
+      final logInErrorBar = SnackBar(
+        content: Text(
+          "Payment Successful",
+          style: TextStyle(
+            color: Color(0xFFFFFFFF),
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Nunito',
+          ),
+          textAlign: TextAlign.center,
+        ),
+        duration: const Duration(milliseconds: 1400),
+        backgroundColor: Color(0xFF85bb65),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
+      Navigator.pushNamed(context, '/eighth');
+    }).catchError((error) {
+      // show error message if data couldn't be added to the database
+      final logInErrorBar = SnackBar(
+        content: Text(
+          "Error: Booking data could not be saved.",
+          style: TextStyle(
+            color: Color(0xFFFFFFFF),
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'Nunito',
+          ),
+          textAlign: TextAlign.center,
+        ),
+        duration: const Duration(milliseconds: 1400),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
+    });
   }
 
   void onFailure(PaymentFailureModel failure) {

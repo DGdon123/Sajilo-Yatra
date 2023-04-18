@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -87,7 +88,7 @@ class _OfferOneState extends State<OfferOne> {
                           //BoxShadow
                         ],
                       ),
-                      margin: const EdgeInsets.only(left: 8, top: 8),
+                      margin: const EdgeInsets.only(top: 8),
                       child: Row(
                         children: [
                           Container(
@@ -183,7 +184,6 @@ class _OfferOneState extends State<OfferOne> {
                           //BoxShadow
                         ],
                       ),
-                      margin: const EdgeInsets.only(left: 8),
                       child: Text(
                         "Save Rs: 100 on First Ticket/Ride",
                         textAlign: TextAlign.center,
@@ -199,7 +199,6 @@ class _OfferOneState extends State<OfferOne> {
                     Container(
                         height: UiHelper.displayHeight(context) * 0.470,
                         width: UiHelper.displayWidth(context) * 0.96,
-                        margin: const EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
                           color: Color(0xFFFFFFFF),
                           borderRadius: BorderRadius.all(Radius.circular(0.5)),
@@ -217,20 +216,8 @@ class _OfferOneState extends State<OfferOne> {
                             child: ListView(
                           children: [
                             UiHelper.verticalSpace(vspace: Spacing.large),
-                            Text(
-                              "Save Rs: 100 on First Ticket/Ride",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF2222222),
-                                fontSize: 19.5,
-                                fontFamily: "Solway",
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
                             Container(
-                              alignment: Alignment.topLeft,
                               child: Column(children: [
-                                UiHelper.verticalSpace(vspace: Spacing.medium),
                                 Row(
                                   children: [
                                     Column(
@@ -475,35 +462,91 @@ class _OfferOneState extends State<OfferOne> {
                             )
                           ],
                         ))),
-                    Container(
-                        height: 40,
-                        width: 350,
-                        margin: const EdgeInsets.only(top: 15),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(
-                                0xFF4E93E8), //background color of button
-                            //border width and color
-
-                            shape: RoundedRectangleBorder(
-                                //to set border radius to button
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: Text(
-                            "Book Now",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              height: 1,
-                              fontFamily: "ZenKakuGothicAntique",
-                              fontWeight: FontWeight.w600,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 18,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 40,
+                            width: 125,
+                            margin: const EdgeInsets.only(
+                              top: 15,
                             ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/tenth');
-                          },
-                        )),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(
+                                    0xFF4E93E8), //background color of button
+                                //border width and color
+
+                                shape: RoundedRectangleBorder(
+                                    //to set border radius to button
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              child: Text(
+                                "Copy Code",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: 1,
+                                  fontFamily: "ZenKakuGothicAntique",
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                String code =
+                                    "YGFJY899"; // replace with the actual code string
+                                Clipboard.setData(ClipboardData(text: code));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Code copied to clipboard",
+                                      style: TextStyle(
+                                        color: Color(0xFFFFFFFF),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'Nunito',
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    duration:
+                                        const Duration(milliseconds: 1400),
+                                    backgroundColor: Color(0xFF0062DE),
+                                  ),
+                                );
+                              },
+                            )),
+                        Container(
+                            height: 40,
+                            width: 125,
+                            margin: const EdgeInsets.only(top: 15, left: 20),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(
+                                    0xFF4E93E8), //background color of button
+                                //border width and color
+
+                                shape: RoundedRectangleBorder(
+                                    //to set border radius to button
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                              child: Text(
+                                "Book Now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: 1,
+                                  fontFamily: "ZenKakuGothicAntique",
+                                  fontWeight: FontWeight.w600,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/tenth');
+                              },
+                            )),
+                      ],
+                    ),
                   ],
                 ),
               ),

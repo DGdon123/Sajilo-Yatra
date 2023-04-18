@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_search/mapbox_search.dart';
@@ -16,22 +15,22 @@ import 'package:sajilo_yatra/payment.dart';
 import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class SearchScreen extends StatefulWidget {
+class OutSearchScreen extends StatefulWidget {
   final String? going;
   final String? leaving;
   final String? dob;
 
-  const SearchScreen({
+  const OutSearchScreen({
     Key? key,
     this.going,
     this.leaving,
     this.dob,
   }) : super(key: key);
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<OutSearchScreen> createState() => _OutSearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _OutSearchScreenState extends State<OutSearchScreen> {
   TextEditingController _textEditingController = TextEditingController();
   TextEditingController _textEditingController1 = TextEditingController();
   TextEditingController dobController = TextEditingController();
@@ -42,62 +41,10 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController dobController2 = TextEditingController();
   List<String> _places = [];
   bool isLoading = true;
-  final FirebaseFirestore db = FirebaseFirestore.instance;
   final fireStore =
       FirebaseFirestore.instance.collection('vehicle_owners').snapshots();
 
   bool _isLoading = true;
-  final _storage = FlutterSecureStorage();
-
-  String dobing = "";
-  String seats = "";
-  String vehiclefacility = "";
-  String arrival1 = "";
-  String arrive1 = "";
-  String d_date = "";
-  String depart1 = "";
-  String departure1 = "";
-  String price1 = "";
-  String r_date = "";
-
-  Future<void> _savedData() async {
-    final snapshot = await db.collection("vehicle_home").get();
-
-    final vehicleOwners = snapshot.docs.map((doc) => doc.data()).toList();
-
-    if (vehicleOwners.length > 0) {
-      // check if there is at least one document in the snapshot
-      final data = vehicleOwners.first;
-      final arrival = data['Arrival'];
-      final arrive = data['Arrive'];
-      final ddate = data['D_date'];
-      final depart = data['Depart'];
-      final departure = data['Departure'];
-      final price = data['Price'];
-      final rdate = data['R_date'];
-
-      await _storage.write(key: 'Arrival', value: arrival);
-      await _storage.write(key: 'Arrive', value: arrive);
-      await _storage.write(key: 'D_date', value: ddate);
-      await _storage.write(key: 'Depart', value: depart);
-      await _storage.write(key: 'Departure', value: departure);
-      await _storage.write(key: 'Price', value: price);
-      await _storage.write(key: 'R_date', value: rdate);
-
-      setState(() {
-        arrival1 = arrival;
-        arrive1 = arrive;
-        depart1 = depart;
-        departure1 = departure;
-        d_date = ddate;
-        r_date = rdate;
-        price1 = price;
-        isLoading = false;
-      });
-    } else {
-      print('No documents found for the user');
-    }
-  }
 
   @override
   void dispose() {
@@ -112,7 +59,6 @@ class _SearchScreenState extends State<SearchScreen> {
     dobController = TextEditingController(text: widget.going);
     dobController2 = TextEditingController(text: widget.leaving);
     dobController3 = TextEditingController(text: widget.dob);
-    _savedData();
   }
 
   @override
@@ -267,11 +213,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                       userId: '',
                                       veh: snapshot.data!.docs[index]
                                           ['vehicle_name'],
-                                      fac: snapshot.data!.docs[index]
-                                          ['vehicle_facility'],
-                                      date: dobController3.text,
-                                      arrive: arrive1,
-                                      depart: depart1,
                                     ),
                                   ),
                                 );
@@ -325,7 +266,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           margin:
                                               const EdgeInsets.only(left: 4),
                                           child: Text(
-                                            depart1,
+                                            "18:45",
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w500,
@@ -367,6 +308,41 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   Radius.circular(00))),
                                         ),
                                         Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 2),
+                                          height:
+                                              UiHelper.displayHeight(context) *
+                                                  0.025,
+                                          width:
+                                              UiHelper.displayWidth(context) *
+                                                  0.2,
+                                          decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              border: Border.all(
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 0),
+                                                  width: 0.8,
+                                                  style: BorderStyle.solid),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(4))),
+                                          child: Text(
+                                            "13 hrs 15 min",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              height: UiHelper.displayHeight(
+                                                      context) *
+                                                  0.00193,
+                                              fontFamily: "PublicSans",
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFF222222),
+                                              fontSize: UiHelper.displayWidth(
+                                                      context) *
+                                                  0.026,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
                                           margin: const EdgeInsets.only(
                                             left: 0,
                                             bottom: 2,
@@ -400,7 +376,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           margin:
                                               const EdgeInsets.only(left: 8),
                                           child: Text(
-                                            arrive1,
+                                            "08:00",
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w500,
@@ -469,15 +445,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         Container(
-                                          width:
-                                              UiHelper.displayWidth(context) *
-                                                  0.54,
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 15),
+                                          margin: const EdgeInsets.only(
+                                              left: 144, top: 15),
                                           child: Text(
-                                            price1,
+                                            "Rs: 1000",
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w600,

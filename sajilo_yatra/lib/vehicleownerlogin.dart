@@ -141,7 +141,7 @@ class _FifthRouteState extends State<FifthRoute> {
                   children: [
                     Align(
                       alignment: Alignment.bottomCenter,
-                      heightFactor: 1.65,
+                      heightFactor: 1.28,
                       child: Image.asset(
                         "images/logos.png",
                         width: 227,

@@ -164,11 +164,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
     priceController = TextEditingController(text: widget.price);
 
     _getSavedData();
-    _savedData();
   }
 
   @override
   Widget build(BuildContext context) {
+    _savedData();
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -206,7 +206,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                   Container(
                                     color: Color(0xFF0062DE),
                                     height:
-                                        UiHelper.displayHeight(context) * 0.157,
+                                        UiHelper.displayHeight(context) * 0.175,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -247,6 +247,13 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                         0.075,
                                                     color: Color(0xFFFFFFFF),
                                                   ),
+                                                  hintText: d_date,
+                                                  hintStyle: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: "Mulish",
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(0xFFFFFFFF)),
                                                   suffixIcon: Icon(
                                                     Icons
                                                         .arrow_drop_down_rounded,
@@ -674,50 +681,9 @@ class _VehicleTicketsState extends State<VehicleTickets> {
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/line7');
           if (value == 1) Navigator.pushNamed(context, '/line10');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
-          if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("Logout"),
-                      content: Text("Are you sure you want to logout?"),
-                      actions: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(left: 39),
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                ),
-                                child: Text("Yes"),
-                                onPressed: () {
-                                  // Perform logout here
-                                  Navigator.pushNamed(context, '/fourth');
-                                },
-                              ),
-                              UiHelper.horizontaSpace(hspace: Spacing.xxlarge),
-                              UiHelper.horizontaSpace(hspace: Spacing.large),
-                              Align(
-                                  alignment: Alignment.bottomRight,
-                                  widthFactor: 1.2,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Text("No"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ))
-                            ],
-                          ),
-                        )
-                      ]);
-                });
-          }
+          if (value == 2) Navigator.pushNamed(context, '/line14');
+          if (value == 3) Navigator.pushNamed(context, '/line15');
+          if (value == 4) Navigator.pushNamed(context, '/line13');
         },
         items: [
           BottomNavigationBarItem(
@@ -729,48 +695,19 @@ class _VehicleTicketsState extends State<VehicleTickets> {
             label: "Tickets",
           ),
           BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(top: 20),
-              ), // empty container to align cart button in the center
-              label: "Menu"),
+            icon: Icon(Icons.menu),
+            label: "Menu",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.help),
             label: "Help",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout_outlined),
-            label: "Logout",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Visibility(
-          visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-          child: FloatingActionButton(
-              elevation: 600,
-              backgroundColor: Color(0xFFFFFFFF),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 5.7,
-                    color: Color(0xFF4E93E8),
-                  ),
-                  //to set border radius to button
-                  borderRadius: BorderRadius.circular(35)),
-              child: Image.asset(
-                'images/sajilo.png',
-                height: 100,
-                fit: BoxFit.fill,
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushNamed(context, '/seventeenth');
-                });
-              }),
-        ),
-      ),
-      // position the cart button in the center of the bottom navigation bar
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

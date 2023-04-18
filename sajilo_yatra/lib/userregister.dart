@@ -99,7 +99,7 @@ class _SixthScreenState extends State<SixthScreen> {
                     children: [
                       Align(
                         alignment: Alignment.bottomCenter,
-                        heightFactor: 1.55,
+                        heightFactor: 1.38,
                         child: Image.asset(
                           "images/logos.png",
                           width: 227,
@@ -332,7 +332,7 @@ class _SixthScreenState extends State<SixthScreen> {
                                   width: 161,
                                   height: 61.14,
                                   margin: const EdgeInsets.only(
-                                      top: 9.1, left: 52.05),
+                                      top: 9.1, left: 35.1),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFF9BC2F2),
                                     border: Border.all(
@@ -544,201 +544,6 @@ class _SixthScreenState extends State<SixthScreen> {
                                   ),
                                   labelText: 'Location',
                                   hintText: 'Enter Your Location',
-                                  hintStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 16.7),
-                                  labelStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 17.7),
-                                  suffixIconColor:
-                                      Color.fromARGB(255, 255, 0, 0),
-                                ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Location field cannot be empty';
-                                  }
-                                  return '';
-                                },
-                                onChanged: (String val) {
-                                  location = val;
-                                },
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Mulish",
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                            ),
-                            Container(
-                              width: 290,
-                              margin: const EdgeInsets.only(top: 9.1),
-                              child: TextFormField(
-                                controller: vehnameController,
-                                maxLines: 1,
-                                cursorColor: Colors.black,
-                                keyboardType: TextInputType.visiblePassword,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0xFF9BC2F2),
-                                  suffixIcon: Icon(
-                                    Icons.edit,
-                                    size: 28,
-                                    color: Color(0xFF222222),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  labelText: 'Vehicle Name',
-                                  hintText: 'Enter Your Vehicle Name',
-                                  hintStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 16.7),
-                                  labelStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 17.7),
-                                  suffixIconColor:
-                                      Color.fromARGB(255, 255, 0, 0),
-                                ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Location field cannot be empty';
-                                  }
-                                  return '';
-                                },
-                                onChanged: (String val) {
-                                  location = val;
-                                },
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Mulish",
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                            ),
-                            Container(
-                              width: 290,
-                              margin: const EdgeInsets.only(top: 9.1),
-                              child: TextFormField(
-                                controller: typeController,
-                                maxLines: 1,
-                                cursorColor: Colors.black,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0xFF9BC2F2),
-                                  suffixIcon: Icon(
-                                    Icons.edit,
-                                    size: 28,
-                                    color: Color(0xFF222222),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  labelText: 'Vehicle Number',
-                                  hintText: 'Enter Your Vehicle Number',
-                                  hintStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 16.7),
-                                  labelStyle: TextStyle(
-                                      fontFamily: "Mulish",
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF222222),
-                                      fontSize: 17.7),
-                                  suffixIconColor:
-                                      Color.fromARGB(255, 255, 0, 0),
-                                ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Location field cannot be empty';
-                                  }
-                                  return '';
-                                },
-                                onChanged: (String val) {
-                                  location = val;
-                                },
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Mulish",
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                            ),
-                            Container(
-                              width: 290,
-                              margin: const EdgeInsets.only(top: 9.1),
-                              child: TextFormField(
-                                controller: typeController,
-                                maxLines: 1,
-                                cursorColor: Colors.black,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Color(0xFF9BC2F2),
-                                  suffixIcon: Icon(
-                                    Icons.edit,
-                                    size: 28,
-                                    color: Color(0xFF222222),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xFF9BC2F2),
-                                        width: 2,
-                                        style: BorderStyle.solid),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(12),
-                                    ),
-                                  ),
-                                  labelText: 'Vehicle Seats',
-                                  hintText: 'Enter Number of Vehicle Seats',
                                   hintStyle: TextStyle(
                                       fontFamily: "Mulish",
                                       fontWeight: FontWeight.w600,

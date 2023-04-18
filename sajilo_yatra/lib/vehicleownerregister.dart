@@ -114,7 +114,7 @@ class _SixthRouteState extends State<SixthRoute> {
                   children: [
                     Align(
                       alignment: Alignment.bottomCenter,
-                      heightFactor: 1.45,
+                      heightFactor: 1.35,
                       child: Image.asset(
                         "images/logos.png",
                         width: 227,
@@ -344,8 +344,8 @@ class _SixthRouteState extends State<SixthRoute> {
                               Container(
                                 width: 161,
                                 height: 61.14,
-                                margin: const EdgeInsets.only(
-                                    top: 9.4, left: 52.05),
+                                margin:
+                                    const EdgeInsets.only(top: 9.1, left: 35.1),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFF9BC2F2),
                                   border: Border.all(
@@ -357,10 +357,8 @@ class _SixthRouteState extends State<SixthRoute> {
                                   ),
                                 ),
                                 child: DropdownButton2(
-                                  dropdownMaxHeight: 155,
-                                  itemSplashColor: Color(0xFF9BC2F2),
+                                  dropdownMaxHeight: 160,
                                   itemPadding: const EdgeInsets.only(left: 16),
-                                  itemHighlightColor: Color(0xFF9BC2F2),
                                   isExpanded: true,
                                   iconSize: 42,
                                   buttonPadding: const EdgeInsets.only(top: 5),
@@ -372,8 +370,8 @@ class _SixthRouteState extends State<SixthRoute> {
                                       fontWeight: FontWeight.w600,
                                       color: Color(0xFF222222),
                                       fontSize: 16.7),
-                                  underline:
-                                      Container(color: Colors.transparent),
+                                  underline: Container(
+                                      color: Color.fromARGB(255, 255, 0, 0)),
                                   hint: const Text(
                                     "Select Gender",
                                     style: TextStyle(
@@ -395,7 +393,7 @@ class _SixthRouteState extends State<SixthRoute> {
                               Container(
                                 width: 119,
                                 margin:
-                                    const EdgeInsets.only(top: 9.4, left: 7.5),
+                                    const EdgeInsets.only(top: 9.1, left: 7.5),
                                 child: TextFormField(
                                   controller: ageController,
                                   maxLines: 1,
@@ -428,7 +426,7 @@ class _SixthRouteState extends State<SixthRoute> {
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF222222),
-                                        fontSize: 13.8),
+                                        fontSize: 16.7),
                                     labelStyle: TextStyle(
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
@@ -441,7 +439,6 @@ class _SixthRouteState extends State<SixthRoute> {
                                     if (value!.isEmpty) {
                                       return 'Age field cannot be empty';
                                     }
-
                                     return '';
                                   },
                                   onChanged: (String val) {

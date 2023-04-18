@@ -92,14 +92,14 @@ class _NinethRouteState extends State<NinethRoute> {
         child: Column(
           children: [
             Container(
-              height: 150.4,
+              height: 140.4,
               width: 399,
               color: Color(0xFF0062DE),
               child: Column(
                 children: [
                   Align(
                     alignment: Alignment.bottomLeft,
-                    widthFactor: 1.4,
+                    widthFactor: 1.68,
                     child: Text(
                       "Leaving From",
                       style: TextStyle(
@@ -107,7 +107,7 @@ class _NinethRouteState extends State<NinethRoute> {
                         fontFamily: "Mulish",
                         fontWeight: FontWeight.w600,
                         color: Color(0xFFFFFFFF),
-                        fontSize: 40,
+                        fontSize: 30,
                       ),
                     ),
                   ),
@@ -119,7 +119,7 @@ class _NinethRouteState extends State<NinethRoute> {
                           right: 10,
                           left: 16,
                         ),
-                        width: 288,
+                        width: 260,
                         child: TextFormField(
                           controller: _textEditingController,
                           maxLines: 1,

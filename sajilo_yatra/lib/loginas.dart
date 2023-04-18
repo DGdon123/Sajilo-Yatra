@@ -12,7 +12,7 @@ class FirstScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 140),
+            margin: const EdgeInsets.only(top: 120),
             child: Image.asset(
               'images/logos.png',
               width: 270,
@@ -52,7 +52,7 @@ class FirstScreen extends StatelessWidget {
           ),
           Container(
               margin: const EdgeInsets.only(
-                top: 28,
+                top: 24,
               ),
               width: UiHelper.displayWidth(context) * 1,
               height: UiHelper.displayHeight(context) * 0.004,
@@ -61,7 +61,7 @@ class FirstScreen extends StatelessWidget {
             height: 68.0,
             width: UiHelper.displayWidth(context) * 0.63,
             margin: const EdgeInsets.only(
-              top: 28,
+              top: 24,
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(

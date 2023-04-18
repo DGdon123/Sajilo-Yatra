@@ -11,7 +11,10 @@ class Ride extends StatefulWidget {
   final String? going;
   final String? leaving;
   final String? city;
-  const Ride({Key? key, this.going, this.leaving, this.city}) : super(key: key);
+  final int initialIndex;
+  const Ride(
+      {Key? key, this.going, this.leaving, this.city, this.initialIndex = 0})
+      : super(key: key);
 
   @override
   State<Ride> createState() => _RideState();
@@ -65,6 +68,7 @@ class _RideState extends State<Ride> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: widget.initialIndex,
       child: Scaffold(
           appBar: AppBar(
             elevation: 0,

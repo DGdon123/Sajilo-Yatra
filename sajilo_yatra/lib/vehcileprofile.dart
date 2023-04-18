@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class FourthRoute extends StatefulWidget {
+class Profile extends StatefulWidget {
   final String userId;
-  const FourthRoute({Key? key, required this.userId}) : super(key: key);
+  const Profile({Key? key, required this.userId}) : super(key: key);
 
   @override
-  State<FourthRoute> createState() => _FourthRouteState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _FourthRouteState extends State<FourthRoute> {
+class _ProfileState extends State<Profile> {
   final _storage = FlutterSecureStorage();
   var isLoading = true;
   String username = "";
@@ -35,7 +35,7 @@ class _FourthRouteState extends State<FourthRoute> {
   }
 
   Future<void> login() async {
-    final snapshot = await db.collection("users").get();
+    final snapshot = await db.collection("vehicle_owners").get();
     final users = snapshot.docs
         .map((doc) => doc.data())
         .where((owner) => owner["email"] == emailing)
@@ -46,7 +46,8 @@ class _FourthRouteState extends State<FourthRoute> {
       final fullName = user["full_name"];
       final location = user["location"];
       final email = user["email"];
-      final phoneNumber = user["phone_number"];
+
+      final phoneNumber = user["phone"];
       final gender = user["gender"];
       final age = user["age"];
       final dob = user["dob"].toString();
@@ -54,9 +55,9 @@ class _FourthRouteState extends State<FourthRoute> {
       await _storage.write(key: 'full_name', value: fullName);
       await _storage.write(key: 'location', value: location);
       await _storage.write(key: 'email', value: email);
-      await _storage.write(key: 'phone_number', value: phoneNumber.toString());
+      await _storage.write(key: 'phone', value: phoneNumber.toString());
       await _storage.write(key: 'gender', value: gender);
-      await _storage.write(key: 'age', value: age.toString());
+      await _storage.write(key: 'age', value: age);
       await _storage.write(key: 'dob', value: dob);
 
       setState(() {
@@ -621,7 +622,7 @@ class _FourthRouteState extends State<FourthRoute> {
                                                       width: width * 0.65,
                                                       height: height * 0.03,
                                                       child: Text(
-                                                        aging,
+                                                        aging.toString(),
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

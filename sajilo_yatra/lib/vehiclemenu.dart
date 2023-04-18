@@ -2,16 +2,19 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({Key? key}) : super(key: key);
+class VMenu extends StatefulWidget {
+  const VMenu({Key? key}) : super(key: key);
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<VMenu> createState() => _VMenuState();
 }
 
-class _MenuState extends State<Menu> {
+class _VMenuState extends State<VMenu> {
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
@@ -25,6 +28,10 @@ class _MenuState extends State<Menu> {
   var num = 1;
   String? thickness;
   String? price;
+  var gradeName;
+  var productName;
+  var thicknessName;
+  var priceName;
 
   @override
   Widget build(BuildContext context) {
@@ -258,11 +265,11 @@ class _MenuState extends State<Menu> {
         unselectedItemColor: Color(0xFFFFFFFF),
         selectedFontSize: 12,
         onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/seventh');
-          if (value == 1) Navigator.pushNamed(context, '/eighth');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
-          if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) Navigator.pushNamed(context, '/fourteenth');
+          if (value == 0) Navigator.pushNamed(context, '/line7');
+          if (value == 1) Navigator.pushNamed(context, '/line10');
+          if (value == 2) Navigator.pushNamed(context, '/line14');
+          if (value == 3) Navigator.pushNamed(context, '/line15');
+          if (value == 4) Navigator.pushNamed(context, '/line13');
         },
         items: [
           BottomNavigationBarItem(

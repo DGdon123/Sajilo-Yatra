@@ -49,7 +49,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFFFFFFF),
+        backgroundColor: const Color(0xFFFFFFFFF),
         title: Text('Welcome ${username?.split(' ')[0]}',
             style: TextStyle(
               color: Color(0xFF0062DE),
@@ -173,7 +173,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         child: Column(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(top: 32),
+                              margin: const EdgeInsets.only(top: 29.5),
                               child: Image.asset(
                                 "images/ride.png",
                                 width: UiHelper.displayWidth(context) * 0.170,
@@ -245,10 +245,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                       children: [
                         Align(
                           alignment: Alignment.bottomRight,
-                          widthFactor: 1.1,
+                          widthFactor: 1.08,
                           child: Container(
                             height: 188.4,
-                            width: 170,
+                            width: 162,
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -352,10 +352,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          widthFactor: 1.1,
+                          widthFactor: 1.06,
                           child: Container(
                             height: 188.4,
-                            width: 170,
+                            width: 162,
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -465,10 +465,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         children: [
                           Align(
                             alignment: Alignment.bottomRight,
-                            widthFactor: 1.1,
+                            widthFactor: 1.08,
                             child: Container(
                               height: 188.4,
-                              width: 170,
+                              width: 162,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -573,10 +573,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                           ),
                           Align(
                             alignment: Alignment.bottomRight,
-                            widthFactor: 1.1,
+                            widthFactor: 1.06,
                             child: Container(
                               height: 188.4,
-                              width: 170,
+                              width: 162,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -688,10 +688,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         children: [
                           Align(
                             alignment: Alignment.bottomRight,
-                            widthFactor: 1.1,
+                            widthFactor: 1.08,
                             child: Container(
                               height: 188.4,
-                              width: 170,
+                              width: 162,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -796,10 +796,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
                           ),
                           Align(
                             alignment: Alignment.bottomRight,
-                            widthFactor: 1.1,
+                            widthFactor: 1.06,
                             child: Container(
                               height: 188.4,
-                              width: 170,
+                              width: 162,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -925,48 +925,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
           if (value == 1) Navigator.pushNamed(context, '/eighth');
           if (value == 2) Navigator.pushNamed(context, '/seventeenth');
           if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("Logout"),
-                      content: Text("Are you sure you want to logout?"),
-                      actions: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(left: 39),
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                ),
-                                child: Text("Yes"),
-                                onPressed: () {
-                                  // Perform logout here
-                                  Navigator.pushNamed(context, '/third');
-                                },
-                              ),
-                              UiHelper.horizontaSpace(hspace: Spacing.xxlarge),
-                              UiHelper.horizontaSpace(hspace: Spacing.large),
-                              Align(
-                                  alignment: Alignment.bottomRight,
-                                  widthFactor: 1.2,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Text("No"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ))
-                            ],
-                          ),
-                        )
-                      ]);
-                });
-          }
+          if (value == 4) Navigator.pushNamed(context, '/fourteenth');
         },
         items: [
           BottomNavigationBarItem(
@@ -978,45 +937,19 @@ class _ThirdRouteState extends State<ThirdRoute> {
             label: "Bookings",
           ),
           BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(top: 20),
-              ), // empty container to align cart button in the center
-              label: "Menu"),
+            icon: Icon(Icons.menu),
+            label: "Menu",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.help),
             label: "Help",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout_outlined),
-            label: "Logout",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: FloatingActionButton(
-            elevation: 600,
-            backgroundColor: Color(0xFFFFFFFF),
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  width: 5.7,
-                  color: Color(0xFF4E93E8),
-                ),
-                //to set border radius to button
-                borderRadius: BorderRadius.circular(35)),
-            child: Image.asset(
-              'images/sajilo.png',
-              height: 100,
-              fit: BoxFit.fill,
-            ),
-            onPressed: () {
-              setState(() {
-                Navigator.pushNamed(context, '/seventeenth');
-              });
-            }),
-      ),
-      // position the cart button in the center of the bottom navigation bar
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

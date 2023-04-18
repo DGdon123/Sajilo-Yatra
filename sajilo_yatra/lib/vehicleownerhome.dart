@@ -221,13 +221,12 @@ class _VehicleHomeState extends State<VehicleHome> {
               ),
               tooltip: 'Open shopping cart',
               onPressed: () {
-                Navigator.pushNamed(context, '/fourteenth');
+                Navigator.pushNamed(context, '/line13');
               },
             ),
           ),
         ],
       ),
-
       body: Center(
         child: isLoading
             ? const CircularProgressIndicator(
@@ -237,7 +236,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Container(
-                      height: UiHelper.displayHeight(context) * 0.9,
+                      height: UiHelper.displayHeight(context) * 1,
                       child: Column(children: [
                         Container(
                           child: Column(
@@ -257,7 +256,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                       style: TextStyle(
                                         height:
                                             UiHelper.displayHeight(context) *
-                                                0.00285,
+                                                0.00310,
                                         fontFamily: "Cambay",
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF0062DE),
@@ -273,8 +272,8 @@ class _VehicleHomeState extends State<VehicleHome> {
                           ),
                         ),
                         Container(
-                          height: UiHelper.displayHeight(context) * 0.72,
-                          width: UiHelper.displayWidth(context) * 0.84,
+                          height: UiHelper.displayHeight(context) * 0.82,
+                          width: UiHelper.displayWidth(context) * 0.9,
                           margin: const EdgeInsets.only(top: 18),
                           decoration: BoxDecoration(
                             color: Color(0xFFFFFFFF),
@@ -605,7 +604,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                           await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
-                                        firstDate: DateTime(1900),
+                                        firstDate: DateTime.now(),
                                         lastDate: DateTime(2100),
                                       );
                                       if (date != null) {
@@ -684,7 +683,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                           await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
-                                        firstDate: DateTime(1900),
+                                        firstDate: DateTime.now(),
                                         lastDate: DateTime(2100),
                                       );
                                       if (date != null) {
@@ -706,7 +705,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                               width: 290,
                               child: TextFormField(
                                 controller: priceController,
-                                keyboardType: TextInputType.visiblePassword,
+                                keyboardType: TextInputType.number,
                                 maxLines: 1,
                                 cursorColor: Colors.black,
                                 decoration: const InputDecoration(
@@ -805,7 +804,6 @@ class _VehicleHomeState extends State<VehicleHome> {
                 )
               ]),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF4E93E8),
         iconSize: 28,
@@ -817,50 +815,9 @@ class _VehicleHomeState extends State<VehicleHome> {
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/line7');
           if (value == 1) Navigator.pushNamed(context, '/line10');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
-          if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                      title: Text("Logout"),
-                      content: Text("Are you sure you want to logout?"),
-                      actions: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(left: 39),
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
-                                ),
-                                child: Text("Yes"),
-                                onPressed: () {
-                                  // Perform logout here
-                                  Navigator.pushNamed(context, '/fourth');
-                                },
-                              ),
-                              UiHelper.horizontaSpace(hspace: Spacing.xxlarge),
-                              UiHelper.horizontaSpace(hspace: Spacing.large),
-                              Align(
-                                  alignment: Alignment.bottomRight,
-                                  widthFactor: 1.2,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                    ),
-                                    child: Text("No"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ))
-                            ],
-                          ),
-                        )
-                      ]);
-                });
-          }
+          if (value == 2) Navigator.pushNamed(context, '/line14');
+          if (value == 3) Navigator.pushNamed(context, '/line15');
+          if (value == 4) Navigator.pushNamed(context, '/line13');
         },
         items: [
           BottomNavigationBarItem(
@@ -872,48 +829,19 @@ class _VehicleHomeState extends State<VehicleHome> {
             label: "Tickets",
           ),
           BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(top: 20),
-              ), // empty container to align cart button in the center
-              label: "Menu"),
+            icon: Icon(Icons.menu),
+            label: "Menu",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.help),
             label: "Help",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout_outlined),
-            label: "Logout",
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Visibility(
-          visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
-          child: FloatingActionButton(
-              elevation: 600,
-              backgroundColor: Color(0xFFFFFFFF),
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 5.7,
-                    color: Color(0xFF4E93E8),
-                  ),
-                  //to set border radius to button
-                  borderRadius: BorderRadius.circular(35)),
-              child: Image.asset(
-                'images/sajilo.png',
-                height: 100,
-                fit: BoxFit.fill,
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushNamed(context, '/seventeenth');
-                });
-              }),
-        ),
-      ),
-      // position the cart button in the center of the bottom navigation bar
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -943,34 +871,32 @@ class _VehicleHomeState extends State<VehicleHome> {
   }
 
   void onSuccess(PaymentSuccessModel success) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Payment Successful'),
-          actions: [
-            SimpleDialogOption(
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(() {
-                    referenceId = success.idx;
-                  });
-
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VehicleTickets(
-                              leaving: _leavingController.text,
-                              going: _goingController.text,
-                              dob: dobController.text,
-                              depart: _timeController.text,
-                              arrival: _timeController2.text,
-                              price: priceController.text)));
-                })
-          ],
-        );
-      },
+    final logInErrorBar = SnackBar(
+      content: Text(
+        "Payment Successful",
+        style: TextStyle(
+          color: Color(0xFFFFFFFF),
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Nunito',
+        ),
+        textAlign: TextAlign.center,
+      ),
+      duration: const Duration(milliseconds: 1400),
+      backgroundColor: Color(0xFF85bb65),
     );
+    ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VehicleTickets(
+                leaving: _leavingController.text,
+                going: _goingController.text,
+                dob: dobController.text,
+                depart: _timeController.text,
+                arrival: _timeController2.text,
+                price: priceController.text)));
   }
 
   void onFailure(PaymentFailureModel failure) {

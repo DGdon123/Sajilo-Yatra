@@ -9,19 +9,23 @@ import 'package:khalti_flutter/khalti_flutter.dart';
 
 import 'package:sajilo_yatra/profile.dart';
 import 'package:sajilo_yatra/ride.dart';
+import 'package:sajilo_yatra/ridesearch.dart';
 import 'package:sajilo_yatra/search.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
 
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
+import 'package:sajilo_yatra/vehcileprofile.dart';
 import 'package:sajilo_yatra/vehiclegoing.dart';
 import 'package:sajilo_yatra/vehicleleaving.dart';
+import 'package:sajilo_yatra/vehiclemenu.dart';
 import 'package:sajilo_yatra/vehicleownerforgotpassword.dart';
 import 'package:sajilo_yatra/vehicleownerhome.dart';
 import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'package:sajilo_yatra/vehicletickets.dart';
+import 'package:sajilo_yatra/vhelp.dart';
 import 'bookings.dart';
 import 'city.dart';
 import 'editprofile.dart';
@@ -104,6 +108,12 @@ Future<void> main() async {
             '/line11': (context) => const Edit(
                   userId: '',
                 ),
+            '/line12': (context) => const OutSearchScreen(),
+            '/line13': (context) => const Profile(
+                  userId: '',
+                ),
+            '/line14': ((context) => const VMenu()),
+            '/line15': ((context) => const VHelp())
           },
           navigatorKey: navKey,
           localizationsDelegates: const [
