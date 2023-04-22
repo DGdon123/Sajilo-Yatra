@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
-import 'package:sajilo_yatra/ride.dart';
-import 'package:sajilo_yatra/search.dart';
-import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
-import 'package:sajilo_yatra/vehicletickets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class VehicleHome extends StatefulWidget {
   final String userId;
@@ -29,21 +24,24 @@ class VehicleHome extends StatefulWidget {
 }
 
 class _VehicleHomeState extends State<VehicleHome> {
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
   var vehicle = ['Bus', 'Jeep', 'MicroBus', 'Taxi', 'Others'];
   var vehicle1 = [];
   DateTime? dob;
   String referenceId = "";
-  TimeOfDay _time = TimeOfDay.now();
+  final TimeOfDay _time = TimeOfDay.now();
   TextEditingController dobController = TextEditingController();
   DateTime? dob2;
   TextEditingController dobController2 = TextEditingController();
   String? drop;
   TextEditingController _goingController = TextEditingController();
   TextEditingController _leavingController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-  TextEditingController _timeController2 = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _timeController2 = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController vehController = TextEditingController();
+  String discount = "";
+  String d2 = "";
 
   var isLoading = false;
   int _selectedIndex = 0;
@@ -65,6 +63,7 @@ class _VehicleHomeState extends State<VehicleHome> {
   String ddob = "";
   String rdob = "";
   String price = "";
+  String veh = "";
 
   @override
   void initState() {
@@ -90,6 +89,7 @@ class _VehicleHomeState extends State<VehicleHome> {
     final seat = await _storage.read(key: 'vehicle_seats');
     setState(() {
       username = fullName!;
+      veh = fullName;
       vehiclenam = vehicleName!;
       seats = seat!;
     });
@@ -124,25 +124,31 @@ class _VehicleHomeState extends State<VehicleHome> {
   }
 
   register() async {
+    final vehicleName = await _storage.read(key: 'vehicle_name');
+    final seat = await _storage.read(key: 'vehicle_seats');
+    discount = priceController.text * int.parse(seat!).round();
+
+    print(seat);
     if (dobController.text.isEmpty ||
         dobController2.text.isEmpty ||
         _timeController.text.isEmpty ||
         _timeController2.text.isEmpty ||
         _leavingController.text.isEmpty ||
         _goingController.text.isEmpty ||
-        priceController.text.isEmpty) {
+        priceController.text.isEmpty ||
+        vehicleName!.isEmpty) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-                backgroundColor: Color(0xFF0062DE),
+                backgroundColor: const Color(0xFF0062DE),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 title: Text("Please fill up all the fields!!!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFFFFFFF),
+                      color: const Color(0xFFFFFFFF),
                       fontWeight: FontWeight.w700,
                       fontFamily: "Nunito",
                       fontSize: UiHelper.displayWidth(context) * 0.050,
@@ -158,11 +164,11 @@ class _VehicleHomeState extends State<VehicleHome> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFFFFFF),
+                            backgroundColor: const Color(0xFFFFFFFF),
                           ),
                           child: Text("Okay",
                               style: TextStyle(
-                                color: Color(0xFF0062DE),
+                                color: const Color(0xFF0062DE),
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "Cabin",
                                 fontSize:
@@ -180,6 +186,7 @@ class _VehicleHomeState extends State<VehicleHome> {
           });
     } else {
       db.collection('vehicle_home').add({
+        'Vehicle': vehicleName,
         'Arrival': _goingController.text,
         'Arrive': _timeController2.text,
         'D_date': dobController.text,
@@ -187,6 +194,7 @@ class _VehicleHomeState extends State<VehicleHome> {
         'Departure': _leavingController.text,
         'Price': priceController.text,
         'R_date': dobController2.text,
+        'seat_price': discount
       });
       payWithKhaltiInApp();
     }
@@ -194,7 +202,6 @@ class _VehicleHomeState extends State<VehicleHome> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -203,7 +210,7 @@ class _VehicleHomeState extends State<VehicleHome> {
           margin: const EdgeInsets.only(bottom: 2),
           child: Text('Welcome ${username.split(' ')[0]}',
               style: TextStyle(
-                color: Color(0xFFFFFFFF),
+                color: const Color(0xFFFFFFFF),
                 fontFamily: 'ComicNeue',
                 fontSize: UiHelper.displayWidth(context) * 0.055,
                 fontWeight: FontWeight.w900,
@@ -216,7 +223,7 @@ class _VehicleHomeState extends State<VehicleHome> {
             child: IconButton(
               icon: Icon(
                 Icons.account_circle_outlined,
-                color: Color(0xFFFFFFFF),
+                color: const Color(0xFFFFFFFF),
                 size: UiHelper.displayWidth(context) * 0.085,
               ),
               tooltip: 'Open shopping cart',
@@ -235,7 +242,8 @@ class _VehicleHomeState extends State<VehicleHome> {
             : Column(children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Container(
+                    physics: const BouncingScrollPhysics(),
+                    child: SizedBox(
                       height: UiHelper.displayHeight(context) * 1,
                       child: Column(children: [
                         Container(
@@ -246,7 +254,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    color: Color(0xFFFFFFFF),
+                                    color: const Color(0xFFFFFFFF),
                                     width: UiHelper.displayWidth(context) * 1,
                                     height:
                                         UiHelper.displayHeight(context) * 0.07,
@@ -259,7 +267,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                                 0.00310,
                                         fontFamily: "Cambay",
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFF0062DE),
+                                        color: const Color(0xFF0062DE),
                                         fontSize:
                                             UiHelper.displayWidth(context) *
                                                 0.065,
@@ -276,13 +284,13 @@ class _VehicleHomeState extends State<VehicleHome> {
                           width: UiHelper.displayWidth(context) * 0.9,
                           margin: const EdgeInsets.only(top: 18),
                           decoration: BoxDecoration(
-                            color: Color(0xFFFFFFFF),
+                            color: const Color(0xFFFFFFFF),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(14)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.2),
-                                offset: Offset(0, 0),
+                                offset: const Offset(0, 0),
                                 blurRadius: 10.0,
                                 spreadRadius: 5.0,
                               ), //BoxShadow
@@ -300,7 +308,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 cursorColor: Colors.black,
                                 decoration: const InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFFFFFFFF),
+                                  fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(
                                     Icons.near_me_rounded,
                                     color: Color(0xFF222222),
@@ -365,7 +373,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 keyboardType: TextInputType.visiblePassword,
                                 decoration: const InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFFFFFFFF),
+                                  fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(
                                     Icons.location_on_rounded,
                                     color: Color(0xFF222222),
@@ -429,7 +437,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 keyboardType: TextInputType.visiblePassword,
                                 decoration: const InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFFFFFFFF),
+                                  fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(
                                     Icons.access_time_filled_rounded,
                                     color: Color(0xFF222222),
@@ -491,7 +499,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 keyboardType: TextInputType.visiblePassword,
                                 decoration: const InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFFFFFFFF),
+                                  fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(
                                     Icons.access_time_filled_rounded,
                                     color: Color(0xFF222222),
@@ -551,7 +559,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                     controller: dobController,
                                     decoration: const InputDecoration(
                                       filled: true,
-                                      fillColor: const Color(0xFFFFFFFF),
+                                      fillColor: Color(0xFFFFFFFF),
                                       suffixIcon: Icon(
                                         Icons.calendar_month_rounded,
                                         size: 28,
@@ -599,7 +607,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                         color: Color.fromARGB(255, 0, 0, 0)),
                                     onTap: () async {
                                       FocusScope.of(context)
-                                          .requestFocus(new FocusNode());
+                                          .requestFocus(FocusNode());
                                       final DateTime? date =
                                           await showDatePicker(
                                         context: context,
@@ -630,7 +638,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                     controller: dobController2,
                                     decoration: const InputDecoration(
                                       filled: true,
-                                      fillColor: const Color(0xFFFFFFFF),
+                                      fillColor: Color(0xFFFFFFFF),
                                       suffixIcon: Icon(
                                         Icons.calendar_month_rounded,
                                         size: 28,
@@ -678,7 +686,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                         color: Color.fromARGB(255, 0, 0, 0)),
                                     onTap: () async {
                                       FocusScope.of(context)
-                                          .requestFocus(new FocusNode());
+                                          .requestFocus(FocusNode());
                                       final DateTime? date =
                                           await showDatePicker(
                                         context: context,
@@ -710,7 +718,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                 cursorColor: Colors.black,
                                 decoration: const InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFFFFFFFF),
+                                  fillColor: Color(0xFFFFFFFF),
                                   prefixIcon: Icon(
                                     Icons.currency_rupee_rounded,
                                     color: Color(0xFF222222),
@@ -771,12 +779,12 @@ class _VehicleHomeState extends State<VehicleHome> {
                         Align(
                           heightFactor: 0.65,
                           alignment: Alignment.bottomCenter,
-                          child: Container(
+                          child: SizedBox(
                             height: 40.4,
                             width: 140,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF222222),
+                                  backgroundColor: const Color(0xFF222222),
 
                                   shape: RoundedRectangleBorder(
                                       //to set border radius to button
@@ -804,44 +812,6 @@ class _VehicleHomeState extends State<VehicleHome> {
                 )
               ]),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF4E93E8),
-        iconSize: 28,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF222222),
-        unselectedItemColor: Color(0xFFFFFFFF),
-        selectedFontSize: 12,
-        onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/line7');
-          if (value == 1) Navigator.pushNamed(context, '/line10');
-          if (value == 2) Navigator.pushNamed(context, '/line14');
-          if (value == 3) Navigator.pushNamed(context, '/line15');
-          if (value == 4) Navigator.pushNamed(context, '/line13');
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "Tickets",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: "Menu",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: "Help",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
-      ),
     );
   }
 
@@ -864,14 +834,17 @@ class _VehicleHomeState extends State<VehicleHome> {
       preferences: [
         PaymentPreference.khalti,
       ],
-      onSuccess: onSuccess,
+      onSuccess: (PaymentSuccessModel success) {
+        // pass discountedAmount as a parameter to onSuccess function
+        onSuccess(success, discountedAmount);
+      },
       onFailure: onFailure,
       onCancel: onCancel,
     );
   }
 
-  void onSuccess(PaymentSuccessModel success) {
-    final logInErrorBar = SnackBar(
+  void onSuccess(PaymentSuccessModel success, int discountedAmount) {
+    const logInErrorBar = SnackBar(
       content: Text(
         "Payment Successful",
         style: TextStyle(
@@ -882,21 +855,20 @@ class _VehicleHomeState extends State<VehicleHome> {
         ),
         textAlign: TextAlign.center,
       ),
-      duration: const Duration(milliseconds: 1400),
+      duration: Duration(milliseconds: 1400),
       backgroundColor: Color(0xFF85bb65),
     );
     ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => VehicleTickets(
-                leaving: _leavingController.text,
-                going: _goingController.text,
-                dob: dobController.text,
-                depart: _timeController.text,
-                arrival: _timeController2.text,
-                price: priceController.text)));
+    Get.toNamed('/third2', arguments: 1);
+
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      confirmBtnColor: const Color(0xFF0062DE),
+      title: 'Error',
+      text: 'Booking data could not be saved.',
+    );
   }
 
   void onFailure(PaymentFailureModel failure) {

@@ -1,19 +1,11 @@
 // ignore_for_file: unnecessary_new
 
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:mapbox_search/mapbox_search.dart';
 import 'package:intl/intl.dart';
 import 'package:sajilo_yatra/payment.dart';
 
-import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -32,22 +24,22 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController _textEditingController = TextEditingController();
-  TextEditingController _textEditingController1 = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController1 = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController dobController3 = TextEditingController();
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   DateTime? dob2;
   final String vehicle = "";
   TextEditingController dobController2 = TextEditingController();
-  List<String> _places = [];
+  final List<String> _places = [];
   bool isLoading = true;
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final fireStore =
       FirebaseFirestore.instance.collection('vehicle_owners').snapshots();
 
-  bool _isLoading = true;
-  final _storage = FlutterSecureStorage();
+  final bool _isLoading = true;
+  final _storage = const FlutterSecureStorage();
 
   String dobing = "";
   String seats = "";
@@ -59,13 +51,14 @@ class _SearchScreenState extends State<SearchScreen> {
   String departure1 = "";
   String price1 = "";
   String r_date = "";
+  String meet1 = "";
 
   Future<void> _savedData() async {
     final snapshot = await db.collection("vehicle_home").get();
 
     final vehicleOwners = snapshot.docs.map((doc) => doc.data()).toList();
 
-    if (vehicleOwners.length > 0) {
+    if (vehicleOwners.isNotEmpty) {
       // check if there is at least one document in the snapshot
       final data = vehicleOwners.first;
       final arrival = data['Arrival'];
@@ -75,6 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
       final departure = data['Departure'];
       final price = data['Price'];
       final rdate = data['R_date'];
+      final meet = data['meet'];
 
       await _storage.write(key: 'Arrival', value: arrival);
       await _storage.write(key: 'Arrive', value: arrive);
@@ -83,6 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
       await _storage.write(key: 'Departure', value: departure);
       await _storage.write(key: 'Price', value: price);
       await _storage.write(key: 'R_date', value: rdate);
+      await _storage.write(key: 'meet', value: meet);
 
       setState(() {
         arrival1 = arrival;
@@ -92,6 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
         d_date = ddate;
         r_date = rdate;
         price1 = price;
+        meet1 = meet;
         isLoading = false;
       });
     } else {
@@ -135,7 +131,7 @@ class _SearchScreenState extends State<SearchScreen> {
             );
           },
         ),
-        backgroundColor: Color(0xFF0062DE),
+        backgroundColor: const Color(0xFF0062DE),
         title: const Text('Search',
             style: TextStyle(
               color: Color(0xFFFFFFFF),
@@ -150,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Container(
               height: UiHelper.displayHeight(context) * 0.256,
-              color: Color(0xFF0062DE),
+              color: const Color(0xFF0062DE),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +158,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       style: TextStyle(
                         fontFamily: "Mulish",
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFFFFFFFF),
+                        color: const Color(0xFFFFFFFF),
                         fontSize: UiHelper.displayWidth(context) * 0.11,
                       ),
                     ),
@@ -174,7 +170,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       style: TextStyle(
                         fontFamily: "PublicSans",
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFFFFFFFF),
+                        color: const Color(0xFFFFFFFF),
                         fontSize: UiHelper.displayWidth(context) * 0.035,
                       ),
                     ),
@@ -187,30 +183,31 @@ class _SearchScreenState extends State<SearchScreen> {
                           controller: dobController3,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Color.fromARGB(255, 49, 121, 215),
+                            fillColor: const Color.fromARGB(255, 49, 121, 215),
                             prefixIcon: Icon(
                               Icons.calendar_month_rounded,
                               size: UiHelper.displayWidth(context) * 0.075,
-                              color: Color(0xFFFFFFFF),
+                              color: const Color(0xFFFFFFFF),
                             ),
                             suffixIcon: Icon(
                               Icons.arrow_drop_down_rounded,
                               size: UiHelper.displayWidth(context) * 0.1,
-                              color: Color(0xFFFFFFFF),
+                              color: const Color(0xFFFFFFFF),
                             ),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromARGB(255, 49, 121, 215),
                                   width: 0,
                                   style: BorderStyle.solid),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Color.fromARGB(255, 49, 121, 215),
                                   width: 0,
                                   style: BorderStyle.solid),
                             ),
-                            prefixIconColor: Color.fromARGB(255, 255, 0, 0),
+                            prefixIconColor:
+                                const Color.fromARGB(255, 255, 0, 0),
                           ),
                           style: const TextStyle(
                               fontSize: 18,
@@ -241,16 +238,16 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Container(
               height: UiHelper.displayHeight(context) * 0.628,
-              color: Color(0xFF9BC2F2),
+              color: const Color(0xFF9BC2F2),
               child: StreamBuilder<QuerySnapshot>(
                   stream: fireStore,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
-                      return Text("Some error");
+                      return const Text("Some error");
                     }
                     return Expanded(
                       child: ListView.builder(
@@ -291,17 +288,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                         style: TextStyle(
                                           fontFamily: "PublicSans",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFFFFFFF),
+                                          color: const Color(0xFFFFFFFF),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.047,
                                         ),
                                       ),
                                     ),
-                                    UiHelper.verticalSpace(
-                                        vspace: Spacing.small),
-                                    UiHelper.verticalSpace(
-                                        vspace: Spacing.small),
+                                    Container(
+                                      height: UiHelper.displayHeight(context) *
+                                          0.013,
+                                    ),
                                     Container(
                                       margin: const EdgeInsets.only(left: 4),
                                       child: Text(
@@ -310,15 +307,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                         style: TextStyle(
                                           fontFamily: "PublicSans",
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.038,
                                         ),
                                       ),
                                     ),
-                                    UiHelper.verticalSpace(
-                                        vspace: Spacing.medium),
+                                    Container(
+                                      height: UiHelper.displayHeight(context) *
+                                          0.017,
+                                    ),
                                     Row(
                                       children: [
                                         Container(
@@ -329,7 +328,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xFF222222),
+                                              color: const Color(0xFF222222),
                                               fontSize: UiHelper.displayWidth(
                                                       context) *
                                                   0.036,
@@ -345,7 +344,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width:
                                               UiHelper.displayWidth(context) *
                                                   0.02,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Color(0xFF222222),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(70))),
@@ -361,7 +360,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width:
                                               UiHelper.displayWidth(context) *
                                                   0.07,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Color(0xFF222222),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(00))),
@@ -377,7 +376,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width:
                                               UiHelper.displayWidth(context) *
                                                   0.07,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Color(0xFF222222),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(00))),
@@ -391,7 +390,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width:
                                               UiHelper.displayWidth(context) *
                                                   0.02,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Color(0xFF222222),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(70))),
@@ -404,7 +403,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xFF222222),
+                                              color: const Color(0xFF222222),
                                               fontSize: UiHelper.displayWidth(
                                                       context) *
                                                   0.036,
@@ -414,13 +413,31 @@ class _SearchScreenState extends State<SearchScreen> {
                                       ],
                                     ),
                                     Container(
+                                      height: UiHelper.displayHeight(context) *
+                                          0.014,
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 5),
+                                      child: Text(
+                                        "Meeting Point: $meet1",
+                                        style: TextStyle(
+                                          fontFamily: "PublicSans",
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFF222222),
+                                          fontSize:
+                                              UiHelper.displayWidth(context) *
+                                                  0.036,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
                                       margin: const EdgeInsets.only(
                                           top: 14, left: 4),
                                       height: UiHelper.displayHeight(context) *
                                           0.0007,
                                       width:
                                           UiHelper.displayWidth(context) * 0.9,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: Color(0xFF222222),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(00))),
@@ -436,7 +453,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           width:
                                               UiHelper.displayWidth(context) *
                                                   0.245,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                               color: Color(0xFF222222),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(6))),
@@ -446,7 +463,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   hspace: Spacing.small),
                                               Icon(
                                                 Icons.event_seat_rounded,
-                                                color: Color(0xFFFFFFFF),
+                                                color: const Color(0xFFFFFFFF),
                                                 size: UiHelper.displayWidth(
                                                         context) *
                                                     0.05,
@@ -458,7 +475,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 style: TextStyle(
                                                   fontFamily: "PublicSans",
                                                   fontWeight: FontWeight.w500,
-                                                  color: Color(0xFFFFFFFF),
+                                                  color:
+                                                      const Color(0xFFFFFFFF),
                                                   fontSize:
                                                       UiHelper.displayWidth(
                                                               context) *
@@ -481,7 +499,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w600,
-                                              color: Color(0xFF222222),
+                                              color: const Color(0xFF222222),
                                               fontSize: UiHelper.displayWidth(
                                                       context) *
                                                   0.043,
@@ -497,18 +515,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                           height:
                                               UiHelper.displayHeight(context) *
                                                   0.03,
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color: Color(0xFFFFFFFF),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(13.8)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(13.8)),
                                           ),
                                           child: Icon(
                                             Icons.arrow_forward_ios_rounded,
                                             size:
                                                 UiHelper.displayWidth(context) *
                                                     0.036,
-                                            color: Color(0xFF0062DE),
+                                            color: const Color(0xFF0062DE),
                                           ),
                                         ),
                                       ],
@@ -520,7 +537,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       height: UiHelper.displayHeight(context) *
                                           0.0015,
                                       width: UiHelper.displayWidth(context) * 1,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                           color: Color(0xFF222222),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(00))),

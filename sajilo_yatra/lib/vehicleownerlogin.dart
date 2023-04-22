@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sajilo_yatra/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -23,9 +24,9 @@ class _FifthRouteState extends State<FifthRoute> {
   TextEditingController passwordController = TextEditingController();
   String? email;
   String? password;
-  Color originalButtonColor = Color(0xFF0062DE);
+  Color originalButtonColor = const Color(0xFF0062DE);
   Color? _buttonColor;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -106,7 +107,7 @@ class _FifthRouteState extends State<FifthRoute> {
       await storage.write(key: 'age', value: age.toString());
       await storage.write(key: 'dob', value: dob);
 
-      Navigator.pushNamed(context, '/line7');
+      Get.toNamed('/third2');
     } else {
       final invalidCredentialsErrorBar = SnackBar(
         content: Text(
@@ -132,7 +133,7 @@ class _FifthRouteState extends State<FifthRoute> {
     width = size.width;
     return Container(
       child: Scaffold(
-        backgroundColor: Color(0xFF4E93E8),
+        backgroundColor: const Color(0xFF4E93E8),
         body: Column(
           children: [
             Expanded(
@@ -168,7 +169,7 @@ class _FifthRouteState extends State<FifthRoute> {
                       margin: const EdgeInsets.only(top: 37),
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 290,
                             child: TextFormField(
                               controller: emailController,
@@ -241,13 +242,13 @@ class _FifthRouteState extends State<FifthRoute> {
                               keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: Color(0xFF9BC2F2),
+                                fillColor: const Color(0xFF9BC2F2),
                                 suffixIcon: IconButton(
                                     icon: Icon(
                                       _isObscure
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: Color(0xFF222222),
+                                      color: const Color(0xFF222222),
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -284,7 +285,8 @@ class _FifthRouteState extends State<FifthRoute> {
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xFF222222),
                                     fontSize: 17.7),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -312,8 +314,8 @@ class _FifthRouteState extends State<FifthRoute> {
                       child: Row(
                         children: [
                           Checkbox(
-                            checkColor: Color(0xFFFFFFFF),
-                            activeColor: Color(0xFF0062DE),
+                            checkColor: const Color(0xFFFFFFFF),
+                            activeColor: const Color(0xFF0062DE),
                             value: _rememberMe,
                             onChanged: _onRememberMeChanged,
                           ),
@@ -322,7 +324,7 @@ class _FifthRouteState extends State<FifthRoute> {
                             style: TextStyle(
                               fontFamily: "Mulish",
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF2222222),
+                              color: const Color(0xff2222222),
                               fontSize: width * 0.042,
                             ),
                           ),
@@ -338,7 +340,7 @@ class _FifthRouteState extends State<FifthRoute> {
                         margin: const EdgeInsets.only(bottom: 4),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: const Color(
+                            backgroundColor: const Color(
                                 0xFF0062DE), //background color of button
                             //border width and color
 
@@ -418,7 +420,7 @@ class _FifthRouteState extends State<FifthRoute> {
                       onTap: () {
                         Navigator.pushNamed(context, '/line6');
                       },
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.bottomCenter,
                         child: Text(
                           "Forgot Password?",
@@ -462,7 +464,7 @@ class _FifthRouteState extends State<FifthRoute> {
                                     height: 4.05,
                                     fontFamily: "K2D",
                                     fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF222222),
+                                    color: Color(0xFF222222),
                                     fontSize: 15.3),
                               ),
                             ),

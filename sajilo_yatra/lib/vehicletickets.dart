@@ -2,12 +2,13 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class VehicleTickets extends StatefulWidget {
   final String? going;
@@ -34,8 +35,8 @@ class VehicleTickets extends StatefulWidget {
 
 class _VehicleTicketsState extends State<VehicleTickets> {
   int _selectedIndex = 1;
-  TextEditingController _textEditingController = TextEditingController();
-  TextEditingController _textEditingController1 = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController1 = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController dobController3 = TextEditingController();
   TextEditingController dobController2 = TextEditingController();
@@ -49,7 +50,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
     });
   }
 
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   final fireStore =
@@ -78,6 +79,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
   String departure1 = "";
   String price1 = "";
   String r_date = "";
+  String veh1 = "";
 
   var isLoading = true;
 
@@ -109,14 +111,21 @@ class _VehicleTicketsState extends State<VehicleTickets> {
   }
 
   Future<void> _savedData() async {
-    final snapshot = await db.collection("vehicle_home").get();
+    final vehName = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+
+    final snapshot = await db
+        .collection("vehicle_home")
+        .where('Vehicle', isEqualTo: vehName)
+        .get();
 
     final vehicleOwners = snapshot.docs.map((doc) => doc.data()).toList();
 
-    if (vehicleOwners.length > 0) {
+    if (vehicleOwners.isNotEmpty) {
       // check if there is at least one document in the snapshot
-      final data = vehicleOwners.first;
+      final data = vehicleOwners.last;
       final arrival = data['Arrival'];
+      final veh = data['Vehicle'];
       final arrive = data['Arrive'];
       final ddate = data['D_date'];
       final depart = data['Depart'];
@@ -131,6 +140,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
       await _storage.write(key: 'Departure', value: departure);
       await _storage.write(key: 'Price', value: price);
       await _storage.write(key: 'R_date', value: rdate);
+      await _storage.write(key: 'Vehicle', value: veh);
 
       setState(() {
         arrival1 = arrival;
@@ -139,7 +149,9 @@ class _VehicleTicketsState extends State<VehicleTickets> {
         departure1 = departure;
         d_date = ddate;
         r_date = rdate;
+        veh1 = veh;
         price1 = price;
+
         isLoading = false;
       });
     } else {
@@ -164,12 +176,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
     priceController = TextEditingController(text: widget.price);
 
     _getSavedData();
+    _savedData();
   }
 
   @override
   Widget build(BuildContext context) {
-    _savedData();
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -187,8 +198,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
       ),
       body: Center(
           child: isLoading
-              ? const CircularProgressIndicator(
-                  color: Color(0xFF0062DE),
+              ? Container(
+                  child: LoadingAnimationWidget.hexagonDots(
+                    size: UiHelper.displayWidth(context) * 0.08,
+                    color: const Color(0xFF0062DE),
+                  ),
                 )
               : (arrival1.isNotEmpty &&
                       arrive1.isNotEmpty &&
@@ -204,9 +218,9 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                               child: Column(
                                 children: [
                                   Container(
-                                    color: Color(0xFF0062DE),
+                                    color: const Color(0xFF0062DE),
                                     height:
-                                        UiHelper.displayHeight(context) * 0.175,
+                                        UiHelper.displayHeight(context) * 0.197,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -221,7 +235,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                             style: TextStyle(
                                               fontFamily: "PublicSans",
                                               fontWeight: FontWeight.w500,
-                                              color: Color(0xFFFFFFFF),
+                                              color: const Color(0xFFFFFFFF),
                                               fontSize: UiHelper.displayWidth(
                                                       context) *
                                                   0.035,
@@ -237,15 +251,17 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                 controller: dobController3,
                                                 decoration: InputDecoration(
                                                   filled: true,
-                                                  fillColor: Color.fromARGB(
-                                                      255, 49, 121, 215),
+                                                  fillColor:
+                                                      const Color.fromARGB(
+                                                          255, 49, 121, 215),
                                                   prefixIcon: Icon(
                                                     Icons
                                                         .calendar_month_rounded,
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.075,
-                                                    color: Color(0xFFFFFFFF),
+                                                    color:
+                                                        const Color(0xFFFFFFFF),
                                                   ),
                                                   hintText: d_date,
                                                   hintStyle: const TextStyle(
@@ -260,10 +276,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.1,
-                                                    color: Color(0xFFFFFFFF),
+                                                    color:
+                                                        const Color(0xFFFFFFFF),
                                                   ),
                                                   enabledBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Color.fromARGB(
                                                             255, 49, 121, 215),
@@ -272,7 +289,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                             BorderStyle.solid),
                                                   ),
                                                   focusedBorder:
-                                                      OutlineInputBorder(
+                                                      const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Color.fromARGB(
                                                             255, 49, 121, 215),
@@ -281,7 +298,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                             BorderStyle.solid),
                                                   ),
                                                   prefixIconColor:
-                                                      Color.fromARGB(
+                                                      const Color.fromARGB(
                                                           255, 255, 0, 0),
                                                 ),
                                                 style: const TextStyle(
@@ -315,11 +332,13 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.toNamed('/third3');
+                                    },
                                     child: Container(
                                       height: UiHelper.displayHeight(context) *
                                           0.234,
-                                      color: Color(0xFF9BC2F2),
+                                      color: const Color(0xFF9BC2F2),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -332,11 +351,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                             margin:
                                                 const EdgeInsets.only(left: 17),
                                             child: Text(
-                                              vehiclename,
+                                              veh1,
                                               style: TextStyle(
                                                 fontFamily: "PublicSans",
                                                 fontWeight: FontWeight.w600,
-                                                color: Color(0xFFFFFFFF),
+                                                color: const Color(0xFFFFFFFF),
                                                 fontSize: UiHelper.displayWidth(
                                                         context) *
                                                     0.047,
@@ -353,7 +372,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                               style: TextStyle(
                                                 fontFamily: "PublicSans",
                                                 fontWeight: FontWeight.w500,
-                                                color: Color(0xFF222222),
+                                                color: const Color(0xFF222222),
                                                 fontSize: UiHelper.displayWidth(
                                                         context) *
                                                     0.038,
@@ -372,7 +391,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                   style: TextStyle(
                                                     fontFamily: "PublicSans",
                                                     fontWeight: FontWeight.w500,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -389,7 +409,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                 width: UiHelper.displayWidth(
                                                         context) *
                                                     0.02,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     color: Color(0xFF222222),
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -407,7 +427,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                 width: UiHelper.displayWidth(
                                                         context) *
                                                     0.07,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     color: Color(0xFF222222),
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -425,7 +445,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                 width: UiHelper.displayWidth(
                                                         context) *
                                                     0.07,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     color: Color(0xFF222222),
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -441,7 +461,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                 width: UiHelper.displayWidth(
                                                         context) *
                                                     0.02,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                     color: Color(0xFF222222),
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -456,7 +476,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                   style: TextStyle(
                                                     fontFamily: "PublicSans",
                                                     fontWeight: FontWeight.w500,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -475,7 +496,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                             width:
                                                 UiHelper.displayWidth(context) *
                                                     0.9,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 color: Color(0xFF222222),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(00))),
@@ -493,12 +514,15 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                   width: UiHelper.displayWidth(
                                                           context) *
                                                       0.245,
-                                                  decoration: BoxDecoration(
-                                                      color: Color(0xFF222222),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  6))),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color:
+                                                              Color(0xFF222222),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          6))),
                                                   child: Row(
                                                     children: [
                                                       UiHelper.horizontaSpace(
@@ -507,8 +531,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                       Icon(
                                                         Icons
                                                             .event_seat_rounded,
-                                                        color:
-                                                            Color(0xFFFFFFFF),
+                                                        color: const Color(
+                                                            0xFFFFFFFF),
                                                         size: UiHelper
                                                                 .displayWidth(
                                                                     context) *
@@ -524,8 +548,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                               "PublicSans",
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color:
-                                                              Color(0xFFFFFFFF),
+                                                          color: const Color(
+                                                              0xFFFFFFFF),
                                                           fontSize: UiHelper
                                                                   .displayWidth(
                                                                       context) *
@@ -546,43 +570,18 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                   margin: const EdgeInsets.only(
                                                       top: 15),
                                                   child: Text(
-                                                    "Rs: $price1",
+                                                    "Rs: ${widget.price}",
                                                     style: TextStyle(
                                                       fontFamily: "PublicSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
                                                               0.043,
                                                     ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      top: 13.75, left: 8),
-                                                  width: UiHelper.displayWidth(
-                                                          context) *
-                                                      0.06,
-                                                  height:
-                                                      UiHelper.displayHeight(
-                                                              context) *
-                                                          0.03,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFFFFF),
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                13.8)),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons
-                                                        .arrow_forward_ios_rounded,
-                                                    size: UiHelper.displayWidth(
-                                                            context) *
-                                                        0.036,
-                                                    color: Color(0xFF0062DE),
                                                   ),
                                                 ),
                                               ],
@@ -612,8 +611,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                     child: Container(
                                       width: 395,
                                       height: 70,
-                                      color: Color(0xFFFFFFFF),
-                                      child: Text(
+                                      color: const Color(0xFFFFFFFF),
+                                      child: const Text(
                                         "You have no ticket publications yet.",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -625,7 +624,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                       ),
                                     ),
                                   ),
-                                  Align(
+                                  const Align(
                                     alignment: Alignment.bottomCenter,
                                     heightFactor: 1.8,
                                     widthFactor: 4.4,
@@ -641,7 +640,8 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                     margin: const EdgeInsets.only(bottom: 185),
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFF222222),
+                                        backgroundColor:
+                                            const Color(0xFF222222),
 
                                         shape: RoundedRectangleBorder(
                                             //to set border radius to button
@@ -670,44 +670,6 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                         ),
                       ],
                     )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF4E93E8),
-        iconSize: 28,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF222222),
-        unselectedItemColor: Color(0xFFFFFFFF),
-        selectedFontSize: 12,
-        onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/line7');
-          if (value == 1) Navigator.pushNamed(context, '/line10');
-          if (value == 2) Navigator.pushNamed(context, '/line14');
-          if (value == 3) Navigator.pushNamed(context, '/line15');
-          if (value == 4) Navigator.pushNamed(context, '/line13');
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "Tickets",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: "Menu",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: "Help",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
-      ),
     );
   }
 }

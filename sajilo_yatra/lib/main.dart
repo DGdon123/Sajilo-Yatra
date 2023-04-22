@@ -4,6 +4,7 @@ import 'package:sajilo_yatra/help.dart';
 import 'package:sajilo_yatra/offers/offerone.dart';
 import 'package:sajilo_yatra/outstationgoing.dart';
 import 'package:sajilo_yatra/outstationleaving.dart';
+import 'package:get/get.dart';
 import 'package:sajilo_yatra/payment.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
@@ -13,6 +14,7 @@ import 'package:sajilo_yatra/ridesearch.dart';
 import 'package:sajilo_yatra/search.dart';
 
 import 'package:sajilo_yatra/tickets.dart';
+import 'package:sajilo_yatra/userdetails.dart';
 
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
@@ -35,6 +37,7 @@ import 'going.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'homepage.dart';
 import 'leaving.dart';
 
 import 'menu.dart';
@@ -45,8 +48,8 @@ import 'splashscreen.dart';
 late SharedPreferences sharedPreferences;
 
 Future<void> main() async {
-  TextEditingController _textEditingController = TextEditingController();
-  TextEditingController _textEditingController1 = TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController1 = TextEditingController();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
@@ -56,69 +59,98 @@ Future<void> main() async {
       publicKey: "test_public_key_51ce9cb3f72743fe899ec90e5e72690b",
       enabledDebugging: true,
       builder: (context, navKey) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          // Start the app with the "/" named route. In this case, the app starts
-          // on the FirstScreen widget.
-          initialRoute: '/',
-          routes: {
-            // When navigating to the "/" route, build the FirstScreen widget.
-            '/': (context) => const MyHomePage(),
-            '/second': (context) => const FirstScreen(),
-            '/third': (context) => const FifthScreen(),
-            '/fourth': (context) => const FifthRoute(),
-            '/fifth': (context) => const SixthScreen(),
-            '/sixth': (context) => const SixthRoute(),
-            '/seventh': (context) => ThirdRoute(
-                  userId: '',
+        return Theme(
+            data: ThemeData(
+              useMaterial3: true,
+            ),
+            child: GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              // Start the app with the "/" named route. In this case, the app starts
+              // on the FirstScreen widget.
+              initialRoute: '/',
+              getPages: [
+                GetPage(
+                  name: '/',
+                  page: () => const MyHomePage(),
+                  transitionDuration: const Duration(milliseconds: 600),
+                  transition: Transition.cupertino,
                 ),
-            '/eighth': (context) => const EighthRoute(),
-            '/nineth': (context) => const NinethScreen(),
+                GetPage(
+                  name: '/second',
+                  page: () => const FirstScreen(),
+                  transitionDuration: const Duration(milliseconds: 600),
+                  transition: Transition.cupertino,
+                ),
+                GetPage(
+                  name: '/third3',
+                  page: () => const UsersScreen(),
+                  transitionDuration: const Duration(milliseconds: 600),
+                  transition: Transition.cupertinoDialog,
+                ),
+                GetPage(
+                  name: '/third2',
+                  page: () => const HomePage(),
+                  transitionDuration: const Duration(milliseconds: 600),
+                  transition: Transition.fadeIn,
+                ),
+              ],
+              routes: {
+                // When navigating to the "/" route, build the FirstScreen widget.
 
-            '/tenth': (context) => const EighthScreen(),
+                '/third': (context) => const FifthScreen(),
+                '/fourth': (context) => const FifthRoute(),
+                '/fifth': (context) => const SixthScreen(),
+                '/sixth': (context) => const SixthRoute(),
+                '/seventh': (context) => const ThirdRoute(
+                      userId: '',
+                    ),
+                '/eighth': (context) => const EighthRoute(),
+                '/nineth': (context) => const NinethScreen(),
 
-            '/eleventh': (context) => const NinethRoute(),
-            '/tweleventh': (context) => const TenthScreen(),
+                '/tenth': (context) => const EighthScreen(),
 
-            '/fourteenth': (context) => const FourthRoute(
-                  userId: '',
-                ),
-            '/fifteenth': (context) => ForgotPasswordScreen(),
-            '/sixteenth': (context) => const OfferOne(),
-            '/seventeenth': (context) => const Menu(),
-            '/eighteenth': (context) => const Ride(),
-            '/ninetenth': (context) => const FeedbacksScreen(),
-            '/twenty': (context) => const SearchScreen(),
+                '/eleventh': (context) => const NinethRoute(),
+                '/tweleventh': (context) => const TenthScreen(),
 
-            '/line2': (context) => const Payment(
-                  userId: '',
-                ),
-            '/line3': (context) => const OutStation(),
-            '/line4': (context) => const OutRoute(),
-            '/line5': (context) => const City(),
-            '/line6': (context) => PasswordScreen(),
-            '/line7': (context) => const VehicleHome(
-                  userId: '',
-                  going: '',
-                  leaving: '',
-                ),
-            '/line8': (context) => const VehicleLeaving(),
-            '/line9': (context) => const VehicleGoing(),
-            '/line10': (context) => const VehicleTickets(),
-            '/line11': (context) => const Edit(
-                  userId: '',
-                ),
-            '/line12': (context) => const OutSearchScreen(),
-            '/line13': (context) => const Profile(
-                  userId: '',
-                ),
-            '/line14': ((context) => const VMenu()),
-            '/line15': ((context) => const VHelp())
-          },
-          navigatorKey: navKey,
-          localizationsDelegates: const [
-            KhaltiLocalizations.delegate,
-          ],
-        );
+                '/fourteenth': (context) => const FourthRoute(
+                      userId: '',
+                    ),
+                '/fifteenth': (context) => ForgotPasswordScreen(),
+                '/sixteenth': (context) => const OfferOne(),
+                '/seventeenth': (context) => const Menu(),
+                '/eighteenth': (context) => const Ride(),
+                '/ninetenth': (context) => const FeedbacksScreen(),
+                '/twenty': (context) => const SearchScreen(),
+
+                '/line2': (context) => const Payment(
+                      userId: '',
+                    ),
+                '/line3': (context) => const OutStation(),
+                '/line4': (context) => const OutRoute(),
+                '/line5': (context) => const City(),
+                '/line6': (context) => PasswordScreen(),
+                '/line7': (context) => const VehicleHome(
+                      userId: '',
+                      going: '',
+                      leaving: '',
+                    ),
+                '/line8': (context) => const VehicleLeaving(),
+                '/line9': (context) => const VehicleGoing(),
+                '/line10': (context) => const VehicleTickets(),
+                '/line11': (context) => const Edit(
+                      userId: '',
+                    ),
+                '/line12': (context) => const OutSearchScreen(),
+                '/line13': (context) => const Profile(
+                      userId: '',
+                    ),
+                '/line14': ((context) => const VMenu()),
+                '/line15': ((context) => const VHelp())
+              },
+              navigatorKey: navKey,
+              localizationsDelegates: const [
+                KhaltiLocalizations.delegate,
+              ],
+            ));
       }));
 }

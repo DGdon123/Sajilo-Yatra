@@ -16,7 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
   var isLoading = true;
   String username = "";
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -47,15 +47,15 @@ class _ProfileState extends State<Profile> {
       final location = user["location"];
       final email = user["email"];
 
-      final phoneNumber = user["phone"];
+      final phoneNumber = user["phone"].toString();
       final gender = user["gender"];
-      final age = user["age"];
+      final age = user["age"].toString();
       final dob = user["dob"].toString();
 
       await _storage.write(key: 'full_name', value: fullName);
       await _storage.write(key: 'location', value: location);
       await _storage.write(key: 'email', value: email);
-      await _storage.write(key: 'phone', value: phoneNumber.toString());
+      await _storage.write(key: 'phone', value: phoneNumber);
       await _storage.write(key: 'gender', value: gender);
       await _storage.write(key: 'age', value: age);
       await _storage.write(key: 'dob', value: dob);
@@ -113,7 +113,7 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF0062DE),
+          backgroundColor: const Color(0xFF0062DE),
           centerTitle: true,
           title: const Text('Profile',
               style: TextStyle(
@@ -148,7 +148,7 @@ class _ProfileState extends State<Profile> {
                 : Column(children: [
                     Expanded(
                       child: SingleChildScrollView(
-                          child: Container(
+                          child: SizedBox(
                               width: UiHelper.displayWidth(context) * 1,
                               height: UiHelper.displayHeight(context) * 1,
                               child: CustomPaint(
@@ -161,15 +161,15 @@ class _ProfileState extends State<Profile> {
                                           UiHelper.displayWidth(context) * 0.3,
                                       height: UiHelper.displayHeight(context) *
                                           0.15,
-                                      decoration: BoxDecoration(
-                                        image: const DecorationImage(
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
                                             image: AssetImage(
                                               "images/hello.jpg",
                                             ),
                                             fit: BoxFit.fill),
-                                        color: const Color.fromARGB(
-                                            255, 255, 255, 255),
-                                        borderRadius: const BorderRadius.all(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        borderRadius: BorderRadius.all(
                                             Radius.circular(80)),
                                       ),
                                     ),
@@ -180,20 +180,20 @@ class _ProfileState extends State<Profile> {
                                           height: height / 305,
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFFFFFFF),
+                                          color: const Color(0xFFFFFFFF),
                                           fontSize: width * 0.077),
                                     ),
                                     UiHelper.verticalSpace(
                                         vspace: Spacing.small),
-                                    Container(
+                                    SizedBox(
                                       width:
                                           UiHelper.displayWidth(context) * 0.52,
                                       height: UiHelper.displayHeight(context) *
                                           0.074,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                          primary: const Color(
-                                              0xFFFFFFFFF), //background color of button
+                                          backgroundColor: const Color(
+                                              0xfffffffff), //background color of button
                                           //border width and color
 
                                           shape: RoundedRectangleBorder(
@@ -214,7 +214,7 @@ class _ProfileState extends State<Profile> {
                                                 0.0015,
                                             fontFamily: "ZenKakuGothicAntique",
                                             fontWeight: FontWeight.w700,
-                                            color: Color(0xFF0062DE),
+                                            color: const Color(0xFF0062DE),
                                             fontSize:
                                                 UiHelper.displayWidth(context) *
                                                     0.047,
@@ -229,13 +229,13 @@ class _ProfileState extends State<Profile> {
                                       width:
                                           UiHelper.displayWidth(context) * 0.83,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        borderRadius: BorderRadius.all(
+                                        color: const Color(0xFFFFFFFF),
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(10.0)),
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.grey.withOpacity(0.2),
-                                            offset: Offset(0, 8),
+                                            offset: const Offset(0, 8),
                                             blurRadius: 10.0,
                                             spreadRadius: 0.0,
                                           ), //BoxShadow
@@ -258,7 +258,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -272,7 +273,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -307,7 +309,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -339,7 +341,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -353,7 +356,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -388,7 +392,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -420,7 +424,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -434,7 +439,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -469,7 +475,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -501,7 +507,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -515,7 +522,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -550,7 +558,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -582,7 +590,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -596,7 +605,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -631,7 +641,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -664,7 +674,8 @@ class _ProfileState extends State<Profile> {
                                                     size: UiHelper.displayWidth(
                                                             context) *
                                                         0.065,
-                                                    color: Color(0xFF0062DE),
+                                                    color:
+                                                        const Color(0xFF0062DE),
                                                   )),
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.medium),
@@ -678,7 +689,8 @@ class _ProfileState extends State<Profile> {
                                                       fontFamily: "KumbhSans",
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      color: Color(0xFF222222),
+                                                      color: const Color(
+                                                          0xFF222222),
                                                       fontSize:
                                                           UiHelper.displayWidth(
                                                                   context) *
@@ -713,7 +725,7 @@ class _ProfileState extends State<Profile> {
                                                                 "SignikaNegative-Bold",
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFA6AEB0),
                                                             fontSize: UiHelper
                                                                     .displayWidth(
@@ -741,7 +753,7 @@ class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = Color(0xFF0062DE);
+    paint.color = const Color(0xFF0062DE);
     paint.style = PaintingStyle.fill; // Change this to fill
 
     var path = Path();

@@ -55,23 +55,23 @@ class _VMenuState extends State<VMenu> {
           children: [
             Container(
               height: UiHelper.displayHeight(context) * 0.019,
-              color: Color(0xFFEFEEF3),
+              color: const Color(0xFFEFEEF3),
             ),
             ListTile(
                 leading: Icon(
                   Icons.edit_document,
-                  color: Color(0xFF0062DE),
+                  color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
                 ),
                 title: Text('Write Feedback',
                     style: TextStyle(
-                        color: Color(0xFF222222),
+                        color: const Color(0xFF222222),
                         fontFamily: "NotoSans",
                         fontSize: UiHelper.displayWidth(context) * 0.04,
                         fontWeight: FontWeight.w400)),
                 trailing: Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  color: Color(0xFFD6D6D6),
+                  color: const Color(0xFFD6D6D6),
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
@@ -80,23 +80,23 @@ class _VMenuState extends State<VMenu> {
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(
               height: UiHelper.displayHeight(context) * 0.0015,
-              color: Color(0xFFD6D6D6),
+              color: const Color(0xFFD6D6D6),
             ),
             ListTile(
                 leading: Icon(
                   Icons.help_outline_rounded,
-                  color: Color(0xFF0062DE),
+                  color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
                 ),
                 title: Text('FAQs',
                     style: TextStyle(
-                        color: Color(0xFF222222),
+                        color: const Color(0xFF222222),
                         fontFamily: "NotoSans",
                         fontSize: UiHelper.displayWidth(context) * 0.04,
                         fontWeight: FontWeight.w400)),
                 trailing: Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  color: Color(0xFFD6D6D6),
+                  color: const Color(0xFFD6D6D6),
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
@@ -105,23 +105,23 @@ class _VMenuState extends State<VMenu> {
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(
               height: UiHelper.displayHeight(context) * 0.0015,
-              color: Color(0xFFD6D6D6),
+              color: const Color(0xFFD6D6D6),
             ),
             ListTile(
                 leading: Icon(
                   Icons.info_outline_rounded,
-                  color: Color(0xFF0062DE),
+                  color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
                 ),
                 title: Text('About Us',
                     style: TextStyle(
-                        color: Color(0xFF222222),
+                        color: const Color(0xFF222222),
                         fontFamily: "NotoSans",
                         fontSize: UiHelper.displayWidth(context) * 0.04,
                         fontWeight: FontWeight.w400)),
                 trailing: Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  color: Color(0xFFD6D6D6),
+                  color: const Color(0xFFD6D6D6),
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
@@ -130,23 +130,23 @@ class _VMenuState extends State<VMenu> {
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(
               height: UiHelper.displayHeight(context) * 0.0015,
-              color: Color(0xFFD6D6D6),
+              color: const Color(0xFFD6D6D6),
             ),
             ListTile(
                 leading: Icon(
                   Icons.phone,
-                  color: Color(0xFF0062DE),
+                  color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
                 ),
                 title: Text('Contact Us',
                     style: TextStyle(
-                        color: Color(0xFF222222),
+                        color: const Color(0xFF222222),
                         fontFamily: "NotoSans",
                         fontSize: UiHelper.displayWidth(context) * 0.04,
                         fontWeight: FontWeight.w400)),
                 trailing: Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  color: Color(0xFFD6D6D6),
+                  color: const Color(0xFFD6D6D6),
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
@@ -155,23 +155,23 @@ class _VMenuState extends State<VMenu> {
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(
               height: UiHelper.displayHeight(context) * 0.0015,
-              color: Color(0xFFD6D6D6),
+              color: const Color(0xFFD6D6D6),
             ),
             ListTile(
                 leading: Icon(
                   Icons.logout_rounded,
-                  color: Color(0xFF0062DE),
+                  color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
                 ),
                 title: Text('LogOut',
                     style: TextStyle(
-                        color: Color(0xFF222222),
+                        color: const Color(0xFF222222),
                         fontFamily: "NotoSans",
                         fontSize: UiHelper.displayWidth(context) * 0.04,
                         fontWeight: FontWeight.w400)),
                 trailing: Icon(
                   Icons.keyboard_arrow_right_rounded,
-                  color: Color(0xFFD6D6D6),
+                  color: const Color(0xFFD6D6D6),
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
@@ -179,13 +179,14 @@ class _VMenuState extends State<VMenu> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                            backgroundColor: Color(0xFF0062DE),
+                            backgroundColor: const Color(0xFF0062DE),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            title: Text("Are you sure you want to logout?"),
+                            title:
+                                const Text("Are you sure you want to logout?"),
                             titleTextStyle: TextStyle(
-                              color: Color(0xFFFFFFFF),
+                              color: const Color(0xFFFFFFFF),
                               fontWeight: FontWeight.w700,
                               fontFamily: "Nunito",
                               fontSize: UiHelper.displayWidth(context) * 0.043,
@@ -203,11 +204,12 @@ class _VMenuState extends State<VMenu> {
                                         hspace: Spacing.large),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFFFFFFFF),
+                                        backgroundColor:
+                                            const Color(0xFFFFFFFF),
                                       ),
                                       child: Text("Yes",
                                           style: TextStyle(
-                                            color: Color(0xFF0062DE),
+                                            color: const Color(0xFF0062DE),
                                             fontWeight: FontWeight.w600,
                                             fontFamily: "Cabin",
                                             fontSize:
@@ -227,11 +229,12 @@ class _VMenuState extends State<VMenu> {
                                         hspace: Spacing.large),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFFFFFFFF),
+                                        backgroundColor:
+                                            const Color(0xFFFFFFFF),
                                       ),
                                       child: Text("No",
                                           style: TextStyle(
-                                            color: Color(0xFF0062DE),
+                                            color: const Color(0xFF0062DE),
                                             fontWeight: FontWeight.w600,
                                             fontFamily: "Cabin",
                                             fontSize:
@@ -251,48 +254,10 @@ class _VMenuState extends State<VMenu> {
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(
               height: UiHelper.displayHeight(context) * 0.0015,
-              color: Color(0xFFD6D6D6),
+              color: const Color(0xFFD6D6D6),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF4E93E8),
-        iconSize: 28,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF222222),
-        unselectedItemColor: Color(0xFFFFFFFF),
-        selectedFontSize: 12,
-        onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/line7');
-          if (value == 1) Navigator.pushNamed(context, '/line10');
-          if (value == 2) Navigator.pushNamed(context, '/line14');
-          if (value == 3) Navigator.pushNamed(context, '/line15');
-          if (value == 4) Navigator.pushNamed(context, '/line13');
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "Bookings",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: "Menu",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: "Help",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
       ),
     );
   }

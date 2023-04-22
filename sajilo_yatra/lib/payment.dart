@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:sendgrid_mailer/sendgrid_mailer.dart';
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,7 +38,8 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-  final _storage = FlutterSecureStorage();
+  
+  final _storage = const FlutterSecureStorage();
   final db = FirebaseFirestore.instance;
   String referenceId = "";
   final _auth = FirebaseAuth.instance;
@@ -57,6 +64,33 @@ class _PaymentState extends State<Payment> {
   String? vehiclefacility;
   String? arrive;
   String? depart;
+  String? sprice;
+
+  Future<void> sendEmail(String recipient, String bookingId) async {
+  final emailing = await _storage.read(key: 'email');
+
+  final apiKey = await _storage.read(key: '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');
+
+  final name = await _storage.read(key: 'full_name');
+  
+
+  final mailer = Mailer(apiKey!);
+final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingId');
+
+  final fromAddress = Email(emailing! as List<Personalization>, name!);
+  final toAddress = Email(recipient);
+  final personalization = Personalization([toAddress]);
+
+  final email = Email([personalization], fromAddress as Address, 'Booking Confirmation', content: [content]);
+
+  try {
+    await mailer.send(email);
+    print('Email sent successfully');
+  } catch (error) {
+    print('Error while sending email: $error');
+  }
+}
+
 
   Map<String, int> discountPrices = {
     "YGFJY899": 50,
@@ -68,12 +102,13 @@ class _PaymentState extends State<Payment> {
   };
 
   var isLoading = true;
-  bool _isObscured = true;
+  final bool _isObscured = true;
 
   @override
   void initState() {
     super.initState();
     _getSavedData();
+
     dobController = TextEditingController(text: widget.going);
     dobController2 = TextEditingController(text: widget.leaving);
     vehiclename = widget.veh;
@@ -81,6 +116,45 @@ class _PaymentState extends State<Payment> {
     date = widget.date;
     arrive = widget.arrive;
     depart = widget.depart;
+    _savedData();
+  }
+
+  Future<void> _savedData() async {
+    vehiclename = widget.veh;
+    final snapshot = await db
+        .collection("vehicle_owners")
+        .where('vehicle_name', isEqualTo: vehiclename)
+        .get();
+
+    final vehicleOwners = snapshot.docs.map((doc) => doc.data()).toList();
+
+    if (vehicleOwners.isNotEmpty) {
+      // check if there is at least one document in the snapshot
+
+      // check if there is at least one document in the snapshot
+      final data = vehicleOwners.first;
+      final price = data['seat_price'];
+
+      await _storage.write(key: 'seat_price', value: price.toString());
+
+      setState(() {
+        sprice = price.toString();
+        isLoading = false;
+      });
+    } else {
+      print('No documents found for the user');
+    }
+    print(sprice);
+  }
+
+  String generateBookingId() {
+    var rng = Random();
+    var codeUnits = List.generate(10, (index) {
+      return rng.nextInt(26) +
+          65; // generates a code unit between 65 and 90 (inclusive) for A-Z characters
+    });
+
+    return String.fromCharCodes(codeUnits);
   }
 
   void _getSavedData() async {
@@ -122,20 +196,20 @@ class _PaymentState extends State<Payment> {
             );
           },
         ),
-        backgroundColor: Color(0xFF0062DE),
+        backgroundColor: const Color(0xFF0062DE),
         title: Text(
             "${widget.leaving?.split(',')[0].trim()} To ${widget.going?.split(',')[0].trim()}",
             style: TextStyle(
-              color: Color(0xFFFFFFFF),
+              color: const Color(0xFFFFFFFF),
               fontFamily: 'ComicNeue',
               fontSize: UiHelper.displayWidth(context) * 0.052,
               fontWeight: FontWeight.w900,
             )),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: _formKey,
                 child: Expanded(
@@ -150,7 +224,7 @@ class _PaymentState extends State<Payment> {
                             style: TextStyle(
                               fontFamily: "Cambay",
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF0062DE),
+                              color: const Color(0xFF0062DE),
                               fontSize: UiHelper.displayWidth(context) * 0.065,
                             ),
                           ),
@@ -167,9 +241,9 @@ class _PaymentState extends State<Payment> {
                                 suffixIcon: Icon(
                                   Icons.edit,
                                   size: UiHelper.displayHeight(context) * 0.028,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFFA6AEB0),
                                       width: 2,
@@ -182,25 +256,26 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.002,
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFA6AEB0),
+                                  color: const Color(0xFFA6AEB0),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.043,
                                 ),
                                 labelStyle: TextStyle(
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.045,
                                 ),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
                                 fontSize:
                                     UiHelper.displayWidth(context) * 0.045,
                                 fontFamily: "Mulish",
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFA6AEB0),
+                                color: const Color(0xFFA6AEB0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -223,9 +298,9 @@ class _PaymentState extends State<Payment> {
                                 suffixIcon: Icon(
                                   Icons.mail_rounded,
                                   size: UiHelper.displayHeight(context) * 0.028,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFFA6AEB0),
                                       width: 2,
@@ -238,25 +313,26 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.002,
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFA6AEB0),
+                                  color: const Color(0xFFA6AEB0),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.043,
                                 ),
                                 labelStyle: TextStyle(
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.045,
                                 ),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
                                 fontSize:
                                     UiHelper.displayWidth(context) * 0.045,
                                 fontFamily: "Mulish",
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFA6AEB0),
+                                color: const Color(0xFFA6AEB0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -279,9 +355,9 @@ class _PaymentState extends State<Payment> {
                                 suffixIcon: Icon(
                                   Icons.phone,
                                   size: UiHelper.displayHeight(context) * 0.028,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFFA6AEB0),
                                       width: 2,
@@ -294,25 +370,26 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.002,
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFA6AEB0),
+                                  color: const Color(0xFFA6AEB0),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.043,
                                 ),
                                 labelStyle: TextStyle(
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.045,
                                 ),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
                                 fontSize:
                                     UiHelper.displayWidth(context) * 0.045,
                                 fontFamily: "Mulish",
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFA6AEB0),
+                                color: const Color(0xFFA6AEB0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -335,9 +412,9 @@ class _PaymentState extends State<Payment> {
                                 suffixIcon: Icon(
                                   Icons.event_seat_rounded,
                                   size: UiHelper.displayHeight(context) * 0.028,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFFA6AEB0),
                                       width: 2,
@@ -350,25 +427,26 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.002,
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFA6AEB0),
+                                  color: const Color(0xFFA6AEB0),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.043,
                                 ),
                                 labelStyle: TextStyle(
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.045,
                                 ),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
                                 fontSize:
                                     UiHelper.displayWidth(context) * 0.045,
                                 fontFamily: "Mulish",
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFA6AEB0),
+                                color: const Color(0xFFA6AEB0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -391,9 +469,9 @@ class _PaymentState extends State<Payment> {
                                 suffixIcon: Icon(
                                   Icons.discount_rounded,
                                   size: UiHelper.displayHeight(context) * 0.028,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xFFA6AEB0),
                                       width: 2,
@@ -406,25 +484,26 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.002,
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFA6AEB0),
+                                  color: const Color(0xFFA6AEB0),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.043,
                                 ),
                                 labelStyle: TextStyle(
                                   fontFamily: "Mulish",
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.045,
                                 ),
-                                suffixIconColor: Color.fromARGB(255, 255, 0, 0),
+                                suffixIconColor:
+                                    const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
                                 fontSize:
                                     UiHelper.displayWidth(context) * 0.045,
                                 fontFamily: "Mulish",
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFFA6AEB0),
+                                color: const Color(0xFFA6AEB0),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -440,12 +519,12 @@ class _PaymentState extends State<Payment> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Container(
+                          child: SizedBox(
                             height: UiHelper.displayHeight(context) * 0.069,
                             width: UiHelper.displayWidth(context) * 0.1,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: const Color(
+                                backgroundColor: const Color(
                                     0xFF0062DE), //background color of button
                                 //border width and color
 
@@ -461,7 +540,8 @@ class _PaymentState extends State<Payment> {
                                       UiHelper.displayHeight(context) * 0.001,
                                   fontFamily: "ZenKakuGothicAntique",
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.048,
                                 ),
@@ -478,9 +558,17 @@ class _PaymentState extends State<Payment> {
                                     _discountController.text == "AKI745" ||
                                     _discountController.text == "HGHG7" ||
                                     _discountController.text == "JHVJ34") {
+                                  db.collection('user_checkout').add({
+                                    'discount': _discountController.text,
+                                    'email': _emailController.text,
+                                    'full_name': _nameController.text,
+                                    'phone': _phoneController.text,
+                                    'vehicle': vehiclename,
+                                    'seats': _seatController.text,
+                                  });
                                   payWithKhaltiInApp();
                                 } else {
-                                  final logInErrorBar = SnackBar(
+                                  const logInErrorBar = SnackBar(
                                     content: Text(
                                       "Please fill up all fields",
                                       style: TextStyle(
@@ -491,8 +579,7 @@ class _PaymentState extends State<Payment> {
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    duration:
-                                        const Duration(milliseconds: 1400),
+                                    duration: Duration(milliseconds: 1400),
                                     backgroundColor: Color(0xFF0062DE),
                                   );
                                   ScaffoldMessenger.of(context)
@@ -511,10 +598,15 @@ class _PaymentState extends State<Payment> {
     );
   }
 
-  payWithKhaltiInApp() {
-    int originalAmount = 10000;
+  payWithKhaltiInApp() async {
+    print(sprice);
+    int originalAmount =
+        int.parse(_seatController.text) * int.parse(sprice!) * 100;
+    print(originalAmount);
+
     int discountAmount = discountPrices[_discountController.text] ?? 0;
-    int discountedAmount = originalAmount - (discountAmount * 100);
+    int discountedAmount = originalAmount - discountAmount;
+
     KhaltiScope.of(context).pay(
       config: PaymentConfig(
         amount: discountedAmount,
@@ -534,7 +626,8 @@ class _PaymentState extends State<Payment> {
     );
   }
 
-  void onSuccess(PaymentSuccessModel success, int discountedAmount) {
+  Future<void> onSuccess(
+      PaymentSuccessModel success, int discountedAmount) async {
     // add booking data to the 'bookings' collection
     db.collection('bookings').add({
       'arrival': dobController2.text,
@@ -546,9 +639,15 @@ class _PaymentState extends State<Payment> {
       'price': discountedAmount / 100,
       'vehicle_facility': vehiclefacility,
       'vehicle_name': vehiclename
-    }).then((value) {
+    }).then((value) async {
+      // send email
+      // send email
+      final emailing = await _storage.read(key: 'email');
+      final bookingId = generateBookingId();
+      await sendEmail(emailing!, bookingId);
+
       // show success message and navigate to the next screen
-      final logInErrorBar = SnackBar(
+      const logInErrorBar = SnackBar(
         content: Text(
           "Payment Successful",
           style: TextStyle(
@@ -559,14 +658,14 @@ class _PaymentState extends State<Payment> {
           ),
           textAlign: TextAlign.center,
         ),
-        duration: const Duration(milliseconds: 1400),
+        duration: Duration(milliseconds: 1400),
         backgroundColor: Color(0xFF85bb65),
       );
       ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
       Navigator.pushNamed(context, '/eighth');
     }).catchError((error) {
       // show error message if data couldn't be added to the database
-      final logInErrorBar = SnackBar(
+      const logInErrorBar = SnackBar(
         content: Text(
           "Error: Booking data could not be saved.",
           style: TextStyle(
@@ -577,7 +676,7 @@ class _PaymentState extends State<Payment> {
           ),
           textAlign: TextAlign.center,
         ),
-        duration: const Duration(milliseconds: 1400),
+        duration: Duration(milliseconds: 1400),
         backgroundColor: Colors.red,
       );
       ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
