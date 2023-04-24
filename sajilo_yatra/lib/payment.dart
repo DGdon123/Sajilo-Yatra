@@ -1,11 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:sendgrid_mailer/sendgrid_mailer.dart';
-
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
@@ -38,7 +38,6 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-  
   final _storage = const FlutterSecureStorage();
   final db = FirebaseFirestore.instance;
   String referenceId = "";
@@ -65,32 +64,6 @@ class _PaymentState extends State<Payment> {
   String? arrive;
   String? depart;
   String? sprice;
-
-  Future<void> sendEmail(String recipient, String bookingId) async {
-  final emailing = await _storage.read(key: 'email');
-
-  final apiKey = await _storage.read(key: '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');
-
-  final name = await _storage.read(key: 'full_name');
-  
-
-  final mailer = Mailer(apiKey!);
-final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingId');
-
-  final fromAddress = Email(emailing! as List<Personalization>, name!);
-  final toAddress = Email(recipient);
-  final personalization = Personalization([toAddress]);
-
-  final email = Email([personalization], fromAddress as Address, 'Booking Confirmation', content: [content]);
-
-  try {
-    await mailer.send(email);
-    print('Email sent successfully');
-  } catch (error) {
-    print('Error while sending email: $error');
-  }
-}
-
 
   Map<String, int> discountPrices = {
     "YGFJY899": 50,
@@ -600,8 +573,7 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
 
   payWithKhaltiInApp() async {
     print(sprice);
-    int originalAmount =
-        int.parse(_seatController.text) * int.parse(sprice!) * 100;
+    int originalAmount = int.parse(_seatController.text) * int.parse(sprice!);
     print(originalAmount);
 
     int discountAmount = discountPrices[_discountController.text] ?? 0;
@@ -609,7 +581,7 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
 
     KhaltiScope.of(context).pay(
       config: PaymentConfig(
-        amount: discountedAmount,
+        amount: 1000,
         productIdentity: 'Product Id',
         productName: 'Product Name',
         mobileReadOnly: false,
@@ -639,17 +611,21 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
       'price': discountedAmount / 100,
       'vehicle_facility': vehiclefacility,
       'vehicle_name': vehiclename
-    }).then((value) async {
-      // send email
+    });
+    try {
       // send email
       final emailing = await _storage.read(key: 'email');
+      print(emailing);
       final bookingId = generateBookingId();
-      await sendEmail(emailing!, bookingId);
-
+      await sendEmail(
+          name: 'User',
+          email: 'dipeshgurung797@gmail.com',
+          subject: 'Booking Confirmed - $bookingId',
+          message: 'Hello,\n\nYour booking ($bookingId) has been confirmed.');
       // show success message and navigate to the next screen
       const logInErrorBar = SnackBar(
         content: Text(
-          "Payment Successful",
+          "Payment Successful. Booking confirmed!",
           style: TextStyle(
             color: Color(0xFFFFFFFF),
             fontSize: 17,
@@ -663,11 +639,12 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
       );
       ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
       Navigator.pushNamed(context, '/eighth');
-    }).catchError((error) {
-      // show error message if data couldn't be added to the database
+    } catch (e) {
+      print('Error sending email: $e');
+      // show error message if email couldn't be sent
       const logInErrorBar = SnackBar(
         content: Text(
-          "Error: Booking data could not be saved.",
+          "Error: Booking confirmed but email could not be sent.",
           style: TextStyle(
             color: Color(0xFFFFFFFF),
             fontSize: 17,
@@ -680,7 +657,8 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
         backgroundColor: Colors.red,
       );
       ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
-    });
+      Navigator.pushNamed(context, '/eighth');
+    }
   }
 
   void onFailure(PaymentFailureModel failure) {
@@ -691,5 +669,34 @@ final content = Content('text/plain', 'Payment Successful. Booking ID: $bookingI
 
   void onCancel() {
     debugPrint('Cancelled');
+  }
+
+  Future sendEmail({
+    required String name,
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    var serviceId = 'service_no2kxsi';
+    var templateId = 'template_vwecaoc';
+    var userId = 'SejKimp2yAJwIzA_8';
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(url,
+        headers: {
+          'origin': 'http://localhost',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'service_id': serviceId,
+          'template_id': templateId,
+          'user_Id': userId,
+          'template_params': {
+            'user_name': name,
+            'user_email': email,
+            'user_subject': subject,
+            'user_message': message
+          }
+        }));
+    print(response.body);
   }
 }
