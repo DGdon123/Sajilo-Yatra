@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:sajilo_yatra/ride.dart';
 import 'package:sajilo_yatra/tickets.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
@@ -17,7 +18,7 @@ class ThirdRoute extends StatefulWidget {
 }
 
 class _ThirdRouteState extends State<ThirdRoute> {
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
   int _selectedIndex = 0;
 
@@ -49,10 +50,10 @@ class _ThirdRouteState extends State<ThirdRoute> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFFFFFFFF),
+        backgroundColor: const Color(0xfffffffff),
         title: Text('Welcome ${username?.split(' ')[0]}',
             style: TextStyle(
-              color: Color(0xFF0062DE),
+              color: const Color(0xFF0062DE),
               fontFamily: "ZenKakuGothicAntique",
               fontSize: UiHelper.displayWidth(context) * 0.067,
               fontWeight: FontWeight.w700,
@@ -64,7 +65,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
             child: IconButton(
               icon: Icon(
                 Icons.account_circle_outlined,
-                color: Color(0xFF0062DE),
+                color: const Color(0xFF0062DE),
                 size: UiHelper.displayWidth(context) * 0.11,
               ),
               tooltip: 'Open shopping cart',
@@ -88,11 +89,12 @@ class _ThirdRouteState extends State<ThirdRoute> {
                     margin:
                         const EdgeInsets.only(left: 25, bottom: 6.8, top: 18),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10.0)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
-                          offset: Offset(0, 0),
+                          offset: const Offset(0, 0),
                           blurRadius: 10.0,
                           spreadRadius: 0.1,
                         ), //BoxShadow
@@ -103,7 +105,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         style: ElevatedButton.styleFrom(
                           //background color of button
                           //border width and color
-                          backgroundColor: Color(0xFFFFFFFF),
+                          backgroundColor: const Color(0xFFFFFFFF),
                           shape: RoundedRectangleBorder(
                               //to set border radius to button
                               borderRadius: BorderRadius.circular(11)),
@@ -127,7 +129,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -139,7 +141,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EighthScreen()),
+                                builder: (context) => const EighthScreen()),
                             (Route<dynamic> route) => false,
                           );
                         }),
@@ -150,11 +152,12 @@ class _ThirdRouteState extends State<ThirdRoute> {
                     margin:
                         const EdgeInsets.only(left: 15, bottom: 6.8, top: 18),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10.0)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
-                          offset: Offset(0, 0),
+                          offset: const Offset(0, 0),
                           blurRadius: 10.0,
                           spreadRadius: 0.1,
                         ), //BoxShadow
@@ -165,7 +168,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         style: ElevatedButton.styleFrom(
                           //background color of button
                           //border width and color
-                          backgroundColor: Color(0xFFFFFFFF),
+                          backgroundColor: const Color(0xFFFFFFFF),
                           shape: RoundedRectangleBorder(
                               //to set border radius to button
                               borderRadius: BorderRadius.circular(11)),
@@ -189,7 +192,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 style: TextStyle(
                                   fontFamily: "FiraSans",
                                   fontWeight: FontWeight.w500,
-                                  color: Color(0xFF222222),
+                                  color: const Color(0xFF222222),
                                   fontSize:
                                       UiHelper.displayWidth(context) * 0.041,
                                 ),
@@ -200,7 +203,8 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => Ride()),
+                            MaterialPageRoute(
+                                builder: (context) => const Ride()),
                             (Route<dynamic> route) => false,
                           );
                         }),
@@ -211,7 +215,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
               Container(
                 width: UiHelper.displayWidth(context) * 1,
                 height: UiHelper.displayHeight(context) * 0.012,
-                color: Color(0xFFF3F3F3),
+                color: const Color(0xFFF3F3F3),
               ),
               UiHelper.verticalSpace(vspace: Spacing.small),
               Row(
@@ -224,7 +228,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                         height: 2,
                         fontFamily: "OpenSans",
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF0062DE),
+                        color: Color(0xFF0062DE),
                         fontSize: 19.5),
                   ),
                 ],
@@ -237,7 +241,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
           height: UiHelper.displayHeight(context) * 0.47,
           child: Expanded(
             child: SingleChildScrollView(
-              child: Container(
+              child: SizedBox(
                 width: 400,
                 child: Column(
                   children: [
@@ -253,19 +257,19 @@ class _ThirdRouteState extends State<ThirdRoute> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),
-                                  offset: Offset(0, 0),
+                                  offset: const Offset(0, 0),
                                   blurRadius: 10.0,
                                   spreadRadius: 0.1,
                                 ), //BoxShadow
                                 //BoxShadow
                               ],
-                              borderRadius: const BorderRadius.all(
-                                  const Radius.circular(11.8)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(11.8)),
                             ),
                             margin: const EdgeInsets.only(right: 0.2, top: 10),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: const Color(
+                                  backgroundColor: const Color(
                                       0xFFFFFFFF), //background color of button
                                   //border width and color
 
@@ -308,18 +312,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     Container(
                                       height: 27.4,
                                       width: 132,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF4E93E8),
-                                        borderRadius: const BorderRadius.all(
-                                            const Radius.circular(7)),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF4E93E8),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(7)),
                                       ),
                                       margin: const EdgeInsets.only(top: 7.5),
                                       child: Row(
-                                        children: [
+                                        children: const [
                                           Align(
                                             alignment: Alignment.centerRight,
                                             widthFactor: 1.17,
-                                            child: const Text(
+                                            child: Text(
                                               "CODE:",
                                               style: TextStyle(
                                                   fontFamily: "OpenSans",
@@ -331,7 +335,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                           Align(
                                             alignment: Alignment.centerRight,
                                             widthFactor: 1.07,
-                                            child: const Text(
+                                            child: Text(
                                               "YGFJY899",
                                               style: TextStyle(
                                                   fontFamily: "OpenSans",
@@ -360,19 +364,19 @@ class _ThirdRouteState extends State<ThirdRoute> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),
-                                  offset: Offset(0, 0),
+                                  offset: const Offset(0, 0),
                                   blurRadius: 10.0,
                                   spreadRadius: 0.1,
                                 ), //BoxShadow
                                 //BoxShadow
                               ],
-                              borderRadius: const BorderRadius.all(
-                                  const Radius.circular(11.8)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(11.8)),
                             ),
                             margin: const EdgeInsets.only(right: 0.2, top: 10),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  primary: const Color(
+                                  backgroundColor: const Color(
                                       0xFFFFFFFF), //background color of button
                                   //border width and color
 
@@ -415,18 +419,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     Container(
                                       height: 27.4,
                                       width: 132,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF4E93E8),
-                                        borderRadius: const BorderRadius.all(
-                                            const Radius.circular(7)),
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF4E93E8),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(7)),
                                       ),
                                       margin: const EdgeInsets.only(top: 7.5),
                                       child: Row(
-                                        children: [
+                                        children: const [
                                           Align(
                                             alignment: Alignment.centerRight,
                                             widthFactor: 1.33,
-                                            child: const Text(
+                                            child: Text(
                                               "CODE:",
                                               style: TextStyle(
                                                   fontFamily: "OpenSans",
@@ -438,7 +442,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                           Align(
                                             alignment: Alignment.centerRight,
                                             widthFactor: 1.07,
-                                            child: const Text(
+                                            child: Text(
                                               "UIGF78",
                                               style: TextStyle(
                                                   fontFamily: "OpenSans",
@@ -453,7 +457,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/sixteenth');
+                                  Get.toNamed('/third4');
                                 }),
                           ),
                         ),
@@ -473,20 +477,20 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
-                                    offset: Offset(0, 0),
+                                    offset: const Offset(0, 0),
                                     blurRadius: 10.0,
                                     spreadRadius: 0.1,
                                   ), //BoxShadow
                                   //BoxShadow
                                 ],
                                 borderRadius: const BorderRadius.all(
-                                    const Radius.circular(11.8)),
+                                    Radius.circular(11.8)),
                               ),
                               margin:
                                   const EdgeInsets.only(right: 0.2, top: 10),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(
+                                    backgroundColor: const Color(
                                         0xFFFFFFFF), //background color of button
                                     //border width and color
 
@@ -529,18 +533,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       Container(
                                         height: 27.4,
                                         width: 132,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF4E93E8),
-                                          borderRadius: const BorderRadius.all(
-                                              const Radius.circular(7)),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF4E93E8),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(7)),
                                         ),
                                         margin: const EdgeInsets.only(top: 7.5),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.17,
-                                              child: const Text(
+                                              child: Text(
                                                 "CODE:",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -552,7 +556,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.07,
-                                              child: const Text(
+                                              child: Text(
                                                 "HRDTY56",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -581,20 +585,20 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
-                                    offset: Offset(0, 0),
+                                    offset: const Offset(0, 0),
                                     blurRadius: 10.0,
                                     spreadRadius: 0.1,
                                   ), //BoxShadow
                                   //BoxShadow
                                 ],
                                 borderRadius: const BorderRadius.all(
-                                    const Radius.circular(11.8)),
+                                    Radius.circular(11.8)),
                               ),
                               margin:
                                   const EdgeInsets.only(right: 0.2, top: 9.6),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(
+                                    backgroundColor: const Color(
                                         0xFFFFFFFF), //background color of button
                                     //border width and color
 
@@ -637,18 +641,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       Container(
                                         height: 27.4,
                                         width: 132,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF4E93E8),
-                                          borderRadius: const BorderRadius.all(
-                                              const Radius.circular(7)),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF4E93E8),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(7)),
                                         ),
                                         margin: const EdgeInsets.only(top: 7.5),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.36,
-                                              child: const Text(
+                                              child: Text(
                                                 "CODE:",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -660,7 +664,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.07,
-                                              child: const Text(
+                                              child: Text(
                                                 "AKI745",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -696,20 +700,20 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
-                                    offset: Offset(0, 0),
+                                    offset: const Offset(0, 0),
                                     blurRadius: 10.0,
                                     spreadRadius: 0.1,
                                   ), //BoxShadow
                                   //BoxShadow
                                 ],
                                 borderRadius: const BorderRadius.all(
-                                    const Radius.circular(11.8)),
+                                    Radius.circular(11.8)),
                               ),
                               margin:
                                   const EdgeInsets.only(right: 0.2, top: 10),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(
+                                    backgroundColor: const Color(
                                         0xFFFFFFFF), //background color of button
                                     //border width and color
 
@@ -752,18 +756,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       Container(
                                         height: 27.4,
                                         width: 132,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF4E93E8),
-                                          borderRadius: const BorderRadius.all(
-                                              const Radius.circular(7)),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF4E93E8),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(7)),
                                         ),
                                         margin: const EdgeInsets.only(top: 7.5),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.31,
-                                              child: const Text(
+                                              child: Text(
                                                 "CODE:",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -775,7 +779,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.07,
-                                              child: const Text(
+                                              child: Text(
                                                 "HGHG7",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -804,20 +808,20 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),
-                                    offset: Offset(0, 0),
+                                    offset: const Offset(0, 0),
                                     blurRadius: 10.0,
                                     spreadRadius: 0.1,
                                   ), //BoxShadow
                                   //BoxShadow
                                 ],
                                 borderRadius: const BorderRadius.all(
-                                    const Radius.circular(11.8)),
+                                    Radius.circular(11.8)),
                               ),
                               margin:
                                   const EdgeInsets.only(right: 0.2, top: 9.6),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: const Color(
+                                    backgroundColor: const Color(
                                         0xFFFFFFFF), //background color of button
                                     //border width and color
 
@@ -860,18 +864,18 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                       Container(
                                         height: 27.4,
                                         width: 132,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF4E93E8),
-                                          borderRadius: const BorderRadius.all(
-                                              const Radius.circular(7)),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF4E93E8),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(7)),
                                         ),
                                         margin: const EdgeInsets.only(top: 7.5),
                                         child: Row(
-                                          children: [
+                                          children: const [
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.36,
-                                              child: const Text(
+                                              child: Text(
                                                 "CODE:",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -883,7 +887,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               widthFactor: 1.07,
-                                              child: const Text(
+                                              child: Text(
                                                 "JHVJ34",
                                                 style: TextStyle(
                                                     fontFamily: "OpenSans",
@@ -913,12 +917,12 @@ class _ThirdRouteState extends State<ThirdRoute> {
         ),
       ]),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF4E93E8),
+        backgroundColor: const Color(0xFF4E93E8),
         iconSize: 28,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xFF222222),
-        unselectedItemColor: Color(0xFFFFFFFF),
+        selectedItemColor: const Color(0xFF222222),
+        unselectedItemColor: const Color(0xFFFFFFFF),
         selectedFontSize: 12,
         onTap: (value) {
           if (value == 0) Navigator.pushNamed(context, '/seventh');
@@ -927,7 +931,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
           if (value == 3) Navigator.pushNamed(context, '/nineth');
           if (value == 4) Navigator.pushNamed(context, '/fourteenth');
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
             label: "Home",

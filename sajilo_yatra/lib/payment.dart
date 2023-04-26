@@ -1,14 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:mailer/mailer.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class Payment extends StatefulWidget {
@@ -614,14 +613,8 @@ class _PaymentState extends State<Payment> {
     });
     try {
       // send email
-      final emailing = await _storage.read(key: 'email');
-      print(emailing);
-      final bookingId = generateBookingId();
-      await sendEmail(
-          name: 'User',
-          email: 'dipeshgurung797@gmail.com',
-          subject: 'Booking Confirmed - $bookingId',
-          message: 'Hello,\n\nYour booking ($bookingId) has been confirmed.');
+
+      sendEmail;
       // show success message and navigate to the next screen
       const logInErrorBar = SnackBar(
         content: Text(
@@ -671,32 +664,22 @@ class _PaymentState extends State<Payment> {
     debugPrint('Cancelled');
   }
 
-  Future sendEmail({
-    required String name,
-    required String email,
-    required String subject,
-    required String message,
-  }) async {
-    var serviceId = 'service_no2kxsi';
-    var templateId = 'template_vwecaoc';
-    var userId = 'SejKimp2yAJwIzA_8';
-    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-    final response = await http.post(url,
-        headers: {
-          'origin': 'http://localhost',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'service_id': serviceId,
-          'template_id': templateId,
-          'user_Id': userId,
-          'template_params': {
-            'user_name': name,
-            'user_email': email,
-            'user_subject': subject,
-            'user_message': message
-          }
-        }));
-    print(response.body);
+  Future<void> sendEmail() async {
+    final emailing = await _storage.read(key: 'email');
+    print(emailing);
+    final bookingId = generateBookingId();
+    try {
+      var message = Message()
+        ..from = const Address('dipeshgurung797@gmail.com')
+        ..recipients.add(emailing!)
+        ..subject = 'Booking Confirmed - $bookingId'
+        ..text = 'Hello,\n\nYour booking ($bookingId) has been confirmed.';
+
+      var smtpServer = gmailSaslXoauth2(emailing, 'megwnxpwjclfbeun');
+      await send(message, smtpServer);
+      print('Email has been sent successfully.');
+    } catch (e) {
+      print('Error sending email: $e');
+    }
   }
 }

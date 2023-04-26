@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class OfferOne extends StatefulWidget {
-  const OfferOne({Key? key}) : super(key: key);
+class OfferTwo extends StatefulWidget {
+  const OfferTwo({Key? key}) : super(key: key);
 
   @override
-  State<OfferOne> createState() => _OfferOneState();
+  State<OfferTwo> createState() => _OfferTwoState();
 }
 
-class _OfferOneState extends State<OfferOne> {
+class _OfferTwoState extends State<OfferTwo> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -76,12 +77,13 @@ class _OfferOneState extends State<OfferOne> {
                       height: UiHelper.displayHeight(context) * 0.218,
                       width: UiHelper.displayWidth(context) * 0.96,
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.all(Radius.circular(0.5)),
+                        color: const Color(0xFFFFFFFF),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(0.5)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.2),
-                            offset: Offset(0, 8),
+                            offset: const Offset(0, 8),
                             blurRadius: 10.0,
                             spreadRadius: 0.0,
                           ), //BoxShadow
@@ -95,7 +97,7 @@ class _OfferOneState extends State<OfferOne> {
                             margin: const EdgeInsets.only(top: 35, left: 23),
                             alignment: Alignment.topLeft,
                             child: Image.asset(
-                              "images/one.png",
+                              "images/two.png",
                               height: UiHelper.displayHeight(context) * 0.12,
                               width: UiHelper.displayWidth(context) * 0.29,
                               fit: BoxFit.fill,
@@ -106,19 +108,19 @@ class _OfferOneState extends State<OfferOne> {
                             child: Column(
                               children: [
                                 Text(
-                                  "SAVE Rs: 100",
+                                  "SAVE Rs: 200",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: "Sen",
                                     fontWeight: FontWeight.w900,
-                                    color: Color(0xFF222222),
+                                    color: const Color(0xFF222222),
                                     fontSize:
                                         UiHelper.displayWidth(context) * 0.077,
                                   ),
                                 ),
                                 UiHelper.verticalSpace(vspace: Spacing.xxsmall),
                                 Text(
-                                  "on First Ticket/Ride",
+                                  "on KTM Tickets",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontFamily: "Roboto",
@@ -132,18 +134,18 @@ class _OfferOneState extends State<OfferOne> {
                                   height:
                                       UiHelper.displayHeight(context) * 0.05,
                                   width: UiHelper.displayWidth(context) * 0.4,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF4E93E8),
-                                    borderRadius: const BorderRadius.all(
-                                        const Radius.circular(5)),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFF4E93E8),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
                                   ),
                                   margin: const EdgeInsets.only(top: 8.5),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    children: [
-                                      const Text(
+                                    children: const [
+                                      Text(
                                         "CODE :",
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
@@ -151,8 +153,8 @@ class _OfferOneState extends State<OfferOne> {
                                             color: Color(0xFFFFFFFF),
                                             fontSize: 17),
                                       ),
-                                      const Text(
-                                        " YGFJY899",
+                                      Text(
+                                        "UIGF78",
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w900,
@@ -172,24 +174,25 @@ class _OfferOneState extends State<OfferOne> {
                       height: UiHelper.displayHeight(context) * 0.06,
                       width: UiHelper.displayWidth(context) * 0.96,
                       decoration: BoxDecoration(
-                        color: Color(0xFFF7F7F7),
-                        borderRadius: BorderRadius.all(Radius.circular(0.5)),
+                        color: const Color(0xFFF7F7F7),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(0.5)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.2),
-                            offset: Offset(0, 8),
+                            offset: const Offset(0, 8),
                             blurRadius: 10.0,
                             spreadRadius: 0.0,
                           ), //BoxShadow
                           //BoxShadow
                         ],
                       ),
-                      child: Text(
-                        "Save Rs: 100 on First Ticket/Ride",
+                      child: const Text(
+                        "Save Rs: 200 on KTM Tickets",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           height: 2.8,
-                          color: Color(0xFF2222222),
+                          color: Color(0xff2222222),
                           fontSize: 19.5,
                           fontFamily: "BalooTammudu2",
                           fontWeight: FontWeight.w500,
@@ -200,12 +203,13 @@ class _OfferOneState extends State<OfferOne> {
                         height: UiHelper.displayHeight(context) * 0.470,
                         width: UiHelper.displayWidth(context) * 0.96,
                         decoration: BoxDecoration(
-                          color: Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.all(Radius.circular(0.5)),
+                          color: const Color(0xFFFFFFFF),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(0.5)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.2),
-                              offset: Offset(0, 8),
+                              offset: const Offset(0, 8),
                               blurRadius: 10.0,
                               spreadRadius: 0.0,
                             ), //BoxShadow
@@ -215,7 +219,7 @@ class _OfferOneState extends State<OfferOne> {
                         child: Expanded(
                             child: ListView(
                           children: [
-                            UiHelper.verticalSpace(vspace: Spacing.large),
+                            Container(height: 2.h),
                             Container(
                               child: Column(children: [
                                 Row(
@@ -225,10 +229,15 @@ class _OfferOneState extends State<OfferOne> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50),
+                                                left: 10,
+                                              ),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.02,
@@ -236,14 +245,15 @@ class _OfferOneState extends State<OfferOne> {
                                                       context) *
                                                   0.039,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF9BC2F2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(80.0)),
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
                                                         .withOpacity(0.2),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 10.0,
                                                     spreadRadius: 0.0,
                                                   ), //BoxShadow
@@ -253,15 +263,18 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 13.5),
+                                                left: 10,
+                                              ),
                                               child: Text(
-                                                'Apply Coupon code YGFJY899 at first \nticket/ride checkout and save Rs.100 on \nYGFJY899 vehicle services',
+                                                'Apply Coupon code UIGF78 on KTM tickets and \nsave Rs.200 on UIGF78 vehicle services',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
+                                                    height: 0.17.h,
                                                     fontFamily: "KumbhSans",
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -270,11 +283,17 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                           ],
                                         ),
+                                        Container(height: 2.h),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50),
+                                                left: 10,
+                                              ),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.02,
@@ -282,14 +301,15 @@ class _OfferOneState extends State<OfferOne> {
                                                       context) *
                                                   0.039,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF9BC2F2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(80.0)),
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
                                                         .withOpacity(0.2),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 10.0,
                                                     spreadRadius: 0.0,
                                                   ), //BoxShadow
@@ -299,15 +319,18 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 30.5),
+                                                left: 10,
+                                              ),
                                               child: Text(
                                                 'New users will get 10% up to Rs.150 discount \n+ 100% up to Rs.70 Promo Sajilo Yatra Cashback',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
+                                                    height: 0.17.h,
                                                     fontFamily: "KumbhSans",
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -316,11 +339,17 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                           ],
                                         ),
+                                        Container(height: 2.h),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50),
+                                                left: 10,
+                                              ),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.02,
@@ -328,14 +357,15 @@ class _OfferOneState extends State<OfferOne> {
                                                       context) *
                                                   0.039,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF9BC2F2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(80.0)),
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
                                                         .withOpacity(0.2),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 10.0,
                                                     spreadRadius: 0.0,
                                                   ), //BoxShadow
@@ -345,15 +375,18 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 32.5),
+                                                left: 10,
+                                              ),
                                               child: Text(
                                                 'Existing customers get 100% up to Rs.100 Promo \nSajilo Yatra Cashback',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
                                                     fontFamily: "KumbhSans",
+                                                    height: 0.17.h,
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -362,11 +395,17 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                           ],
                                         ),
+                                        Container(height: 2.h),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50),
+                                                left: 10,
+                                              ),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.02,
@@ -374,14 +413,15 @@ class _OfferOneState extends State<OfferOne> {
                                                       context) *
                                                   0.039,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF9BC2F2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(80.0)),
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
                                                         .withOpacity(0.2),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 10.0,
                                                     spreadRadius: 0.0,
                                                   ), //BoxShadow
@@ -391,15 +431,18 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 13.5),
+                                                left: 10,
+                                              ),
                                               child: Text(
-                                                'This is a special offer valid for vehicle bookings \nmade on Sajilo Yatra for YGFJY899 vehicle \nbookings only',
+                                                'This is a special offer valid for vehicle bookings \nmade on Sajilo Yatra for UIGF78 vehicle \nbookings only',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
+                                                    height: 0.17.h,
                                                     fontFamily: "KumbhSans",
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -408,11 +451,17 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                           ],
                                         ),
+                                        Container(height: 2.h),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50),
+                                                left: 10,
+                                              ),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.02,
@@ -420,14 +469,15 @@ class _OfferOneState extends State<OfferOne> {
                                                       context) *
                                                   0.039,
                                               decoration: BoxDecoration(
-                                                color: Color(0xFF9BC2F2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(80.0)),
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
                                                         .withOpacity(0.2),
-                                                    offset: Offset(0, 8),
+                                                    offset: const Offset(0, 8),
                                                     blurRadius: 10.0,
                                                     spreadRadius: 0.0,
                                                   ), //BoxShadow
@@ -437,15 +487,130 @@ class _OfferOneState extends State<OfferOne> {
                                             ),
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  left: 10, bottom: 50.5),
+                                                left: 10,
+                                              ),
                                               child: Text(
                                                 'No minimum transaction value applicable',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
+                                                    height: 0.17.h,
                                                     fontFamily: "KumbhSans",
                                                     fontWeight: FontWeight.w400,
-                                                    color: Color(0xFF222222),
+                                                    color:
+                                                        const Color(0xFF222222),
+                                                    fontSize:
+                                                        UiHelper.displayWidth(
+                                                                context) *
+                                                            0.036),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(height: 2.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                left: 10,
+                                              ),
+                                              height: UiHelper.displayHeight(
+                                                      context) *
+                                                  0.02,
+                                              width: UiHelper.displayWidth(
+                                                      context) *
+                                                  0.039,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    offset: const Offset(0, 8),
+                                                    blurRadius: 10.0,
+                                                    spreadRadius: 0.0,
+                                                  ), //BoxShadow
+                                                  //BoxShadow
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                left: 10,
+                                              ),
+                                              child: Text(
+                                                'This offer is valid only once per user, only on \nUIGF78 Vehicle Bookings',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    letterSpacing: 0.3,
+                                                    height: 0.17.h,
+                                                    fontFamily: "KumbhSans",
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                        const Color(0xFF222222),
+                                                    fontSize:
+                                                        UiHelper.displayWidth(
+                                                                context) *
+                                                            0.036),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(height: 2.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                left: 10,
+                                              ),
+                                              height: UiHelper.displayHeight(
+                                                      context) *
+                                                  0.02,
+                                              width: UiHelper.displayWidth(
+                                                      context) *
+                                                  0.039,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF9BC2F2),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(80.0)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    offset: const Offset(0, 8),
+                                                    blurRadius: 10.0,
+                                                    spreadRadius: 0.0,
+                                                  ), //BoxShadow
+                                                  //BoxShadow
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                left: 10,
+                                              ),
+                                              child: Text(
+                                                'This offer cannot be combined with any \nother offer',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    letterSpacing: 0.3,
+                                                    height: 0.17.h,
+                                                    fontFamily: "KumbhSans",
+                                                    fontWeight: FontWeight.w400,
+                                                    color:
+                                                        const Color(0xFF222222),
                                                     fontSize:
                                                         UiHelper.displayWidth(
                                                                 context) *
@@ -474,7 +639,7 @@ class _OfferOneState extends State<OfferOne> {
                             ),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: const Color(
+                                backgroundColor: const Color(
                                     0xFF4E93E8), //background color of button
                                 //border width and color
 
@@ -482,7 +647,7 @@ class _OfferOneState extends State<OfferOne> {
                                     //to set border radius to button
                                     borderRadius: BorderRadius.circular(10)),
                               ),
-                              child: Text(
+                              child: const Text(
                                 "Copy Code",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -498,7 +663,7 @@ class _OfferOneState extends State<OfferOne> {
                                     "YGFJY899"; // replace with the actual code string
                                 Clipboard.setData(ClipboardData(text: code));
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text(
                                       "Code copied to clipboard",
                                       style: TextStyle(
@@ -509,8 +674,7 @@ class _OfferOneState extends State<OfferOne> {
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    duration:
-                                        const Duration(milliseconds: 1400),
+                                    duration: Duration(milliseconds: 1400),
                                     backgroundColor: Color(0xFF0062DE),
                                   ),
                                 );
@@ -522,7 +686,7 @@ class _OfferOneState extends State<OfferOne> {
                             margin: const EdgeInsets.only(top: 15, left: 20),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: const Color(
+                                backgroundColor: const Color(
                                     0xFF4E93E8), //background color of button
                                 //border width and color
 
@@ -530,7 +694,7 @@ class _OfferOneState extends State<OfferOne> {
                                     //to set border radius to button
                                     borderRadius: BorderRadius.circular(10)),
                               ),
-                              child: Text(
+                              child: const Text(
                                 "Book Now",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

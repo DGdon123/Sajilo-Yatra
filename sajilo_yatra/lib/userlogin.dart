@@ -113,6 +113,31 @@ class _FifthScreenState extends State<FifthScreen> {
     }
   }
 
+  Future<void> storeToken(String token) async {
+    final expirationDate = DateTime.now().add(const Duration(days: 30));
+    await storage.write(key: 'token', value: token);
+    await storage.write(
+        key: 'tokenExpiration', value: expirationDate.toIso8601String());
+  }
+
+  Future<String?> retrieveToken() async {
+    final tokenExpirationString = await storage.read(key: 'tokenExpiration');
+    if (tokenExpirationString != null) {
+      final tokenExpiration = DateTime.parse(tokenExpirationString);
+      if (tokenExpiration.isAfter(DateTime.now())) {
+        final token = await storage.read(key: 'token');
+        return token;
+      } else {
+        await storage.delete(key: 'token');
+        await storage.delete(key: 'tokenExpiration');
+        return null;
+      }
+    } else {
+      final token = await storage.read(key: 'token');
+      return token;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
