@@ -2,21 +2,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sendgrid_mailer/sendgrid_mailer.dart';
 
 import 'package:http/http.dart' as http;
+
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
-class OfferOne extends StatefulWidget {
-  const OfferOne({Key? key}) : super(key: key);
+class OfferThree extends StatefulWidget {
+  const OfferThree({Key? key}) : super(key: key);
 
   @override
-  State<OfferOne> createState() => _OfferOneState();
+  State<OfferThree> createState() => _OfferThreeState();
 }
 
-class _OfferOneState extends State<OfferOne> {
+class _OfferThreeState extends State<OfferThree> {
   int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
@@ -30,6 +33,7 @@ class _OfferOneState extends State<OfferOne> {
   var num = 1;
   String? thickness;
   String? price;
+  final _storage = const FlutterSecureStorage();
   var gradeName;
   var productName;
   var thicknessName;
@@ -97,7 +101,7 @@ class _OfferOneState extends State<OfferOne> {
                             margin: const EdgeInsets.only(top: 35, left: 23),
                             alignment: Alignment.topLeft,
                             child: Image.asset(
-                              "images/one.png",
+                              "images/three.png",
                               height: UiHelper.displayHeight(context) * 0.12,
                               width: UiHelper.displayWidth(context) * 0.29,
                               fit: BoxFit.fill,
@@ -108,7 +112,7 @@ class _OfferOneState extends State<OfferOne> {
                             child: Column(
                               children: [
                                 Text(
-                                  "SAVE Rs: 100",
+                                  "SAVE Rs: 900",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: "Sen",
@@ -120,7 +124,7 @@ class _OfferOneState extends State<OfferOne> {
                                 ),
                                 UiHelper.verticalSpace(vspace: Spacing.xxsmall),
                                 Text(
-                                  "on First Ticket/Ride",
+                                  "on Referral",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontFamily: "Roboto",
@@ -154,7 +158,7 @@ class _OfferOneState extends State<OfferOne> {
                                             fontSize: 17),
                                       ),
                                       Text(
-                                        " YGFJY899",
+                                        "HRDTY56",
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w900,
@@ -188,7 +192,7 @@ class _OfferOneState extends State<OfferOne> {
                         ],
                       ),
                       child: const Text(
-                        "Save Rs: 100 on First Ticket/Ride",
+                        "Save Rs: 900 on Referral",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           height: 2.8,
@@ -266,7 +270,7 @@ class _OfferOneState extends State<OfferOne> {
                                                 left: 10,
                                               ),
                                               child: Text(
-                                                'Apply Coupon code UIGF78 on KTM tickets and \nsave Rs.200 on UIGF78 vehicle services',
+                                                'Apply Coupon code HRDTY56 on Referral and \nsave Rs.900 on HRDTY56 vehicle services',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
@@ -546,7 +550,7 @@ class _OfferOneState extends State<OfferOne> {
                                                 left: 10,
                                               ),
                                               child: Text(
-                                                'This offer is valid only once per user, only on \nUIGF78 Vehicle Bookings',
+                                                'This offer is valid only once per user, only on \nHRDTY56 Vehicle Bookings',
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     letterSpacing: 0.3,
@@ -660,7 +664,7 @@ class _OfferOneState extends State<OfferOne> {
                               ),
                               onPressed: () {
                                 String code =
-                                    "YGFJY899"; // replace with the actual code string
+                                    "HRDTY56"; // replace with the actual code string
                                 Clipboard.setData(ClipboardData(text: code));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -706,7 +710,7 @@ class _OfferOneState extends State<OfferOne> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/tenth');
+                                sendEmail();
                               },
                             )),
                       ],
@@ -719,5 +723,26 @@ class _OfferOneState extends State<OfferOne> {
         ],
       ),
     );
+  }
+
+  Future<void> sendEmail() async {
+    final mailer = Mailer(
+        '<<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>>');
+    final emailing = await _storage.read(key: 'email');
+    print(emailing);
+    final toAddress = Address(emailing!);
+    const fromAddress = Address('info@sajiloyatra.com.np');
+    const content = Content('text/plain', 'Hello World!');
+    const subject = 'Booking Confirmed - Your Booking Confirmation Number Here';
+    final personalization = Personalization([toAddress]);
+
+    final email =
+        Email([personalization], fromAddress, subject, content: [content]);
+
+    mailer.send(email).then((result) {
+      print('Message sent: $email');
+    }).catchError((error) {
+      print('Message not sent. Error: ${error.toString()}');
+    });
   }
 }

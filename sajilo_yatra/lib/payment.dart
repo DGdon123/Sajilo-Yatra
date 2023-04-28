@@ -614,7 +614,7 @@ class _PaymentState extends State<Payment> {
     try {
       // send email
 
-      sendEmail;
+      sendEmail();
       // show success message and navigate to the next screen
       const logInErrorBar = SnackBar(
         content: Text(
@@ -665,21 +665,26 @@ class _PaymentState extends State<Payment> {
   }
 
   Future<void> sendEmail() async {
+    String username = 'prakhyat@asbin.com.np';
+    String password = 'Prakhyat1@';
+    final smtpServer = gmail(username, password);
     final emailing = await _storage.read(key: 'email');
     print(emailing);
     final bookingId = generateBookingId();
-    try {
-      var message = Message()
-        ..from = const Address('dipeshgurung797@gmail.com')
-        ..recipients.add(emailing!)
-        ..subject = 'Booking Confirmed - $bookingId'
-        ..text = 'Hello,\n\nYour booking ($bookingId) has been confirmed.';
+    final message = Message()
+      ..from = Address(username, 'Sajilo Yatra')
+      ..recipients.add(emailing)
+      ..subject = 'Booking Confirmed - $bookingId'
+      ..text = 'Hello,\n\nYour booking ($bookingId) has been confirmed.';
 
-      var smtpServer = gmailSaslXoauth2(emailing, 'megwnxpwjclfbeun');
-      await send(message, smtpServer);
-      print('Email has been sent successfully.');
-    } catch (e) {
-      print('Error sending email: $e');
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: $sendReport');
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
     }
   }
 }

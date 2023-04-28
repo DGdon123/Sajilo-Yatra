@@ -2,6 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/help.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%202.dart';
+import 'package:sajilo_yatra/offers/offerone%20copy%203.dart';
+import 'package:sajilo_yatra/offers/offerone%20copy%204.dart';
+import 'package:sajilo_yatra/offers/offerone%20copy%205.dart';
+import 'package:sajilo_yatra/offers/offerone%20copy.dart';
 import 'package:sajilo_yatra/offers/offerone.dart';
 import 'package:sajilo_yatra/outstationgoing.dart';
 import 'package:sajilo_yatra/outstationleaving.dart';
@@ -103,6 +107,42 @@ Future<void> main() async {
                       transitionDuration: const Duration(milliseconds: 600),
                       transition: Transition.fadeIn,
                     ),
+                    GetPage(
+                      name: '/third5',
+                      page: () => const OfferOne(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
+                    GetPage(
+                      name: '/third6',
+                      page: () => const OfferThree(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
+                    GetPage(
+                      name: '/third7',
+                      page: () => const OfferFour(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
+                    GetPage(
+                      name: '/third8',
+                      page: () => const OfferFive(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
+                    GetPage(
+                      name: '/third9',
+                      page: () => const OfferSix(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
+                    GetPage(
+                      name: '/tenth',
+                      page: () => const EighthScreen(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fadeIn,
+                    ),
                   ],
                   routes: {
                     // When navigating to the "/" route, build the FirstScreen widget.
@@ -117,8 +157,6 @@ Future<void> main() async {
                     '/eighth': (context) => const EighthRoute(),
                     '/nineth': (context) => const NinethScreen(),
 
-                    '/tenth': (context) => const EighthScreen(),
-
                     '/eleventh': (context) => const NinethRoute(),
                     '/tweleventh': (context) => const TenthScreen(),
 
@@ -126,7 +164,7 @@ Future<void> main() async {
                           userId: '',
                         ),
                     '/fifteenth': (context) => ForgotPasswordScreen(),
-                    '/sixteenth': (context) => const OfferOne(),
+
                     '/seventeenth': (context) => const Menu(),
                     '/eighteenth': (context) => const Ride(),
                     '/ninetenth': (context) => const FeedbacksScreen(),

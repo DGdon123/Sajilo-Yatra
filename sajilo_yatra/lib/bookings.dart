@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
@@ -26,6 +25,7 @@ class _EighthRouteState extends State<EighthRoute> {
   TextEditingController timeController = TextEditingController();
   TextEditingController timeController2 = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  final _loading = false;
 
   int _selectedIndex = 1;
 
@@ -35,11 +35,25 @@ class _EighthRouteState extends State<EighthRoute> {
     });
   }
 
-  void _deleteItem(int index) async {
-    final docId = _dataList[index]['id'];
-    await db.collection('bookings').doc(docId).delete();
+  void _deleteItem(String documentId) async {
     setState(() {
-      _dataList.removeAt(index);
+      isLoading = true;
+    });
+
+    FirebaseFirestore.instance
+        .collection('bookings')
+        .doc(documentId)
+        .delete()
+        .then((value) {
+      print('Document deleted successfully');
+      setState(() {
+        isLoading = false;
+      });
+    }).catchError((error) {
+      print('Error deleting document: $error');
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -301,6 +315,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                   print(price);
                                   print(facility);
                                   print(seats);
+
                                   return ListTile(
                                     title: Column(
                                       mainAxisAlignment:
@@ -349,7 +364,22 @@ class _EighthRouteState extends State<EighthRoute> {
                                                       255, 255, 0, 0),
                                                 ),
                                                 onTap: () {
-                                                  _deleteItem(index);
+                                                  FirebaseFirestore.instance
+                                                      .collection('bookings')
+                                                      .where('id',
+                                                          isEqualTo: data['id'])
+                                                      .get()
+                                                      .then((QuerySnapshot
+                                                          snapshot) {
+                                                    if (snapshot
+                                                        .docs.isNotEmpty) {
+                                                      _deleteItem(
+                                                          snapshot.docs[0].id);
+                                                    }
+                                                  }).catchError((error) {
+                                                    print(
+                                                        'Error fetching document: $error');
+                                                  });
                                                 }),
                                           ],
                                         ),
@@ -664,7 +694,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                             fontSize: 16),
                                       ),
                                       onPressed: () {
-                                        Navigator.pushNamed(context, '/line7');
+                                        Navigator.pushNamed(context, '/tenth');
                                       },
                                     ),
                                   ),

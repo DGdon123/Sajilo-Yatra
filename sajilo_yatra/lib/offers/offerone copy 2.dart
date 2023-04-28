@@ -154,7 +154,7 @@ class _OfferTwoState extends State<OfferTwo> {
                                             fontSize: 17),
                                       ),
                                       Text(
-                                        "UIGF78",
+                                        " UIGF78",
                                         style: TextStyle(
                                             fontFamily: "OpenSans",
                                             fontWeight: FontWeight.w900,
@@ -660,7 +660,7 @@ class _OfferTwoState extends State<OfferTwo> {
                               ),
                               onPressed: () {
                                 String code =
-                                    "YGFJY899"; // replace with the actual code string
+                                    "UIGF78"; // replace with the actual code string
                                 Clipboard.setData(ClipboardData(text: code));
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

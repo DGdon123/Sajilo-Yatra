@@ -350,7 +350,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/sixteenth');
+                                  Navigator.pushNamed(context, '/third5');
                                 }),
                           ),
                         ),
@@ -571,7 +571,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/sixteenth');
+                                    Navigator.pushNamed(context, '/third6');
                                   }),
                             ),
                           ),
@@ -679,7 +679,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/sixteenth');
+                                    Navigator.pushNamed(context, '/third7');
                                   }),
                             ),
                           ),
@@ -794,7 +794,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/sixteenth');
+                                    Navigator.pushNamed(context, '/third8');
                                   }),
                             ),
                           ),
@@ -902,7 +902,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/sixteenth');
+                                    Navigator.pushNamed(context, '/third9');
                                   }),
                             ),
                           ),
