@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sajilo_yatra/help.dart';
+import 'package:sajilo_yatra/home.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%202.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%203.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%204.dart';
@@ -33,7 +35,6 @@ import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'package:sajilo_yatra/vehicletickets.dart';
 import 'package:sajilo_yatra/vhelp.dart';
-import 'bookings.dart';
 import 'city.dart';
 import 'editprofile.dart';
 import 'feedbacks.dart';
@@ -67,6 +68,7 @@ Future<void> main() async {
       builder: (context, navKey) {
         return Theme(
             data: ThemeData(
+              fontFamily: GoogleFonts.lato().fontFamily,
               useMaterial3: true,
             ),
             child: ResponsiveSizer(
@@ -105,43 +107,63 @@ Future<void> main() async {
                       name: '/third4',
                       page: () => const OfferTwo(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third5',
                       page: () => const OfferOne(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third6',
                       page: () => const OfferThree(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third7',
                       page: () => const OfferFour(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third8',
                       page: () => const OfferFive(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third9',
                       page: () => const OfferSix(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/tenth',
                       page: () => const EighthScreen(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
+                    ),
+                    GetPage(
+                      name: '/seventh',
+                      page: () => const ThirdRoute(
+                        userId: '',
+                      ),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.fade,
+                    ),
+                    GetPage(
+                      name: '/hun1',
+                      page: () => const Home(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.cupertino,
+                    ),
+                    GetPage(
+                      name: '/eighth',
+                      page: () => const Home(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.cupertino,
                     ),
                   ],
                   routes: {
@@ -151,10 +173,7 @@ Future<void> main() async {
                     '/fourth': (context) => const FifthRoute(),
                     '/fifth': (context) => const SixthScreen(),
                     '/sixth': (context) => const SixthRoute(),
-                    '/seventh': (context) => const ThirdRoute(
-                          userId: '',
-                        ),
-                    '/eighth': (context) => const EighthRoute(),
+
                     '/nineth': (context) => const NinethScreen(),
 
                     '/eleventh': (context) => const NinethRoute(),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:math';
 import 'package:mailer/mailer.dart';
-
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
+import 'controllers/bottom_nav_controller.dart';
+import 'controllers/esewa_controller.dart';
 
 class Payment extends StatefulWidget {
   final String? going;
@@ -38,6 +40,8 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   final _storage = const FlutterSecureStorage();
+  BottomNavController bottomNavController = Get.find<BottomNavController>();
+  EsewaPaymentSuccessResult? eSuccess;
   final db = FirebaseFirestore.instance;
   String referenceId = "";
   final _auth = FirebaseAuth.instance;
@@ -538,7 +542,75 @@ class _PaymentState extends State<Payment> {
                                     'vehicle': vehiclename,
                                     'seats': _seatController.text,
                                   });
-                                  payWithKhaltiInApp();
+                                  print(sprice);
+                                  int originalAmount =
+                                      int.parse(_seatController.text) *
+                                          int.parse(sprice!) *
+                                          10;
+                                  print(originalAmount);
+
+                                  int discountAmount = discountPrices[
+                                          _discountController.text] ??
+                                      0;
+                                  int price = originalAmount - discountAmount;
+
+                                  try {
+                                    // send email
+
+                                    final controller = EsewaController();
+                                    controller.esewaPay(price);
+                                    db.collection('bookings').add({
+                                      'arrival': dobController2.text,
+                                      'departure': dobController.text,
+                                      'date': date,
+                                      'arrive': arrive,
+                                      'depart': depart,
+                                      'seats': _seatController.text,
+                                      'price': price,
+                                      'vehicle_facility': vehiclefacility,
+                                      'vehicle_name': vehiclename
+                                    });
+                                    // show success message and navigate to the next screen
+                                    const logInErrorBar = SnackBar(
+                                      content: Text(
+                                        "Payment Successful. Booking confirmed!",
+                                        style: TextStyle(
+                                          color: Color(0xFFFFFFFF),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      duration: Duration(milliseconds: 1400),
+                                      backgroundColor: Color(0xFF85bb65),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(logInErrorBar);
+                                    bottomNavController.goToEighthRoute();
+
+                                    sendEmail();
+                                  } catch (e) {
+                                    print('Error sending email: $e');
+                                    // show error message if email couldn't be sent
+                                    const logInErrorBar = SnackBar(
+                                      content: Text(
+                                        "Error: Booking confirmed but email could not be sent.",
+                                        style: TextStyle(
+                                          color: Color(0xFFFFFFFF),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Nunito',
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      duration: Duration(milliseconds: 1400),
+                                      backgroundColor: Colors.red,
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(logInErrorBar);
+                                    Navigator.pushNamed(context, '/eighth');
+                                  } // replace 100 with the actual price you want to charge
                                 } else {
                                   const logInErrorBar = SnackBar(
                                     content: Text(
@@ -568,100 +640,6 @@ class _PaymentState extends State<Payment> {
               ),
             ),
     );
-  }
-
-  payWithKhaltiInApp() async {
-    print(sprice);
-    int originalAmount = int.parse(_seatController.text) * int.parse(sprice!);
-    print(originalAmount);
-
-    int discountAmount = discountPrices[_discountController.text] ?? 0;
-    int discountedAmount = originalAmount - discountAmount;
-
-    KhaltiScope.of(context).pay(
-      config: PaymentConfig(
-        amount: 1000,
-        productIdentity: 'Product Id',
-        productName: 'Product Name',
-        mobileReadOnly: false,
-      ),
-      preferences: [
-        PaymentPreference.khalti,
-      ],
-      onSuccess: (PaymentSuccessModel success) {
-        // pass discountedAmount as a parameter to onSuccess function
-        onSuccess(success, discountedAmount);
-      },
-      onFailure: onFailure,
-      onCancel: onCancel,
-    );
-  }
-
-  Future<void> onSuccess(
-      PaymentSuccessModel success, int discountedAmount) async {
-    // add booking data to the 'bookings' collection
-    db.collection('bookings').add({
-      'arrival': dobController2.text,
-      'departure': dobController.text,
-      'date': date,
-      'arrive': arrive,
-      'depart': depart,
-      'seats': _seatController.text,
-      'price': discountedAmount / 100,
-      'vehicle_facility': vehiclefacility,
-      'vehicle_name': vehiclename
-    });
-    try {
-      // send email
-
-      sendEmail();
-      // show success message and navigate to the next screen
-      const logInErrorBar = SnackBar(
-        content: Text(
-          "Payment Successful. Booking confirmed!",
-          style: TextStyle(
-            color: Color(0xFFFFFFFF),
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Nunito',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        duration: Duration(milliseconds: 1400),
-        backgroundColor: Color(0xFF85bb65),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
-      Navigator.pushNamed(context, '/eighth');
-    } catch (e) {
-      print('Error sending email: $e');
-      // show error message if email couldn't be sent
-      const logInErrorBar = SnackBar(
-        content: Text(
-          "Error: Booking confirmed but email could not be sent.",
-          style: TextStyle(
-            color: Color(0xFFFFFFFF),
-            fontSize: 17,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Nunito',
-          ),
-          textAlign: TextAlign.center,
-        ),
-        duration: Duration(milliseconds: 1400),
-        backgroundColor: Colors.red,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(logInErrorBar);
-      Navigator.pushNamed(context, '/eighth');
-    }
-  }
-
-  void onFailure(PaymentFailureModel failure) {
-    debugPrint(
-      failure.toString(),
-    );
-  }
-
-  void onCancel() {
-    debugPrint('Cancelled');
   }
 
   Future<void> sendEmail() async {

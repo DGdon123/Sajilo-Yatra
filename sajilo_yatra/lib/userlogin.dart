@@ -94,8 +94,10 @@ class _FifthScreenState extends State<FifthScreen> {
       await storage.write(key: 'age', value: age.toString());
       await storage.write(key: 'dob', value: dob);
       await storage.write(key: 'password', value: password);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
 
-      Navigator.pushNamed(context, '/seventh', arguments: fullName);
+      Get.toNamed('/hun1');
     } else {
       Get.snackbar(
         "Error",

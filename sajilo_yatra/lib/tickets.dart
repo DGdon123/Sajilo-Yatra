@@ -2,6 +2,7 @@
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sajilo_yatra/search.dart';
 
@@ -59,12 +60,12 @@ class _EighthScreenState extends State<EighthScreen> {
                 size: 25,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/seventh');
+                Get.back();
               },
             );
           },
         ),
-        backgroundColor: Color(0xFF0062DE),
+        backgroundColor: const Color(0xFF0062DE),
         title: const Text('Tickets',
             style: TextStyle(
               color: Color(0xFFFFFFFF),
@@ -105,12 +106,12 @@ class _EighthScreenState extends State<EighthScreen> {
                 width: 305,
                 margin: const EdgeInsets.only(top: 14),
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                  color: const Color(0xFFFFFFFF),
                   borderRadius: const BorderRadius.all(Radius.circular(14)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.2),
-                      offset: Offset(0, 0),
+                      offset: const Offset(0, 0),
                       blurRadius: 10.0,
                       spreadRadius: 5.0,
                     ), //BoxShadow
@@ -129,7 +130,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         cursorColor: Colors.black,
                         decoration: const InputDecoration(
                           filled: true,
-                          fillColor: const Color(0xFFFFFFFF),
+                          fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
                             Icons.near_me_rounded,
                             color: Color(0xFF222222),
@@ -187,7 +188,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: const InputDecoration(
                           filled: true,
-                          fillColor: const Color(0xFFFFFFFF),
+                          fillColor: Color(0xFFFFFFFF),
                           prefixIcon: Icon(
                             Icons.location_on_rounded,
                             color: Color(0xFF222222),
@@ -240,7 +241,7 @@ class _EighthScreenState extends State<EighthScreen> {
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFFFFF),
                         border: Border.all(
-                            color: Color.fromARGB(255, 242, 243, 245),
+                            color: const Color.fromARGB(255, 242, 243, 245),
                             width: 3,
                             style: BorderStyle.solid),
                         borderRadius: const BorderRadius.all(
@@ -249,9 +250,9 @@ class _EighthScreenState extends State<EighthScreen> {
                       ),
                       child: DropdownButton2(
                         dropdownMaxHeight: 150,
-                        itemSplashColor: Color(0xFF9BC2F2),
+                        itemSplashColor: const Color(0xFF9BC2F2),
                         itemPadding: const EdgeInsets.only(left: 16),
-                        itemHighlightColor: Color(0xFF9BC2F2),
+                        itemHighlightColor: const Color(0xFF9BC2F2),
                         isExpanded: true,
                         iconSize: 42,
                         buttonPadding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -290,7 +291,7 @@ class _EighthScreenState extends State<EighthScreen> {
                             controller: dobController,
                             decoration: const InputDecoration(
                               filled: true,
-                              fillColor: const Color(0xFFFFFFFF),
+                              fillColor: Color(0xFFFFFFFF),
                               suffixIcon: Icon(
                                 Icons.calendar_month_rounded,
                                 size: 28,
@@ -361,7 +362,7 @@ class _EighthScreenState extends State<EighthScreen> {
                             controller: dobController2,
                             decoration: const InputDecoration(
                               filled: true,
-                              fillColor: const Color(0xFFFFFFFF),
+                              fillColor: Color(0xFFFFFFFF),
                               suffixIcon: Icon(
                                 Icons.calendar_month_rounded,
                                 size: 28,
@@ -429,12 +430,12 @@ class _EighthScreenState extends State<EighthScreen> {
               Align(
                 heightFactor: 0.75,
                 alignment: Alignment.bottomCenter,
-                child: Container(
+                child: SizedBox(
                   height: 40.4,
                   width: 120,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF222222),
+                      backgroundColor: Color(0xFF222222),
 
                       shape: RoundedRectangleBorder(
                           //to set border radius to button
@@ -468,7 +469,7 @@ class _EighthScreenState extends State<EighthScreen> {
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text(
                               "Please fill out all the fields",
                               style: TextStyle(
@@ -479,7 +480,7 @@ class _EighthScreenState extends State<EighthScreen> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            duration: const Duration(milliseconds: 1200),
+                            duration: Duration(milliseconds: 1200),
                             backgroundColor: Colors.blue,
                           ),
                         );

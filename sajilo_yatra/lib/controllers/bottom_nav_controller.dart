@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sajilo_yatra/vehiclemenu.dart';
 
-import '../vehcileprofile.dart';
-import '../vehicleownerhome.dart';
-import '../vehicletickets.dart';
-import '../vhelp.dart';
+import '../bookings.dart';
+import '../help.dart';
+import '../menu.dart';
+import '../profile.dart';
+import '../userhome.dart';
 
 class BottomNavController extends GetxController {
   int selectedIndex = 0;
   Offset offset = const Offset(1, 0);
   final List<Widget> screens = [
-    const VehicleHome(
+    const ThirdRoute(
       userId: '',
-      going: '',
-      leaving: '',
     ),
-    const VehicleTickets(),
-    const VMenu(),
-    const VHelp(),
-    const Profile(
+    const EighthRoute(),
+    const Menu(),
+    const NinethScreen(),
+    const FourthRoute(
       userId: '',
     ),
   ];
+
+  void goToEighthRoute() {
+    selectedIndex = 1;
+    screens[1] = const EighthRoute();
+    update();
+  }
 
   changeIndex(index) {
     if (index > selectedIndex) {

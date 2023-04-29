@@ -241,6 +241,7 @@ class _ThirdRouteState extends State<ThirdRoute> {
           height: UiHelper.displayHeight(context) * 0.47,
           child: Expanded(
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: SizedBox(
                 width: 400,
                 child: Column(
@@ -916,44 +917,6 @@ class _ThirdRouteState extends State<ThirdRoute> {
           ),
         ),
       ]),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF4E93E8),
-        iconSize: 28,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF222222),
-        unselectedItemColor: const Color(0xFFFFFFFF),
-        selectedFontSize: 12,
-        onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/seventh');
-          if (value == 1) Navigator.pushNamed(context, '/eighth');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
-          if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) Navigator.pushNamed(context, '/fourteenth');
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "Bookings",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: "Menu",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: "Help",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
-      ),
     );
   }
 }

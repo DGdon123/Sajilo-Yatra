@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -49,6 +50,7 @@ class _UsersScreenState extends State<UsersScreen> {
   String aging = "";
 
   String dobing = "";
+  int _currentIndex = 1;
 
   String vehiclefacility = "";
   String arrival1 = "";
@@ -161,6 +163,7 @@ class _UsersScreenState extends State<UsersScreen> {
                 final date = data['date'];
                 final seats = data['seats'];
                 final vehicle = data['vehicle'];
+                final circleIndex = _currentIndex++;
                 return ListTile(
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -171,20 +174,15 @@ class _UsersScreenState extends State<UsersScreen> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            width: UiHelper.displayWidth(context) * 0.15,
-                            height: UiHelper.displayHeight(context) * 0.08,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    "images/hello.jpg",
-                                  ),
-                                  fit: BoxFit.fill),
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(80)),
-                            ),
-                          ),
+                          CircleAvatar(
+                              radius: 6.w,
+                              backgroundColor:
+                                  const Color(0xFF0062DE).withOpacity(0.7),
+                              child: Text(
+                                '${index + 1}',
+                                style:
+                                    const TextStyle(color: Color(0xFFFFFFFF)),
+                              )),
                           SizedBox(
                             width: UiHelper.displayWidth(context) * 0.05,
                           ),

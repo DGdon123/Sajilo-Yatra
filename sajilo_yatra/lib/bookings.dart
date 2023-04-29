@@ -2,8 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'pdf.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
@@ -180,24 +184,108 @@ class _EighthRouteState extends State<EighthRoute> {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF0062DE),
-        centerTitle: true,
-        title: const Text('Bookings',
-            style: TextStyle(
-              color: Color(0xFFFFFFFF),
-              fontFamily: 'ComicNeue',
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            )),
-        elevation: 0,
-      ),
-      body: Center(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xFF0062DE),
+          centerTitle: true,
+          title: const Text('Bookings',
+              style: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontFamily: 'ComicNeue',
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              )),
+          elevation: 0,
+        ),
+        body: Center(
           child: isLoading
-              ? const CircularProgressIndicator(
-                  color: Color(0xFF0062DE),
-                )
+              ? FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 3)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          size: UiHelper.displayWidth(context) * 0.08,
+                          color: const Color(0xFF0062DE),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      heightFactor: 0.6,
+                                      child: Container(
+                                        width: 395,
+                                        height: 70,
+                                        color: const Color(0xFFFFFFFF),
+                                        child: const Text(
+                                          "You have no bookings yet.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Color(0xFF0062DE),
+                                              fontSize: 19.5,
+                                              fontFamily: "Cambay",
+                                              fontWeight: FontWeight.w900,
+                                              height: 3.85),
+                                        ),
+                                      ),
+                                    ),
+                                    const Align(
+                                      alignment: Alignment.bottomCenter,
+                                      heightFactor: 1.8,
+                                      widthFactor: 4.4,
+                                      child: Icon(
+                                        Icons.event_busy_rounded,
+                                        size: 170,
+                                        color: Color(0xFF222222),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 34.4,
+                                      width: 140,
+                                      margin:
+                                          const EdgeInsets.only(bottom: 185),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF222222),
+
+                                          shape: RoundedRectangleBorder(
+                                              //to set border radius to button
+                                              borderRadius: BorderRadius.circular(
+                                                  12)), //background color of button
+                                        ),
+                                        child: const Text(
+                                          "Book Now",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              height: 1.2,
+                                              fontFamily: "Roboto",
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFFFFFFFF),
+                                              fontSize: 16),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, '/tenth');
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  })
               : (_dataList.isNotEmpty) // check if ring list is empty
 // check if ring list is empty
                   ? Column(children: [
@@ -323,14 +411,16 @@ class _EighthRouteState extends State<EighthRoute> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        UiHelper.verticalSpace(
-                                            vspace: Spacing.small),
+                                        SizedBox(height: 1.8.h),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                              CrossAxisAlignment.start,
                                           children: [
+                                            SizedBox(
+                                              width: 1.19.w,
+                                            ),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 bottom: 8,
@@ -349,38 +439,6 @@ class _EighthRouteState extends State<EighthRoute> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: UiHelper.displayWidth(
-                                                      context) *
-                                                  0.34,
-                                            ),
-                                            GestureDetector(
-                                                child: Icon(
-                                                  Icons.delete_rounded,
-                                                  size: UiHelper.displayWidth(
-                                                          context) *
-                                                      0.07,
-                                                  color: const Color.fromARGB(
-                                                      255, 255, 0, 0),
-                                                ),
-                                                onTap: () {
-                                                  FirebaseFirestore.instance
-                                                      .collection('bookings')
-                                                      .where('id',
-                                                          isEqualTo: data['id'])
-                                                      .get()
-                                                      .then((QuerySnapshot
-                                                          snapshot) {
-                                                    if (snapshot
-                                                        .docs.isNotEmpty) {
-                                                      _deleteItem(
-                                                          snapshot.docs[0].id);
-                                                    }
-                                                  }).catchError((error) {
-                                                    print(
-                                                        'Error fetching document: $error');
-                                                  });
-                                                }),
                                           ],
                                         ),
                                         Container(
@@ -543,7 +601,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  top: 15, left: 5),
+                                                  top: 15),
                                               height: UiHelper.displayHeight(
                                                       context) *
                                                   0.045,
@@ -586,28 +644,99 @@ class _EighthRouteState extends State<EighthRoute> {
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: UiHelper.displayWidth(
-                                                      context) *
-                                                  0.474,
-                                            ),
+                                            SizedBox(width: 51.w),
                                             Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 15),
-                                              child: Text(
-                                                "Rs: ${price.toString()}",
-                                                style: TextStyle(
-                                                  fontFamily: "PublicSans",
-                                                  fontWeight: FontWeight.w600,
-                                                  color:
-                                                      const Color(0xFF222222),
-                                                  fontSize:
-                                                      UiHelper.displayWidth(
-                                                              context) *
-                                                          0.043,
-                                                ),
+                                                child: Text(
+                                              "Rs: ${price.toString()}",
+                                              style: TextStyle(
+                                                fontFamily: "PublicSans",
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xFF222222),
+                                                fontSize: UiHelper.displayWidth(
+                                                        context) *
+                                                    0.043,
                                               ),
+                                            )),
+                                          ],
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            SizedBox(
+                                              height: 5.h,
+                                              width: 25.w,
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: const Color(
+                                                        0xFF0062DE), //background color of button
+                                                    //border width and color
+
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            //to set border radius to button
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3)),
+                                                  ),
+                                                  child: Text("PDF",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.ptSans()),
+                                                  onPressed: () {
+                                                    generatePdfFile();
+                                                  }),
                                             ),
+                                            SizedBox(width: 4.w),
+                                            SizedBox(
+                                                height: 5.h,
+                                                width: 25.w,
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.red,
+                                                    //background color of button
+                                                    //border width and color
+
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            //to set border radius to button
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3)),
+                                                  ),
+                                                  child: Text("Delete",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.ptSans()),
+                                                  onPressed: () {
+                                                    FirebaseFirestore.instance
+                                                        .collection('bookings')
+                                                        .where('id',
+                                                            isEqualTo:
+                                                                data['id'])
+                                                        .get()
+                                                        .then((QuerySnapshot
+                                                            snapshot) {
+                                                      if (snapshot
+                                                          .docs.isNotEmpty) {
+                                                        _deleteItem(snapshot
+                                                            .docs[0].id);
+                                                      }
+                                                    }).catchError((error) {
+                                                      print(
+                                                          'Error fetching document: $error');
+                                                    });
+                                                  },
+                                                )),
                                           ],
                                         ),
                                         Container(
@@ -633,116 +762,11 @@ class _EighthRouteState extends State<EighthRoute> {
                             ))
                       ]))))
                     ])
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    heightFactor: 0.6,
-                                    child: Container(
-                                      width: 395,
-                                      height: 70,
-                                      color: const Color(0xFFFFFFFF),
-                                      child: const Text(
-                                        "You have no bookings yet.",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color(0xFF0062DE),
-                                            fontSize: 19.5,
-                                            fontFamily: "Cambay",
-                                            fontWeight: FontWeight.w900,
-                                            height: 3.85),
-                                      ),
-                                    ),
-                                  ),
-                                  const Align(
-                                    alignment: Alignment.bottomCenter,
-                                    heightFactor: 1.8,
-                                    widthFactor: 4.4,
-                                    child: Icon(
-                                      Icons.event_busy_rounded,
-                                      size: 170,
-                                      color: Color(0xFF222222),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 34.4,
-                                    width: 140,
-                                    margin: const EdgeInsets.only(bottom: 185),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF222222),
-
-                                        shape: RoundedRectangleBorder(
-                                            //to set border radius to button
-                                            borderRadius: BorderRadius.circular(
-                                                12)), //background color of button
-                                      ),
-                                      child: const Text(
-                                        "Book Now",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            height: 1.2,
-                                            fontFamily: "Roboto",
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 16),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, '/tenth');
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  : Container(
+                      child: LoadingAnimationWidget.hexagonDots(
+                      size: UiHelper.displayWidth(context) * 0.08,
+                      color: const Color(0xFF0062DE),
                     )),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF4E93E8),
-        iconSize: 28,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFF222222),
-        unselectedItemColor: const Color(0xFFFFFFFF),
-        selectedFontSize: 12,
-        onTap: (value) {
-          if (value == 0) Navigator.pushNamed(context, '/seventh');
-          if (value == 1) Navigator.pushNamed(context, '/eighth');
-          if (value == 2) Navigator.pushNamed(context, '/seventeenth');
-          if (value == 3) Navigator.pushNamed(context, '/nineth');
-          if (value == 4) Navigator.pushNamed(context, '/fourteenth');
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "Bookings",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: "Menu",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.help),
-            label: "Help",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

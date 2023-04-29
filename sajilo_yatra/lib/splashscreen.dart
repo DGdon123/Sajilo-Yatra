@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFF4E93E8),
+      color: const Color(0xFF4E93E8),
       alignment: Alignment.center,
       child: Align(
         heightFactor: 0.9,

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'controllers/bottom_nav_controller.dart';
+import 'controllers/vcontroller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BottomNavController());
-    return GetBuilder<BottomNavController>(builder: (context) {
+    Get.put(NavController());
+    return GetBuilder<NavController>(builder: (context) {
       return Scaffold(
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
