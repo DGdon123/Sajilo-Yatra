@@ -1,25 +1,114 @@
-import 'dart:io';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+// ignore_for_file: unnecessary_new
 
-Future<void> generatePdfFile() async {
-  // Create a new PDF document
-  final pdf = pw.Document();
+import 'dart:async';
 
-  // Add a page to the document
-  pdf.addPage(
-    pw.Page(
-      build: (context) => pw.Center(
-        child: pw.Text(
-          "Hello, world!",
-          style: const pw.TextStyle(fontSize: 24),
-        ),
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'dart:convert';
+
+class PDFScreen extends StatefulWidget {
+  final String? path;
+
+  const PDFScreen({Key? key, this.path}) : super(key: key);
+
+  @override
+  _PDFScreenState createState() => _PDFScreenState();
+}
+
+class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
+  final Completer<PDFViewController> _controller =
+      Completer<PDFViewController>();
+  int? pages = 0;
+  int? currentPage = 0;
+  bool isReady = false;
+  String errorMessage = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Document"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {},
+          ),
+        ],
       ),
-    ),
-  );
+      body: Stack(
+        children: <Widget>[
+          PDFView(
+            filePath: widget.path,
+            enableSwipe: true,
+            swipeHorizontal: true,
+            autoSpacing: false,
+            pageFling: true,
+            pageSnap: true,
+            defaultPage: currentPage!,
+            fitPolicy: FitPolicy.BOTH,
+            preventLinkNavigation:
+                false, // if set to true the link is handled in flutter
+            onRender: (pages) {
+              setState(() {
+                pages = pages;
+                isReady = true;
+              });
+            },
+            onError: (error) {
+              setState(() {
+                errorMessage = error.toString();
+              });
+              print(error.toString());
+            },
+            onPageError: (page, error) {
+              setState(() {
+                errorMessage = '$page: ${error.toString()}';
+              });
+              print('$page: ${error.toString()}');
+            },
+            onViewCreated: (PDFViewController pdfViewController) {
+              _controller.complete(pdfViewController);
+            },
+            onLinkHandler: (String? uri) {
+              print('goto uri: $uri');
+            },
+            onPageChanged: (int? page, int? total) {
+              print('page change: $page/$total');
+              setState(() {
+                currentPage = page;
+              });
+            },
+          ),
+          errorMessage.isEmpty
+              ? !isReady
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Container()
+              : Center(
+                  child: Text(errorMessage),
+                )
+        ],
+      ),
+      floatingActionButton: FutureBuilder<PDFViewController>(
+        future: _controller.future,
+        builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
+          if (snapshot.hasData) {
+            return FloatingActionButton.extended(
+              label: Text("Go to ${pages! ~/ 2}"),
+              onPressed: () async {
+                await snapshot.data!.setPage(pages! ~/ 2);
+              },
+            );
+          }
 
-  // Save the document to a file
-  final bytes = await pdf.save();
-  final file = File('example.pdf');
-  await file.writeAsBytes(bytes);
+          return Container();
+        },
+      ),
+    );
+  }
 }

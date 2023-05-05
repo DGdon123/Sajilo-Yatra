@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sendgrid_mailer/sendgrid_mailer.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -11,6 +10,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
+
+import '../service/mail_service.dart';
 
 class OfferThree extends StatefulWidget {
   const OfferThree({Key? key}) : super(key: key);
@@ -710,7 +711,7 @@ class _OfferThreeState extends State<OfferThree> {
                                 ),
                               ),
                               onPressed: () {
-                                sendEmail();
+                                sendMail();
                               },
                             )),
                       ],
@@ -723,26 +724,5 @@ class _OfferThreeState extends State<OfferThree> {
         ],
       ),
     );
-  }
-
-  Future<void> sendEmail() async {
-    final mailer = Mailer(
-        '<<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>>');
-    final emailing = await _storage.read(key: 'email');
-    print(emailing);
-    final toAddress = Address(emailing!);
-    const fromAddress = Address('info@sajiloyatra.com.np');
-    const content = Content('text/plain', 'Hello World!');
-    const subject = 'Booking Confirmed - Your Booking Confirmation Number Here';
-    final personalization = Personalization([toAddress]);
-
-    final email =
-        Email([personalization], fromAddress, subject, content: [content]);
-
-    mailer.send(email).then((result) {
-      print('Message sent: $email');
-    }).catchError((error) {
-      print('Message not sent. Error: ${error.toString()}');
-    });
   }
 }

@@ -72,6 +72,7 @@ class _EighthRouteState extends State<EighthRoute> {
   late Stream<QuerySnapshot> fireStores;
 
   String username = "";
+  String pathPDF = "";
   DateTime? dob2;
   String vehiclename = "";
   String locat = "";
@@ -690,7 +691,17 @@ class _EighthRouteState extends State<EighthRoute> {
                                                       style:
                                                           GoogleFonts.ptSans()),
                                                   onPressed: () {
-                                                    generatePdfFile();
+                                                    if (pathPDF.isNotEmpty) {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PDFScreen(
+                                                                  path:
+                                                                      pathPDF),
+                                                        ),
+                                                      );
+                                                    }
                                                   }),
                                             ),
                                             SizedBox(width: 4.w),

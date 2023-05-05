@@ -58,6 +58,7 @@ Future<void> main() async {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController textEditingController1 = TextEditingController();
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
@@ -101,49 +102,49 @@ Future<void> main() async {
                       name: '/third2',
                       page: () => const HomePage(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fadeIn,
+                      transition: Transition.fade,
                     ),
                     GetPage(
                       name: '/third4',
                       page: () => const OfferTwo(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/third5',
                       page: () => const OfferOne(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/third6',
                       page: () => const OfferThree(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/third7',
                       page: () => const OfferFour(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/third8',
                       page: () => const OfferFive(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/third9',
                       page: () => const OfferSix(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/tenth',
                       page: () => const EighthScreen(),
                       transitionDuration: const Duration(milliseconds: 600),
-                      transition: Transition.fade,
+                      transition: Transition.cupertino,
                     ),
                     GetPage(
                       name: '/seventh',

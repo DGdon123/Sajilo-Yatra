@@ -41,6 +41,8 @@ class Payment extends StatefulWidget {
 class _PaymentState extends State<Payment> {
   final _storage = const FlutterSecureStorage();
   BottomNavController bottomNavController = Get.find<BottomNavController>();
+  BottomNavController bottomController = Get.put(BottomNavController());
+
   EsewaPaymentSuccessResult? eSuccess;
   final db = FirebaseFirestore.instance;
   String referenceId = "";
@@ -498,104 +500,125 @@ class _PaymentState extends State<Payment> {
                           child: SizedBox(
                             height: UiHelper.displayHeight(context) * 0.069,
                             width: UiHelper.displayWidth(context) * 0.1,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0xFF0062DE), //background color of button
-                                //border width and color
+                            child: GetBuilder<BottomNavController>(
+                                builder: (data) {
+                              return ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(
+                                      0xFF0062DE), //background color of button
+                                  //border width and color
 
-                                shape: RoundedRectangleBorder(
-                                    //to set border radius to button
-                                    borderRadius: BorderRadius.circular(3)),
-                              ),
-                              child: Text(
-                                "Buy Now",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  height:
-                                      UiHelper.displayHeight(context) * 0.001,
-                                  fontFamily: "ZenKakuGothicAntique",
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.048,
+                                  shape: RoundedRectangleBorder(
+                                      //to set border radius to button
+                                      borderRadius: BorderRadius.circular(3)),
                                 ),
-                              ),
-                              onPressed: () {
-                                if (_seatController.text.isNotEmpty &&
-                                        _nameController.text.isNotEmpty &&
-                                        _emailController.text.isNotEmpty &&
-                                        _phoneController.text.isNotEmpty &&
-                                        _discountController.text.isEmpty ||
-                                    _discountController.text == "YGFJY899" ||
-                                    _discountController.text == "UIGF78" ||
-                                    _discountController.text == "HRDTY56" ||
-                                    _discountController.text == "AKI745" ||
-                                    _discountController.text == "HGHG7" ||
-                                    _discountController.text == "JHVJ34") {
-                                  db.collection('user_checkout').add({
-                                    'discount': _discountController.text,
-                                    'email': _emailController.text,
-                                    'full_name': _nameController.text,
-                                    'phone': _phoneController.text,
-                                    'vehicle': vehiclename,
-                                    'seats': _seatController.text,
-                                  });
-                                  print(sprice);
-                                  int originalAmount =
-                                      int.parse(_seatController.text) *
-                                          int.parse(sprice!) *
-                                          10;
-                                  print(originalAmount);
-
-                                  int discountAmount = discountPrices[
-                                          _discountController.text] ??
-                                      0;
-                                  int price = originalAmount - discountAmount;
-
-                                  try {
-                                    // send email
-
-                                    final controller = EsewaController();
-                                    controller.esewaPay(price);
-                                    db.collection('bookings').add({
-                                      'arrival': dobController2.text,
-                                      'departure': dobController.text,
-                                      'date': date,
-                                      'arrive': arrive,
-                                      'depart': depart,
+                                child: Text(
+                                  "Buy Now",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    height:
+                                        UiHelper.displayHeight(context) * 0.001,
+                                    fontFamily: "ZenKakuGothicAntique",
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fontSize:
+                                        UiHelper.displayWidth(context) * 0.048,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (_seatController.text.isNotEmpty &&
+                                          _nameController.text.isNotEmpty &&
+                                          _emailController.text.isNotEmpty &&
+                                          _phoneController.text.isNotEmpty &&
+                                          _discountController.text.isEmpty ||
+                                      _discountController.text == "YGFJY899" ||
+                                      _discountController.text == "UIGF78" ||
+                                      _discountController.text == "HRDTY56" ||
+                                      _discountController.text == "AKI745" ||
+                                      _discountController.text == "HGHG7" ||
+                                      _discountController.text == "JHVJ34") {
+                                    db.collection('user_checkout').add({
+                                      'discount': _discountController.text,
+                                      'email': _emailController.text,
+                                      'full_name': _nameController.text,
+                                      'phone': _phoneController.text,
+                                      'vehicle': vehiclename,
                                       'seats': _seatController.text,
-                                      'price': price,
-                                      'vehicle_facility': vehiclefacility,
-                                      'vehicle_name': vehiclename
                                     });
-                                    // show success message and navigate to the next screen
-                                    const logInErrorBar = SnackBar(
-                                      content: Text(
-                                        "Payment Successful. Booking confirmed!",
-                                        style: TextStyle(
-                                          color: Color(0xFFFFFFFF),
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Nunito',
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      duration: Duration(milliseconds: 1400),
-                                      backgroundColor: Color(0xFF85bb65),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(logInErrorBar);
-                                    bottomNavController.goToEighthRoute();
+                                    print(sprice);
+                                    int originalAmount =
+                                        int.parse(_seatController.text) *
+                                            int.parse(sprice!) *
+                                            10;
+                                    print(originalAmount);
 
-                                    sendEmail();
-                                  } catch (e) {
-                                    print('Error sending email: $e');
-                                    // show error message if email couldn't be sent
+                                    int discountAmount = discountPrices[
+                                            _discountController.text] ??
+                                        0;
+                                    int price = originalAmount - discountAmount;
+
+                                    try {
+                                      // send email
+
+                                      final controller = EsewaController();
+                                      controller.esewaPay(price);
+                                      db.collection('bookings').add({
+                                        'arrival': dobController2.text,
+                                        'departure': dobController.text,
+                                        'date': date,
+                                        'arrive': arrive,
+                                        'depart': depart,
+                                        'seats': _seatController.text,
+                                        'price': price,
+                                        'vehicle_facility': vehiclefacility,
+                                        'vehicle_name': vehiclename
+                                      });
+                                      // show success message and navigate to the next screen
+                                      const logInErrorBar = SnackBar(
+                                        content: Text(
+                                          "Payment Successful. Booking confirmed!",
+                                          style: TextStyle(
+                                            color: Color(0xFFFFFFFF),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Nunito',
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        duration: Duration(milliseconds: 1400),
+                                        backgroundColor: Color(0xFF85bb65),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(logInErrorBar);
+                                      bottomController.goToEighthRoute();
+
+                                      sendEmail();
+                                    } catch (e) {
+                                      print('Error sending email: $e');
+                                      // show error message if email couldn't be sent
+                                      const logInErrorBar = SnackBar(
+                                        content: Text(
+                                          "Error: Booking confirmed but email could not be sent.",
+                                          style: TextStyle(
+                                            color: Color(0xFFFFFFFF),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'Nunito',
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        duration: Duration(milliseconds: 1400),
+                                        backgroundColor: Colors.red,
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(logInErrorBar);
+                                      Navigator.pushNamed(context, '/eighth');
+                                    } // replace 100 with the actual price you want to charge
+                                  } else {
                                     const logInErrorBar = SnackBar(
                                       content: Text(
-                                        "Error: Booking confirmed but email could not be sent.",
+                                        "Please fill up all fields",
                                         style: TextStyle(
                                           color: Color(0xFFFFFFFF),
                                           fontSize: 17,
@@ -605,32 +628,14 @@ class _PaymentState extends State<Payment> {
                                         textAlign: TextAlign.center,
                                       ),
                                       duration: Duration(milliseconds: 1400),
-                                      backgroundColor: Colors.red,
+                                      backgroundColor: Color(0xFF0062DE),
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(logInErrorBar);
-                                    Navigator.pushNamed(context, '/eighth');
-                                  } // replace 100 with the actual price you want to charge
-                                } else {
-                                  const logInErrorBar = SnackBar(
-                                    content: Text(
-                                      "Please fill up all fields",
-                                      style: TextStyle(
-                                        color: Color(0xFFFFFFFF),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: 'Nunito',
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    duration: Duration(milliseconds: 1400),
-                                    backgroundColor: Color(0xFF0062DE),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(logInErrorBar);
-                                }
-                              },
-                            ),
+                                  }
+                                },
+                              );
+                            }),
                           ),
                         ),
                       ],
