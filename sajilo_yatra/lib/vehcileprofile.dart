@@ -1,11 +1,22 @@
 // ignore_for_file: unnecessary_new
 
 import 'dart:core';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'controllers/signup_controller.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -18,6 +29,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final _storage = const FlutterSecureStorage();
   var isLoading = true;
+  File? _imagePath;
   String username = "";
   final FirebaseFirestore db = FirebaseFirestore.instance;
   String locat = "";
@@ -26,6 +38,10 @@ class _ProfileState extends State<Profile> {
   String gen = "";
   String aging = "";
   String dobing = "";
+  String veh = "";
+  String num = "";
+  SignUpController signUpController = Get.put(SignUpController());
+  SignUpController signUp = Get.find();
 
   @override
   void initState() {
@@ -51,6 +67,8 @@ class _ProfileState extends State<Profile> {
       final gender = user["gender"];
       final age = user["age"].toString();
       final dob = user["dob"].toString();
+      final veh1 = user["vehicle_name"].toString();
+      final num1 = user["vehicle_number"].toString();
 
       await _storage.write(key: 'full_name', value: fullName);
       await _storage.write(key: 'location', value: location);
@@ -59,6 +77,8 @@ class _ProfileState extends State<Profile> {
       await _storage.write(key: 'gender', value: gender);
       await _storage.write(key: 'age', value: age);
       await _storage.write(key: 'dob', value: dob);
+      await _storage.write(key: 'vehicle_name', value: veh1);
+      await _storage.write(key: 'vehicle_number', value: num1);
 
       setState(() {
         username = fullName;
@@ -68,6 +88,8 @@ class _ProfileState extends State<Profile> {
         gen = gender;
         aging = age;
         dobing = dob;
+        veh = veh1;
+        num = num1;
 
         isLoading = false;
       });
@@ -99,6 +121,95 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  Future<File?> _getImageFromCamera() async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      imageQuality: 100,
+    );
+    if (pickedFile != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath = '${directory.path}/profile_image.png';
+
+      // Save the image file to the directory
+      final savedFile = await File(pickedFile.path).copy(imagePath);
+
+      // Save the image path to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('imagePath', savedFile.path);
+
+      return savedFile;
+    }
+    return null;
+  }
+
+  Future<File?> _getImageFromGallery() async {
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath = '${directory.path}/profile_image.png';
+
+      // Save the image file to the directory
+      final savedFile = await File(pickedFile.path).copy(imagePath);
+
+      // Save the image path to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('imagePath', savedFile.path);
+
+      return savedFile;
+    }
+    return null;
+  }
+
+  Future<void> _pickImage() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Take a photo'),
+                  onTap: () async {
+                    final imageFile = await _getImageFromCamera();
+                    if (imageFile != null) {
+                      _imagePath = imageFile;
+                      signUp.setProfileImagePath(_imagePath!.path);
+                    }
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Choose from gallery'),
+                  onTap: () async {
+                    final imageFile = await _getImageFromGallery();
+                    if (imageFile != null) {
+                      _imagePath = imageFile;
+                      signUp.setProfileImagePath(_imagePath!.path);
+                    }
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    // Retrieve saved image path from SharedPreferences and set it to _imagePath
+    final prefs = await SharedPreferences.getInstance();
+    final savedImagePath = prefs.getString('imagePath');
+    if (savedImagePath != null) {
+      _imagePath = File(savedImagePath);
+      signUp.setProfileImagePath(_imagePath!.path);
+    }
+  }
+
   var size, height, width;
   var circular = true;
   FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -115,64 +226,99 @@ class _ProfileState extends State<Profile> {
         appBar: AppBar(
           backgroundColor: const Color(0xFF0062DE),
           centerTitle: true,
-          title: const Text('Profile',
+          title: Text('Profile',
               style: TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontFamily: 'Roboto Bold',
-                fontSize: 22,
-                height: 1.19,
-                fontWeight: FontWeight.w500,
+                color: const Color(0xFFFFFFFF),
+                fontFamily: 'ComicNeue',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w900,
               )),
           elevation: 0,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Color(0xFFFFFFFF),
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              );
-            },
-          ),
+          automaticallyImplyLeading: false,
         ),
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Center(
             child: isLoading
-                ? const CircularProgressIndicator(
-                    color: Color(0xFF0062DE),
+                ? Container(
+                    child: LoadingAnimationWidget.hexagonDots(
+                      size: UiHelper.displayWidth(context) * 0.08,
+                      color: const Color(0xFF0062DE),
+                    ),
                   )
                 : Column(children: [
                     Expanded(
                       child: SingleChildScrollView(
                           child: SizedBox(
                               width: UiHelper.displayWidth(context) * 1,
-                              height: UiHelper.displayHeight(context) * 1,
+                              height: 118.h,
                               child: CustomPaint(
                                 painter: CurvePainter(),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 20),
-                                      width:
-                                          UiHelper.displayWidth(context) * 0.3,
-                                      height: UiHelper.displayHeight(context) *
-                                          0.15,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                              "images/hello.jpg",
-                                            ),
-                                            fit: BoxFit.fill),
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(80)),
-                                      ),
-                                    ),
+                                    SizedBox(height: 2.4.h),
+                                    badges.Badge(
+                                        position:
+                                            badges.BadgePosition.bottomEnd(
+                                                bottom: 3, end: 3),
+                                        showBadge: true,
+                                        ignorePointer: false,
+                                        onTap: () {
+                                          _pickImage();
+                                        },
+                                        badgeContent: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Colors.white,
+                                            size: 16.5.sp),
+                                        badgeAnimation: const badges
+                                            .BadgeAnimation.rotation(
+                                          animationDuration:
+                                              Duration(seconds: 1),
+                                          colorChangeAnimationDuration:
+                                              Duration(seconds: 1),
+                                          loopAnimation: false,
+                                          curve: Curves.fastOutSlowIn,
+                                          colorChangeAnimationCurve:
+                                              Curves.easeInCubic,
+                                        ),
+                                        badgeStyle: badges.BadgeStyle(
+                                          badgeColor: const Color(0xFF0062DE),
+                                          padding: const EdgeInsets.all(5),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          borderSide: const BorderSide(
+                                              color: Color(0xFFFFFFFF),
+                                              width: 1.8),
+                                          elevation: 0,
+                                        ),
+                                        child: Obx(() {
+                                          if (_imagePath != null) {
+                                            return CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              backgroundImage:
+                                                  FileImage(_imagePath!),
+                                              radius: 30.sp,
+                                            );
+                                          } else if (signUp
+                                                  .isProficPicPathSet.value ==
+                                              true) {
+                                            return CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              backgroundImage: FileImage(File(
+                                                  signUp.profilePicPath.value)),
+                                              radius: 30.sp,
+                                            );
+                                          } else {
+                                            const defaultImagePath =
+                                                'assets/images/profile_image.png';
+                                            return CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              backgroundImage: const AssetImage(
+                                                  defaultImagePath),
+                                              radius: 30.sp,
+                                            );
+                                          }
+                                        })),
+                                    SizedBox(height: 1.h),
                                     Text(
                                       username,
                                       textAlign: TextAlign.center,
@@ -184,12 +330,10 @@ class _ProfileState extends State<Profile> {
                                           fontSize: width * 0.077),
                                     ),
                                     UiHelper.verticalSpace(
-                                        vspace: Spacing.small),
+                                        vspace: Spacing.medium),
                                     SizedBox(
-                                      width:
-                                          UiHelper.displayWidth(context) * 0.52,
-                                      height: UiHelper.displayHeight(context) *
-                                          0.074,
+                                      width: 44.5.w,
+                                      height: 6.5.h,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: const Color(
@@ -199,33 +343,25 @@ class _ProfileState extends State<Profile> {
                                           shape: RoundedRectangleBorder(
                                               //to set border radius to button
                                               borderRadius:
-                                                  BorderRadius.circular(55)),
+                                                  BorderRadius.circular(8)),
                                         ),
                                         onPressed: () {
                                           Navigator.pushNamed(
-                                              context, '/line11');
+                                              context, '/line20');
                                         },
-                                        child: Text(
-                                          "Edit My Profile",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            height: UiHelper.displayHeight(
-                                                    context) *
-                                                0.0015,
-                                            fontFamily: "ZenKakuGothicAntique",
-                                            fontWeight: FontWeight.w700,
-                                            color: const Color(0xFF0062DE),
-                                            fontSize:
-                                                UiHelper.displayWidth(context) *
-                                                    0.047,
-                                          ),
-                                        ),
+                                        child: Text("EDIT PROFILE",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.nunito(
+                                                height: 0.165.h,
+                                                fontWeight: FontWeight.w700,
+                                                color: const Color(0xFF0062DE),
+                                                fontSize: 18.5.sp)),
                                       ),
                                     ),
                                     UiHelper.verticalSpace(
                                         vspace: Spacing.medium),
                                     Container(
-                                      height: 400,
+                                      height: 77.4.h,
                                       width:
                                           UiHelper.displayWidth(context) * 0.83,
                                       decoration: BoxDecoration(
@@ -633,6 +769,173 @@ class _ProfileState extends State<Profile> {
                                                       height: height * 0.03,
                                                       child: Text(
                                                         aging.toString(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            letterSpacing: 0.1,
+                                                            fontFamily:
+                                                                "SignikaNegative-Bold",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: const Color(
+                                                                0xFFA6AEB0),
+                                                            fontSize: UiHelper
+                                                                    .displayWidth(
+                                                                        context) *
+                                                                0.04),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: UiHelper.displayHeight(
+                                                    context) *
+                                                0.000090,
+                                          ),
+                                          UiHelper.verticalSpace(
+                                              vspace: Spacing.medium),
+                                          Row(
+                                            children: [
+                                              UiHelper.horizontaSpace(
+                                                  hspace: Spacing.large),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomLeft,
+                                                  child: Icon(
+                                                    Icons
+                                                        .directions_bus_rounded,
+                                                    size: UiHelper.displayWidth(
+                                                            context) *
+                                                        0.065,
+                                                    color:
+                                                        const Color(0xFF0062DE),
+                                                  )),
+                                              UiHelper.horizontaSpace(
+                                                  hspace: Spacing.medium),
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  'Vehicle Name',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      letterSpacing: 0.3,
+                                                      fontFamily: "KumbhSans",
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: const Color(
+                                                          0xFF222222),
+                                                      fontSize:
+                                                          UiHelper.displayWidth(
+                                                                  context) *
+                                                              0.043),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xxlarge),
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xlarge),
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xsmall),
+                                                  Align(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.bottomLeft,
+                                                      width: width * 0.65,
+                                                      height: height * 0.03,
+                                                      child: Text(
+                                                        veh,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            letterSpacing: 0.1,
+                                                            fontFamily:
+                                                                "SignikaNegative-Bold",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: const Color(
+                                                                0xFFA6AEB0),
+                                                            fontSize: UiHelper
+                                                                    .displayWidth(
+                                                                        context) *
+                                                                0.04),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: UiHelper.displayHeight(
+                                                    context) *
+                                                0.000090,
+                                          ),
+                                          UiHelper.verticalSpace(
+                                              vspace: Spacing.medium),
+                                          Row(
+                                            children: [
+                                              UiHelper.horizontaSpace(
+                                                  hspace: Spacing.large),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.bottomLeft,
+                                                  child: Icon(
+                                                    Icons.edit,
+                                                    size: UiHelper.displayWidth(
+                                                            context) *
+                                                        0.065,
+                                                    color:
+                                                        const Color(0xFF0062DE),
+                                                  )),
+                                              UiHelper.horizontaSpace(
+                                                  hspace: Spacing.medium),
+                                              Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  'Vehicle Number',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      letterSpacing: 0.3,
+                                                      fontFamily: "KumbhSans",
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: const Color(
+                                                          0xFF222222),
+                                                      fontSize:
+                                                          UiHelper.displayWidth(
+                                                                  context) *
+                                                              0.043),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xxlarge),
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xlarge),
+                                                  UiHelper.horizontaSpace(
+                                                      hspace: Spacing.xsmall),
+                                                  Align(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.bottomLeft,
+                                                      width: width * 0.65,
+                                                      height: height * 0.03,
+                                                      child: Text(
+                                                        num,
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

@@ -40,8 +40,10 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   final _storage = const FlutterSecureStorage();
-  BottomNavController bottomNavController = Get.find<BottomNavController>();
   BottomNavController bottomController = Get.put(BottomNavController());
+
+  BottomNavController bottomNavController = Get.find<BottomNavController>();
+  BottomNavController bottom = Get.put(BottomNavController());
 
   EsewaPaymentSuccessResult? eSuccess;
   final db = FirebaseFirestore.instance;
@@ -591,9 +593,9 @@ class _PaymentState extends State<Payment> {
                                       );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(logInErrorBar);
-                                      bottomController.goToEighthRoute();
+                                      bottom.goToEighthRoute();
 
-                                      sendEmail();
+                                      sendMail();
                                     } catch (e) {
                                       print('Error sending email: $e');
                                       // show error message if email couldn't be sent
@@ -647,16 +649,24 @@ class _PaymentState extends State<Payment> {
     );
   }
 
-  Future<void> sendEmail() async {
-    String username = 'prakhyat@asbin.com.np';
-    String password = 'Prakhyat1@';
-    final smtpServer = gmail(username, password);
+  void sendMail() async {
     final emailing = await _storage.read(key: 'email');
     print(emailing);
     final bookingId = generateBookingId();
+    String username = 'mail@asbin.com.np';
+    String password = 'Asbindulal1@';
+
+    final smtpServer = SmtpServer(
+      'asbin.com.np',
+      port: 587,
+      username: username,
+      password: password,
+    );
+
+    //Create our Message
     final message = Message()
       ..from = Address(username, 'Sajilo Yatra')
-      ..recipients.add(emailing)
+      ..recipients.add('dipeshgurung797@gmail.com')
       ..subject = 'Booking Confirmed - $bookingId'
       ..text = 'Hello,\n\nYour booking ($bookingId) has been confirmed.';
 

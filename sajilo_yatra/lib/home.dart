@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sajilo_yatra/controllers/bottom_nav_controller.dart';
+import 'package:sajilo_yatra/controllers/notification_controller.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(BottomNavController());
+    Get.put(NotificationController());
     return GetBuilder<BottomNavController>(builder: (context) {
       return Scaffold(
         body: AnimatedSwitcher(

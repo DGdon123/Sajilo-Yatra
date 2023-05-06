@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
@@ -32,11 +33,11 @@ class _VHelpState extends State<VHelp> {
         automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0062DE),
         centerTitle: true,
-        title: const Text('Help',
+        title: Text('Help',
             style: TextStyle(
-              color: Color(0xFFFFFFFF),
+              color: const Color(0xFFFFFFFF),
               fontFamily: 'ComicNeue',
-              fontSize: 24,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w900,
             )),
         elevation: 0,

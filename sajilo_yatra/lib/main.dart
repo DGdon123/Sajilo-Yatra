@@ -26,6 +26,7 @@ import 'package:sajilo_yatra/userdetails.dart';
 import 'package:sajilo_yatra/userhome.dart';
 import 'package:sajilo_yatra/userregister.dart';
 import 'package:sajilo_yatra/vehcileprofile.dart';
+import 'package:sajilo_yatra/vehicle_editprofile.dart';
 import 'package:sajilo_yatra/vehiclegoing.dart';
 import 'package:sajilo_yatra/vehicleleaving.dart';
 import 'package:sajilo_yatra/vehiclemenu.dart';
@@ -163,6 +164,14 @@ Future<void> main() async {
                     GetPage(
                       name: '/eighth',
                       page: () => const Home(),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.cupertino,
+                    ),
+                    GetPage(
+                      name: '/line20',
+                      page: () => const VEdit(
+                        userId: '',
+                      ),
                       transitionDuration: const Duration(milliseconds: 600),
                       transition: Transition.cupertino,
                     ),

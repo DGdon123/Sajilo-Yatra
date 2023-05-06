@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'controllers/vcontroller.dart';
+import 'controllers/notification_controller.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(NavController());
+    Get.put(NotificationController());
     return GetBuilder<NavController>(builder: (context) {
       return Scaffold(
         body: AnimatedSwitcher(

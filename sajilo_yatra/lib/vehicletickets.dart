@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
@@ -74,8 +75,10 @@ class _VehicleTicketsState extends State<VehicleTickets> {
   String vehiclefacility = "";
   String arrival1 = "";
   String arrive1 = "";
+  List<Map<String, dynamic>> _dataList = [];
   String d_date = "";
   String depart1 = "";
+  int totalSeats = 0;
   String departure1 = "";
   String price1 = "";
   String r_date = "";
@@ -110,7 +113,48 @@ class _VehicleTicketsState extends State<VehicleTickets> {
     });
   }
 
-  Future<void> _savedData() async {
+  Future<List<Map<String, dynamic>>> _savedData() async {
+    final vehName = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+
+    final snapshot = await db
+        .collection("user_checkout")
+        .where('vehicle', isEqualTo: vehName)
+        .get();
+    final users = snapshot.docs.map((doc) => doc.data()).toList();
+
+    final dataList = users.map((data) {
+      final arrival = data['email'];
+      final arrive = data['full_name'];
+      final date = data['phone'].toString();
+      final seats = data['seats'].toString();
+      final veh = data['vehicle'];
+      totalSeats += int.parse(seats);
+
+      return {
+        'arrival': arrival,
+        'arrive': arrive,
+        'date': date,
+        'seats': seats,
+        'vehicle': veh,
+      };
+    }).toList();
+
+    return dataList;
+  }
+
+  Future<void> _getDataList() async {
+    try {
+      final dataList = await _savedData();
+      setState(() {
+        _dataList = dataList;
+      });
+    } catch (e) {
+      print('Error retrieving data: $e');
+    }
+  }
+
+  Future<void> _savedData1() async {
     final vehName = await _storage.read(key: 'vehicle_name');
     print(vehName);
 
@@ -123,7 +167,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
 
     if (vehicleOwners.isNotEmpty) {
       // check if there is at least one document in the snapshot
-      final data = vehicleOwners.last;
+      final data = vehicleOwners.first;
       final arrival = data['Arrival'];
       final veh = data['Vehicle'];
       final arrive = data['Arrive'];
@@ -177,33 +221,116 @@ class _VehicleTicketsState extends State<VehicleTickets> {
 
     _getSavedData();
     _savedData();
+    _savedData1();
+    _getDataList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF0062DE),
-        centerTitle: true,
-        title: const Text('Tickets',
-            style: TextStyle(
-              letterSpacing: 0.95,
-              color: Color(0xFFFFFFFF),
-              fontFamily: 'ComicNeue',
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            )),
-        elevation: 0,
-      ),
-      body: Center(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color(0xFF0062DE),
+          centerTitle: true,
+          title: Text('Tickets',
+              style: TextStyle(
+                letterSpacing: 0.95,
+                color: const Color(0xFFFFFFFF),
+                fontFamily: 'ComicNeue',
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w900,
+              )),
+          elevation: 0,
+        ),
+        body: Center(
           child: isLoading
-              ? Container(
-                  child: LoadingAnimationWidget.hexagonDots(
-                    size: UiHelper.displayWidth(context) * 0.08,
-                    color: const Color(0xFF0062DE),
-                  ),
-                )
+              ? FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 3)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          size: UiHelper.displayWidth(context) * 0.08,
+                          color: const Color(0xFF0062DE),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.center,
+                                      heightFactor: 0.6,
+                                      child: Container(
+                                        width: 395,
+                                        height: 70,
+                                        color: const Color(0xFFFFFFFF),
+                                        child: const Text(
+                                          "You have no ticket publications yet.",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Color(0xFF0062DE),
+                                              fontSize: 19.5,
+                                              fontFamily: "Cambay",
+                                              fontWeight: FontWeight.w900,
+                                              height: 3.85),
+                                        ),
+                                      ),
+                                    ),
+                                    const Align(
+                                      alignment: Alignment.bottomCenter,
+                                      heightFactor: 1.8,
+                                      widthFactor: 4.4,
+                                      child: Icon(
+                                        Icons.event_busy_rounded,
+                                        size: 170,
+                                        color: Color(0xFF222222),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 34.4,
+                                      width: 140,
+                                      margin:
+                                          const EdgeInsets.only(bottom: 185),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF222222),
+
+                                          shape: RoundedRectangleBorder(
+                                              //to set border radius to button
+                                              borderRadius: BorderRadius.circular(
+                                                  12)), //background color of button
+                                        ),
+                                        child: const Text(
+                                          "Publish Now",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              height: 1.2,
+                                              fontFamily: "Roboto",
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xFFFFFFFF),
+                                              fontSize: 16),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, '/line7');
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  })
               : (arrival1.isNotEmpty &&
                       arrive1.isNotEmpty &&
                       depart1.isNotEmpty &&
@@ -542,7 +669,7 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                                                           hspace:
                                                               Spacing.small),
                                                       Text(
-                                                        "$seats Seats",
+                                                        "${totalSeats - int.parse(seats)} Seats",
                                                         style: TextStyle(
                                                           fontFamily:
                                                               "PublicSans",
@@ -598,78 +725,11 @@ class _VehicleTicketsState extends State<VehicleTickets> {
                         ),
                       ],
                     )
-                  : Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    heightFactor: 0.6,
-                                    child: Container(
-                                      width: 395,
-                                      height: 70,
-                                      color: const Color(0xFFFFFFFF),
-                                      child: const Text(
-                                        "You have no ticket publications yet.",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color(0xFF0062DE),
-                                            fontSize: 19.5,
-                                            fontFamily: "Cambay",
-                                            fontWeight: FontWeight.w900,
-                                            height: 3.85),
-                                      ),
-                                    ),
-                                  ),
-                                  const Align(
-                                    alignment: Alignment.bottomCenter,
-                                    heightFactor: 1.8,
-                                    widthFactor: 4.4,
-                                    child: Icon(
-                                      Icons.event_busy_rounded,
-                                      size: 170,
-                                      color: Color(0xFF222222),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 34.4,
-                                    width: 140,
-                                    margin: const EdgeInsets.only(bottom: 185),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF222222),
-
-                                        shape: RoundedRectangleBorder(
-                                            //to set border radius to button
-                                            borderRadius: BorderRadius.circular(
-                                                12)), //background color of button
-                                      ),
-                                      child: const Text(
-                                        "Publish Now",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            height: 1.2,
-                                            fontFamily: "Roboto",
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 16),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, '/line7');
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  : Container(
+                      child: LoadingAnimationWidget.hexagonDots(
+                      size: UiHelper.displayWidth(context) * 0.08,
+                      color: const Color(0xFF0062DE),
                     )),
-    );
+        ));
   }
 }

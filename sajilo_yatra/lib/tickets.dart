@@ -4,6 +4,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sajilo_yatra/search.dart';
 
 class EighthScreen extends StatefulWidget {
@@ -66,13 +67,13 @@ class _EighthScreenState extends State<EighthScreen> {
           },
         ),
         backgroundColor: const Color(0xFF0062DE),
-        title: const Text('Tickets',
+        title: Text('Tickets',
             style: TextStyle(
-              color: Color(0xFFFFFFFF),
-              fontFamily: 'Roboto Bold',
-              fontSize: 22,
-              height: 1.19,
-              fontWeight: FontWeight.w500,
+              letterSpacing: 0.95,
+              color: const Color(0xFFFFFFFF),
+              fontFamily: 'ComicNeue',
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w900,
             )),
       ),
       body: Container(
@@ -102,7 +103,7 @@ class _EighthScreenState extends State<EighthScreen> {
                     fontSize: 19),
               ),
               Container(
-                height: 408.4,
+                height: 48.h,
                 width: 305,
                 margin: const EdgeInsets.only(top: 14),
                 decoration: BoxDecoration(
@@ -353,77 +354,6 @@ class _EighthScreenState extends State<EighthScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: 270,
-                      margin: const EdgeInsets.only(top: 12),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: dobController2,
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFFFFFFF),
-                              suffixIcon: Icon(
-                                Icons.calendar_month_rounded,
-                                size: 28,
-                                color: Color(0xFF222222),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 242, 243, 245),
-                                    width: 3,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 242, 243, 245),
-                                    width: 2,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
-                                ),
-                              ),
-                              labelText: 'Return',
-                              hintText: 'Return',
-                              hintStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
-                                  fontSize: 16.7),
-                              labelStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF222222),
-                                  fontSize: 17.7),
-                              suffixIconColor: Color.fromARGB(255, 255, 0, 0),
-                            ),
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                            onTap: () async {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
-                              final DateTime? date = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2100),
-                              );
-                              if (date != null) {
-                                dobController2.text =
-                                    DateFormat("yyyy-MM-dd").format(date);
-                                dob2 = date;
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -435,7 +365,7 @@ class _EighthScreenState extends State<EighthScreen> {
                   width: 120,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF222222),
+                      backgroundColor: const Color(0xFF222222),
 
                       shape: RoundedRectangleBorder(
                           //to set border radius to button
@@ -456,7 +386,6 @@ class _EighthScreenState extends State<EighthScreen> {
                       if (_leavingController.text.isNotEmpty &&
                           _goingController.text.isNotEmpty &&
                           dobController.text.isNotEmpty &&
-                          dobController2.text.isNotEmpty &&
                           drop != null) {
                         {
                           Navigator.push(

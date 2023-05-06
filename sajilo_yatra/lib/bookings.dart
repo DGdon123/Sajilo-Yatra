@@ -4,7 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'pdf.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'dart:io';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -691,17 +694,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                                       style:
                                                           GoogleFonts.ptSans()),
                                                   onPressed: () {
-                                                    if (pathPDF.isNotEmpty) {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PDFScreen(
-                                                                  path:
-                                                                      pathPDF),
-                                                        ),
-                                                      );
-                                                    }
+                                                    createPdf();
                                                   }),
                                             ),
                                             SizedBox(width: 4.w),
@@ -779,5 +772,24 @@ class _EighthRouteState extends State<EighthRoute> {
                       color: const Color(0xFF0062DE),
                     )),
         ));
+  }
+
+  Future<void> createPdf() async {
+    final pdf = pw.Document();
+
+    pdf.addPage(pw.Page(
+      build: (context) => pw.Center(
+        child: pw.Text('Hello World!', style: const pw.TextStyle(fontSize: 48)),
+      ),
+    ));
+
+    final output = await getExternalStorageDirectory();
+    final file = File('${output!.path}/example.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    print('PDF saved to ${file.path}');
+
+    // Open the saved PDF file
+    await OpenFile.open(file.path);
   }
 }
