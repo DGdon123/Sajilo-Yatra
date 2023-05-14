@@ -50,7 +50,7 @@ class NotificationController extends GetxController {
 
   void _showNotificationsAfterSecond() async {
     await notificationAfterSec(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 900),
     );
   }
 
@@ -64,8 +64,8 @@ class NotificationController extends GetxController {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       1,
-      'Remainder',
-      'You have an new appointment!',
+      'Hot Offers!',
+      'Book your tickets now!',
       tzdatetime,
       notify,
       uiLocalNotificationDateInterpretation:

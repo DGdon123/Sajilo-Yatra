@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sajilo_yatra/payment.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
@@ -43,6 +44,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   String dobing = "";
   String seats = "";
+  List<Map<String, dynamic>> _dataList = [];
+  List<Map<String, dynamic>> _dataList2 = [];
   String vehiclefacility = "";
   String arrival1 = "";
   String arrive1 = "";
@@ -50,8 +53,50 @@ class _SearchScreenState extends State<SearchScreen> {
   String depart1 = "";
   String departure1 = "";
   String price1 = "";
+  int totalSeats = 0;
   String r_date = "";
   String meet1 = "";
+
+  Future<List<Map<String, dynamic>>> _savedData1() async {
+    final vehName = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+
+    final snapshot = await db
+        .collection("user_checkout")
+        .where('vehicle', isEqualTo: vehName)
+        .get();
+    final users = snapshot.docs.map((doc) => doc.data()).toList();
+
+    final dataList = users.map((data) {
+      final arrival = data['email'];
+      final arrive = data['full_name'];
+      final date = data['phone'].toString();
+      final seats = data['seats'].toString();
+      final veh = data['vehicle'];
+      totalSeats += int.parse(seats);
+
+      return {
+        'arrival': arrival,
+        'arrive': arrive,
+        'date': date,
+        'seats': seats,
+        'vehicle': veh,
+      };
+    }).toList();
+
+    return dataList;
+  }
+
+  Future<void> _getDataList() async {
+    try {
+      final dataList = await _savedData1();
+      setState(() {
+        _dataList = dataList;
+      });
+    } catch (e) {
+      print('Error retrieving data: $e');
+    }
+  }
 
   Future<void> _savedData() async {
     final snapshot = await db.collection("vehicle_home").get();
@@ -95,6 +140,46 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  Future<List<Map<String, dynamic>>> _savedData7() async {
+    final snapshot = await db.collection("vehicle_home").get();
+    final users = snapshot.docs.map((doc) => doc.data()).toList();
+
+    final dataList = users.map((data) {
+      final arrival = data['Arrival'];
+      final arrive = data['Arrive'];
+      final ddate = data['D_date'];
+      final depart = data['Depart'];
+      final departure = data['Departure'];
+      final price = data['Price'];
+      final rdate = data['R_date'];
+      final meet = data['meet'];
+
+      return {
+        'Arrival': arrival,
+        'Arrive': arrive,
+        'D_date': ddate,
+        'Depart': depart,
+        'Departure': departure,
+        'Price': price,
+        'R_date': rdate,
+        'meet': meet,
+      };
+    }).toList();
+
+    return dataList;
+  }
+
+  Future<void> _getDataList8() async {
+    try {
+      final dataList8 = await _savedData7();
+      setState(() {
+        _dataList2 = dataList8;
+      });
+    } catch (e) {
+      print('Error retrieving data: $e');
+    }
+  }
+
   @override
   void dispose() {
     _textEditingController.dispose();
@@ -109,6 +194,10 @@ class _SearchScreenState extends State<SearchScreen> {
     dobController2 = TextEditingController(text: widget.leaving);
     dobController3 = TextEditingController(text: widget.dob);
     _savedData();
+    _getDataList();
+    _savedData1();
+    _savedData7();
+    _getDataList8();
   }
 
   @override
@@ -244,7 +333,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(
+                          child: Container(
+                        child: LoadingAnimationWidget.hexagonDots(
+                          size: UiHelper.displayWidth(context) * 0.08,
+                          color: const Color(0xFF0062DE),
+                        ),
+                      ));
                     }
                     if (snapshot.hasError) {
                       return const Text("Some error");
@@ -253,6 +348,18 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
+                          final filteredDataList = _dataList2
+                              .where(
+                                (data) =>
+                                    data['Vehicle'] ==
+                                    snapshot.data!.docs[index]['vehicle_name'],
+                              )
+                              .toList();
+
+                          // check if there's any data for the vehicle name
+
+                          // get the first item from the filtered data list
+
                           return GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -471,7 +578,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.small),
                                               Text(
-                                                "${snapshot.data!.docs[index]['vehicle_seats'].toString()} Seats",
+                                                "${totalSeats - int.parse(snapshot.data!.docs[index]['vehicle_seats'].toString())} Seats",
                                                 style: TextStyle(
                                                   fontFamily: "PublicSans",
                                                   fontWeight: FontWeight.w500,

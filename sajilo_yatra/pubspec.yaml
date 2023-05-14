@@ -123,6 +123,9 @@ flutter:
       - images/yatra.jpeg
       - images/yu.png
       - images/hello.jpg
+      - images/logos.png
+      - images/sajilo.jpeg
+    
       - .env
   
      

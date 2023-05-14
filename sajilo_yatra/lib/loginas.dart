@@ -7,7 +7,7 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF4E93E8),
+      backgroundColor: const Color(0xFF4E93E8),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -26,7 +26,7 @@ class FirstScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: 65),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(
+                backgroundColor: Color.fromARGB(
                     255, 118, 173, 240), //background color of button
                 //border width and color
 
@@ -42,7 +42,7 @@ class FirstScreen extends StatelessWidget {
                     letterSpacing: 0.5,
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFFFFF),
+                    color: const Color(0xFFFFFFFF),
                     fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {
@@ -56,7 +56,7 @@ class FirstScreen extends StatelessWidget {
               ),
               width: UiHelper.displayWidth(context) * 1,
               height: UiHelper.displayHeight(context) * 0.004,
-              color: Color(0xFF9BC2F2)),
+              color: const Color(0xFF9BC2F2)),
           Container(
             height: 68.0,
             width: UiHelper.displayWidth(context) * 0.63,
@@ -65,7 +65,7 @@ class FirstScreen extends StatelessWidget {
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(
+                backgroundColor: Color.fromARGB(
                     255, 118, 173, 240), //background color of button
                 //border width and color
 
@@ -81,7 +81,7 @@ class FirstScreen extends StatelessWidget {
                     letterSpacing: 0.5,
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFFFFF),
+                    color: const Color(0xFFFFFFFF),
                     fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {

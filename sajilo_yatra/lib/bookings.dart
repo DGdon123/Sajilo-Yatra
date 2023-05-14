@@ -2,10 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:io';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -85,6 +87,7 @@ class _EighthRouteState extends State<EighthRoute> {
   String aging = "";
 
   String dobing = "";
+  String sprice = "";
   String seats = "";
   String vehiclefacility = "";
   String arrival1 = "";
@@ -137,6 +140,7 @@ class _EighthRouteState extends State<EighthRoute> {
       final seats = data['seats'];
       final facility = data['vehicle_facility'];
       final name = data['vehicle_name'];
+      final id = data['id'];
 
       return {
         'arrival': arrival,
@@ -147,7 +151,8 @@ class _EighthRouteState extends State<EighthRoute> {
         'price': price,
         'seats': seats,
         'vehicle_facility': facility,
-        'vehicle_name': name
+        'vehicle_name': name,
+        'id': id
       };
     }).toList();
 
@@ -165,6 +170,34 @@ class _EighthRouteState extends State<EighthRoute> {
     }
   }
 
+  Future<void> _savedData8() async {
+    final vehName = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+    final snapshot = await db
+        .collection("vehicle_owners")
+        .where('vehicle_name', isEqualTo: vehName)
+        .get();
+
+    final vehicleOwners = snapshot.docs.map((doc) => doc.data()).toList();
+
+    if (vehicleOwners.isNotEmpty) {
+      // check if there is at least one document in the snapshot
+
+      // check if there is at least one document in the snapshot
+      final data = vehicleOwners.first;
+      final numb = data['vehicle_number'];
+
+      await _storage.write(key: 'vehicle_number', value: numb.toString());
+
+      setState(() {
+        sprice = numb.toString();
+        isLoading = false;
+      });
+    } else {
+      print('No documents found for the user');
+    }
+  }
+
   @override
   void dispose() {
     _textEditingController.dispose();
@@ -178,6 +211,7 @@ class _EighthRouteState extends State<EighthRoute> {
     _savedData();
     _getDataList();
     _savedData1();
+    _savedData8();
     dobController3 = TextEditingController(text: date1);
     print(dobController3);
     isLoading = false;
@@ -394,9 +428,10 @@ class _EighthRouteState extends State<EighthRoute> {
                                   final departure = data['departure'];
                                   final price = data['price'];
                                   final facility = data['vehicle_facility'];
-
+                                  final date = data['date'];
                                   final seats = data['seats'];
                                   final vehicle = data['vehicle_name'];
+                                  final bookingId = data['id'];
 
                                   print(vehicle);
                                   print(arrival);
@@ -407,6 +442,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                   print(price);
                                   print(facility);
                                   print(seats);
+                                  print(bookingId);
 
                                   return ListTile(
                                     title: Column(
@@ -694,7 +730,17 @@ class _EighthRouteState extends State<EighthRoute> {
                                                       style:
                                                           GoogleFonts.ptSans()),
                                                   onPressed: () {
-                                                    createPdf();
+                                                    createPdf(
+                                                        bookingId,
+                                                        vehicle,
+                                                        arrival,
+                                                        arrive,
+                                                        departure,
+                                                        depart,
+                                                        date,
+                                                        price.toString(),
+                                                        facility,
+                                                        seats);
                                                   }),
                                             ),
                                             SizedBox(width: 4.w),
@@ -774,17 +820,472 @@ class _EighthRouteState extends State<EighthRoute> {
         ));
   }
 
-  Future<void> createPdf() async {
+  Future<void> createPdf(
+      String bookingID,
+      String veh,
+      String arrival,
+      String arrive,
+      String departure,
+      String depart,
+      String date,
+      String price,
+      String facility,
+      String seats) async {
+    final fullName = await _storage.read(key: 'full_name');
+    final location = await _storage.read(key: 'location');
+    final email = await _storage.read(key: 'email');
+    final phoneNumber = await _storage.read(key: 'phone_number');
+    final gender = await _storage.read(key: 'gender');
+    final age = await _storage.read(key: 'age');
+    final dob = await _storage.read(key: 'dob');
     final pdf = pw.Document();
+    final profileImage = pw.MemoryImage(
+      (await rootBundle.load('images/sajilo.jpeg')).buffer.asUint8List(),
+    );
 
-    pdf.addPage(pw.Page(
-      build: (context) => pw.Center(
-        child: pw.Text('Hello World!', style: const pw.TextStyle(fontSize: 48)),
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) => pw.Container(
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(
+              color: const PdfColor.fromInt(0xFF9BC2F2),
+              width: 8.0,
+            ),
+          ),
+          child: pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Container(height: 40),
+              pw.Row(
+                children: [
+                  pw.Container(width: 50),
+                  pw.Image(profileImage, height: 200, width: 140),
+                  pw.Container(width: 30),
+                  pw.Column(
+                    mainAxisAlignment: pw.MainAxisAlignment.center,
+                    crossAxisAlignment: pw.CrossAxisAlignment.center,
+                    children: [
+                      pw.Text(
+                        'Sajilo Yatra',
+                        style: pw.TextStyle(
+                          fontSize: 35.5,
+                          fontWeight: pw.FontWeight.bold,
+                          color: const PdfColor.fromInt(0xFF0062DE),
+                        ),
+                      ),
+                      pw.Container(height: 23),
+                      pw.Text(
+                        'Vehicle Ticket',
+                        style: pw.TextStyle(
+                          fontSize: 22,
+                          fontWeight: pw.FontWeight.bold,
+                          color: const PdfColor.fromInt(0xFF2222222),
+                        ),
+                      ),
+                      pw.Container(height: 12),
+                      pw.Container(
+                        child: pw.Row(children: [
+                          pw.Text(
+                            "Ticket ID: ",
+                            style: pw.TextStyle(
+                              fontSize: 19.5,
+                              fontWeight: pw.FontWeight.bold,
+                              color: const PdfColor.fromInt(0xFF2222222),
+                            ),
+                          ),
+                          pw.Text(
+                            bookingID,
+                            style: pw.TextStyle(
+                              fontSize: 19.5,
+                              fontWeight: pw.FontWeight.normal,
+                              color: const PdfColor.fromInt(0xFF2222222),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      pw.Container(height: 10),
+                    ],
+                  )
+                ],
+              ),
+              pw.Container(height: 24),
+              pw.Row(children: [
+                pw.Container(width: 30),
+                pw.Text(
+                  'Vehicle Information',
+                  style: pw.TextStyle(
+                    fontSize: 24,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 18),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Vehicle Name: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  veh,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Vehicle Number: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  sprice,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 25),
+              pw.Row(
+                children: [
+                  pw.Container(width: 25),
+                  pw.Container(
+                      height: 8,
+                      color: const PdfColor.fromInt(0xFF4E93E8),
+                      width: 427),
+                ],
+              ),
+              pw.Container(height: 24),
+              pw.Row(children: [
+                pw.Container(width: 30),
+                pw.Text(
+                  'Ticket Information',
+                  style: pw.TextStyle(
+                    fontSize: 24,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 18),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'From: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  departure.split(',')[0].trim(),
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 50),
+                pw.Text(
+                  'Seats: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  seats,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'To: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  arrival.split(',')[0].trim(),
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 50),
+                pw.Text(
+                  'Price: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  "Rs: $price",
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Departing Time: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  depart,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 15),
+                pw.Text(
+                  'Date: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  date,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Arriving Time: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  arrive,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 25),
+              pw.Row(
+                children: [
+                  pw.Container(width: 25),
+                  pw.Container(
+                      height: 8,
+                      color: const PdfColor.fromInt(0xFF4E93E8),
+                      width: 427),
+                ],
+              ),
+              pw.Container(height: 24),
+              pw.Row(children: [
+                pw.Container(width: 30),
+                pw.Text(
+                  'Passenger Information',
+                  style: pw.TextStyle(
+                    fontSize: 24,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 18),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Name: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  fullName!,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 50),
+                pw.Text(
+                  'Phone: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  phoneNumber!,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Gender: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  gender!,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 50),
+                pw.Text(
+                  'Age: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  age!,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Departing Time: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  depart,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Container(width: 15),
+                pw.Text(
+                  'Date: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  date,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 10),
+              pw.Row(children: [
+                pw.Container(width: 50),
+                pw.Text(
+                  'Arriving Time: ',
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.bold,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+                pw.Text(
+                  arrive,
+                  style: pw.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pw.FontWeight.normal,
+                    color: const PdfColor.fromInt(0xFF2222222),
+                  ),
+                ),
+              ]),
+              pw.Container(height: 25),
+              pw.Row(
+                children: [
+                  pw.Container(width: 25),
+                  pw.Container(
+                      height: 8,
+                      color: const PdfColor.fromInt(0xFF4E93E8),
+                      width: 427),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
 
     final output = await getExternalStorageDirectory();
-    final file = File('${output!.path}/example.pdf');
+    final file = File('${output!.path}/tickets.pdf');
     await file.writeAsBytes(await pdf.save());
 
     print('PDF saved to ${file.path}');

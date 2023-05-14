@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:quickalert/quickalert.dart';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
@@ -77,31 +79,6 @@ class _MenuState extends State<Menu> {
             ),
             ListTile(
                 leading: Icon(
-                  Icons.help_outline_rounded,
-                  color: const Color(0xFF0062DE),
-                  size: UiHelper.displayWidth(context) * 0.07,
-                ),
-                title: Text('FAQs',
-                    style: TextStyle(
-                        color: const Color(0xFF222222),
-                        fontFamily: "NotoSans",
-                        fontSize: UiHelper.displayWidth(context) * 0.04,
-                        fontWeight: FontWeight.w400)),
-                trailing: Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  color: const Color(0xFFD6D6D6),
-                  size: UiHelper.displayWidth(context) * 0.08,
-                ),
-                onTap: (() {
-                  Navigator.pushNamed(context, '/nineth');
-                })),
-            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
-            Container(
-              height: UiHelper.displayHeight(context) * 0.0015,
-              color: const Color(0xFFD6D6D6),
-            ),
-            ListTile(
-                leading: Icon(
                   Icons.info_outline_rounded,
                   color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
@@ -168,81 +145,17 @@ class _MenuState extends State<Menu> {
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                            backgroundColor: const Color(0xFF0062DE),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            title:
-                                const Text("Are you sure you want to logout?"),
-                            titleTextStyle: TextStyle(
-                              color: const Color(0xFFFFFFFF),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "Nunito",
-                              fontSize: UiHelper.displayWidth(context) * 0.043,
-                            ),
-                            actions: <Widget>[
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 11),
-                                child: Row(
-                                  children: [
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.large),
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.large),
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.large),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFFFFFFFF),
-                                      ),
-                                      child: Text("Yes",
-                                          style: TextStyle(
-                                            color: const Color(0xFF0062DE),
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: "Cabin",
-                                            fontSize:
-                                                UiHelper.displayWidth(context) *
-                                                    0.045,
-                                          )),
-                                      onPressed: () {
-                                        // Perform logout here
-                                        Navigator.pushNamed(context, '/second');
-                                      },
-                                    ),
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.xxlarge),
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.xlarge),
-                                    UiHelper.horizontaSpace(
-                                        hspace: Spacing.large),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFFFFFFFF),
-                                      ),
-                                      child: Text("No",
-                                          style: TextStyle(
-                                            color: const Color(0xFF0062DE),
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: "Cabin",
-                                            fontSize:
-                                                UiHelper.displayWidth(context) *
-                                                    0.045,
-                                          )),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                ),
-                              )
-                            ]);
-                      });
+                  QuickAlert.show(
+                    context: context,
+                    onConfirmBtnTap: () {
+                      Get.offAllNamed('/second');
+                    },
+                    type: QuickAlertType.confirm,
+                    text: 'Do you want to logout',
+                    confirmBtnText: 'Yes',
+                    cancelBtnText: 'No',
+                    confirmBtnColor: const Color(0xFF0062DE),
+                  );
                 })),
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(

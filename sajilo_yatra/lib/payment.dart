@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:math';
 import 'package:mailer/mailer.dart';
 import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
@@ -49,6 +50,7 @@ class _PaymentState extends State<Payment> {
   final db = FirebaseFirestore.instance;
   String referenceId = "";
   final _auth = FirebaseAuth.instance;
+  List<Map<String, dynamic>> _dataList = [];
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
@@ -70,6 +72,9 @@ class _PaymentState extends State<Payment> {
   String? vehiclefacility;
   String? arrive;
   String? depart;
+  String? seats;
+  int? seats1;
+  int totalSeats = 0;
   String? sprice;
 
   Map<String, int> discountPrices = {
@@ -97,6 +102,51 @@ class _PaymentState extends State<Payment> {
     arrive = widget.arrive;
     depart = widget.depart;
     _savedData();
+    _savedData1();
+    _getDataList();
+  }
+
+  Future<List<Map<String, dynamic>>> _savedData1() async {
+    final vehName = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+    final seats1 = await _storage.read(key: 'vehicle_name');
+    print(vehName);
+
+    final snapshot = await db
+        .collection("user_checkout")
+        .where('vehicle', isEqualTo: vehName)
+        .get();
+    final users = snapshot.docs.map((doc) => doc.data()).toList();
+
+    final dataList = users.map((data) {
+      final arrival = data['email'];
+      final arrive = data['full_name'];
+      final date = data['phone'].toString();
+      final seats = data['seats'].toString();
+      final veh = data['vehicle'];
+      totalSeats += int.parse(seats);
+
+      return {
+        'arrival': arrival,
+        'arrive': arrive,
+        'date': date,
+        'seats': seats,
+        'vehicle': veh,
+      };
+    }).toList();
+
+    return dataList;
+  }
+
+  Future<void> _getDataList() async {
+    try {
+      final dataList = await _savedData1();
+      setState(() {
+        _dataList = dataList;
+      });
+    } catch (e) {
+      print('Error retrieving data: $e');
+    }
   }
 
   Future<void> _savedData() async {
@@ -114,17 +164,21 @@ class _PaymentState extends State<Payment> {
       // check if there is at least one document in the snapshot
       final data = vehicleOwners.first;
       final price = data['seat_price'];
+      final seat = data['vehicle_seats'];
 
       await _storage.write(key: 'seat_price', value: price.toString());
+      await _storage.write(key: 'vehicle_seats', value: seat.toString());
 
       setState(() {
         sprice = price.toString();
+        seats = seat.toString();
         isLoading = false;
       });
     } else {
       print('No documents found for the user');
     }
     print(sprice);
+    seats1 = totalSeats - int.parse(seats.toString());
   }
 
   String generateBookingId() {
@@ -187,7 +241,13 @@ class _PaymentState extends State<Payment> {
             )),
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Container(
+              child: LoadingAnimationWidget.hexagonDots(
+                size: UiHelper.displayWidth(context) * 0.08,
+                color: const Color(0xFF0062DE),
+              ),
+            ))
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
@@ -259,9 +319,14 @@ class _PaymentState extends State<Payment> {
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Email field cannot be empty';
+                                  return 'Full Name field cannot be empty';
                                 }
-                                return '';
+                                final nameRegExp =
+                                    RegExp(r'^[A-Za-z]+(?:\s[A-Za-z]+)*$');
+                                if (!nameRegExp.hasMatch(value)) {
+                                  return 'Please enter a valid name';
+                                }
+                                return null;
                               },
                             ),
                           ),
@@ -317,8 +382,10 @@ class _PaymentState extends State<Payment> {
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Email field cannot be empty';
+                                } else if (!value.contains('@')) {
+                                  return 'Please enter a valid email address';
                                 }
-                                return '';
+                                return null;
                               },
                             ),
                           ),
@@ -373,9 +440,12 @@ class _PaymentState extends State<Payment> {
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Email field cannot be empty';
+                                  return 'Phone Number field cannot be empty';
+                                } else if (!RegExp(r'^[0-9]{10}$')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid 10-digit phone number';
                                 }
-                                return '';
+                                return null;
                               },
                             ),
                           ),
@@ -430,9 +500,14 @@ class _PaymentState extends State<Payment> {
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Email field cannot be empty';
+                                  return 'Seats field cannot be empty';
+                                } else if (!RegExp(r'^[0-9]+$')
+                                    .hasMatch(value)) {
+                                  return 'Seats field can only contain numeric values';
+                                } else if (int.parse(value) > seats1!) {
+                                  return 'Seats are not available';
                                 }
-                                return '';
+                                return null;
                               },
                             ),
                           ),
@@ -485,12 +560,6 @@ class _PaymentState extends State<Payment> {
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFFA6AEB0),
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Email field cannot be empty';
-                                }
-                                return '';
-                              },
                             ),
                           ),
                         ),
@@ -529,7 +598,8 @@ class _PaymentState extends State<Payment> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (_seatController.text.isNotEmpty &&
+                                  if (_formKey.currentState!.validate() &&
+                                          _seatController.text.isNotEmpty &&
                                           _nameController.text.isNotEmpty &&
                                           _emailController.text.isNotEmpty &&
                                           _phoneController.text.isNotEmpty &&
@@ -559,6 +629,7 @@ class _PaymentState extends State<Payment> {
                                             _discountController.text] ??
                                         0;
                                     int price = originalAmount - discountAmount;
+                                    final bookingId = generateBookingId();
 
                                     try {
                                       // send email
@@ -574,66 +645,36 @@ class _PaymentState extends State<Payment> {
                                         'seats': _seatController.text,
                                         'price': price,
                                         'vehicle_facility': vehiclefacility,
-                                        'vehicle_name': vehiclename
+                                        'vehicle_name': vehiclename,
+                                        'id': bookingId
                                       });
                                       // show success message and navigate to the next screen
-                                      const logInErrorBar = SnackBar(
-                                        content: Text(
-                                          "Payment Successful. Booking confirmed!",
-                                          style: TextStyle(
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'Nunito',
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        duration: Duration(milliseconds: 1400),
-                                        backgroundColor: Color(0xFF85bb65),
+                                      Get.snackbar(
+                                        "Payment Successful",
+                                        "Booking confirmed!",
+                                        backgroundColor:
+                                            const Color(0xFF85bb65),
+                                        colorText: Colors.grey.shade900,
+                                        duration:
+                                            const Duration(milliseconds: 3000),
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        margin: const EdgeInsets.all(10),
+                                        borderRadius: 10,
+                                        borderWidth: 2,
+                                        borderColor: const Color(0xFF85bb65),
+                                        animationDuration:
+                                            const Duration(milliseconds: 400),
                                       );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(logInErrorBar);
-                                      bottom.goToEighthRoute();
 
-                                      sendMail();
+                                      sendMail(bookingId);
+                                      Get.toNamed('/hun1');
                                     } catch (e) {
                                       print('Error sending email: $e');
+                                      Get.toNamed('/hun1');
                                       // show error message if email couldn't be sent
-                                      const logInErrorBar = SnackBar(
-                                        content: Text(
-                                          "Error: Booking confirmed but email could not be sent.",
-                                          style: TextStyle(
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'Nunito',
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        duration: Duration(milliseconds: 1400),
-                                        backgroundColor: Colors.red,
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(logInErrorBar);
-                                      Navigator.pushNamed(context, '/eighth');
                                     } // replace 100 with the actual price you want to charge
                                   } else {
-                                    const logInErrorBar = SnackBar(
-                                      content: Text(
-                                        "Please fill up all fields",
-                                        style: TextStyle(
-                                          color: Color(0xFFFFFFFF),
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Nunito',
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      duration: Duration(milliseconds: 1400),
-                                      backgroundColor: Color(0xFF0062DE),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(logInErrorBar);
+                                    print("hello");
                                   }
                                 },
                               );
@@ -649,10 +690,9 @@ class _PaymentState extends State<Payment> {
     );
   }
 
-  void sendMail() async {
+  void sendMail(String bookingId) async {
     final emailing = await _storage.read(key: 'email');
     print(emailing);
-    final bookingId = generateBookingId();
     String username = 'mail@asbin.com.np';
     String password = 'Asbindulal1@';
 

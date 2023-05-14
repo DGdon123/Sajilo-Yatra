@@ -85,31 +85,6 @@ class _VMenuState extends State<VMenu> {
             ),
             ListTile(
                 leading: Icon(
-                  Icons.help_outline_rounded,
-                  color: const Color(0xFF0062DE),
-                  size: UiHelper.displayWidth(context) * 0.07,
-                ),
-                title: Text('FAQs',
-                    style: TextStyle(
-                        color: const Color(0xFF222222),
-                        fontFamily: "NotoSans",
-                        fontSize: UiHelper.displayWidth(context) * 0.04,
-                        fontWeight: FontWeight.w400)),
-                trailing: Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  color: const Color(0xFFD6D6D6),
-                  size: UiHelper.displayWidth(context) * 0.08,
-                ),
-                onTap: (() {
-                  Navigator.pushNamed(context, '/nineth');
-                })),
-            UiHelper.verticalSpace(vspace: Spacing.xxsmall),
-            Container(
-              height: UiHelper.displayHeight(context) * 0.0015,
-              color: const Color(0xFFD6D6D6),
-            ),
-            ListTile(
-                leading: Icon(
                   Icons.info_outline_rounded,
                   color: const Color(0xFF0062DE),
                   size: UiHelper.displayWidth(context) * 0.07,
@@ -185,7 +160,7 @@ class _VMenuState extends State<VMenu> {
                     text: 'Do you want to logout',
                     confirmBtnText: 'Yes',
                     cancelBtnText: 'No',
-                    confirmBtnColor: const Color(0xFF6BA444),
+                    confirmBtnColor: const Color(0xFF0062DE),
                   );
                 })),
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),

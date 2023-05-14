@@ -61,7 +61,7 @@ class _EighthScreenState extends State<EighthScreen> {
                 size: 25,
               ),
               onPressed: () {
-                Get.back();
+                Get.toNamed('/hun1');
               },
             );
           },
