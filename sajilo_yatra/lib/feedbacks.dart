@@ -397,7 +397,7 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                                       _emailController.text.isNotEmpty &&
                                       _phoneController.text.isNotEmpty &&
                                       _discountController.text.isNotEmpty) {
-                                    db.collection('users_feedback').add({
+                                    db.collection('users_feedbacks').add({
                                       'Feedback': _discountController.text,
                                       'Email': _emailController.text,
                                       'Full_Name': _nameController.text,

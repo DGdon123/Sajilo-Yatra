@@ -101,7 +101,7 @@ class _VMenuState extends State<VMenu> {
                   size: UiHelper.displayWidth(context) * 0.08,
                 ),
                 onTap: (() {
-                  Navigator.pushNamed(context, '/eighth');
+                  Get.toNamed('/line21');
                 })),
             UiHelper.verticalSpace(vspace: Spacing.xxsmall),
             Container(

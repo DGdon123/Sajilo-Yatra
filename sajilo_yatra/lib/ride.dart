@@ -31,18 +31,21 @@ class _RideState extends State<Ride> {
   String? drop;
   late TextEditingController _goingController;
   late TextEditingController _leavingController;
+  late TextEditingController _cityController;
 
   @override
   void initState() {
     super.initState();
     _goingController = TextEditingController(text: widget.going);
     _leavingController = TextEditingController(text: widget.leaving);
+    _cityController = TextEditingController(text: widget.city);
   }
 
   @override
   void dispose() {
     _goingController.dispose();
     _leavingController.dispose();
+    _cityController.dispose();
     super.dispose();
   }
 
@@ -102,7 +105,7 @@ class _RideState extends State<Ride> {
                     fontSize: 19),
               ),
               Container(
-                height: 59.h,
+                height: 49.h,
                 width: 85.w,
                 margin: const EdgeInsets.only(top: 14),
                 decoration: BoxDecoration(
@@ -124,7 +127,7 @@ class _RideState extends State<Ride> {
                       margin: const EdgeInsets.only(top: 18),
                       width: 270,
                       child: TextFormField(
-                        controller: _leavingController,
+                        controller: _cityController,
                         readOnly: true,
                         maxLines: 1,
                         cursorColor: Colors.black,
@@ -153,7 +156,7 @@ class _RideState extends State<Ride> {
                               Radius.circular(8),
                             ),
                           ),
-                          labelText: 'Leaving From',
+                          labelText: 'Enter City',
                           labelStyle: TextStyle(
                               fontFamily: "Mulish",
                               fontWeight: FontWeight.w600,
@@ -173,65 +176,7 @@ class _RideState extends State<Ride> {
                           return '';
                         },
                         onTap: () {
-                          Navigator.pushNamed(context, '/eleventh');
-                        },
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 12),
-                      width: 270,
-                      child: TextFormField(
-                        controller: _goingController,
-                        maxLines: 1,
-                        readOnly: true,
-                        cursorColor: Colors.black,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: const InputDecoration(
-                          filled: true,
-                          fillColor: Color(0xFFFFFFFF),
-                          prefixIcon: Icon(
-                            Icons.location_on_rounded,
-                            color: Color(0xFF222222),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 242, 243, 245),
-                                width: 3,
-                                style: BorderStyle.solid),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 242, 243, 245),
-                                width: 2,
-                                style: BorderStyle.solid),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          labelText: 'Going To',
-                          labelStyle: TextStyle(
-                              fontFamily: "Mulish",
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF222222),
-                              fontSize: 17.7),
-                          suffixIconColor: Color.fromARGB(255, 255, 0, 0),
-                        ),
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontFamily: "Mulish",
-                            fontWeight: FontWeight.w600,
-                            color: Color.fromARGB(255, 0, 0, 0)),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Going Destination field cannot be empty';
-                          }
-                          return '';
-                        },
-                        onTap: () {
-                          Navigator.pushNamed(context, '/tweleventh');
+                          Navigator.pushNamed(context, '/line5');
                         },
                       ),
                     ),
@@ -453,10 +398,7 @@ class _RideState extends State<Ride> {
                           fontSize: 16),
                     ),
                     onPressed: () {
-                      if (_leavingController.text.isNotEmpty &&
-                          _goingController.text.isNotEmpty &&
-                          dobController.text.isNotEmpty &&
-                          drop != null) {
+                      if (dobController.text.isNotEmpty && drop != null) {
                         {
                           Navigator.push(
                               context,

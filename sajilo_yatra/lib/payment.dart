@@ -178,7 +178,7 @@ class _PaymentState extends State<Payment> {
       print('No documents found for the user');
     }
     print(sprice);
-    seats1 = totalSeats - int.parse(seats.toString());
+    seats1 = int.parse(seats.toString());
   }
 
   String generateBookingId() {

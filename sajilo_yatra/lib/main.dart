@@ -36,6 +36,7 @@ import 'package:sajilo_yatra/vehicleownerlogin.dart';
 import 'package:sajilo_yatra/vehicleownerregister.dart';
 import 'package:sajilo_yatra/vehicletickets.dart';
 import 'package:sajilo_yatra/vhelp.dart';
+import 'aboutus.dart';
 import 'city.dart';
 import 'editprofile.dart';
 import 'feedbacks.dart';
@@ -172,6 +173,12 @@ Future<void> main() async {
                       page: () => const VEdit(
                         userId: '',
                       ),
+                      transitionDuration: const Duration(milliseconds: 600),
+                      transition: Transition.cupertino,
+                    ),
+                    GetPage(
+                      name: '/line21',
+                      page: () => const AboutUs(),
                       transitionDuration: const Duration(milliseconds: 600),
                       transition: Transition.cupertino,
                     ),

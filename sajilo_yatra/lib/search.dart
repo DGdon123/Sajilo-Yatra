@@ -578,7 +578,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               UiHelper.horizontaSpace(
                                                   hspace: Spacing.small),
                                               Text(
-                                                "${totalSeats - int.parse(snapshot.data!.docs[index]['vehicle_seats'].toString())} Seats",
+                                                "${int.parse(snapshot.data!.docs[index]['vehicle_seats'].toString()) - totalSeats} Seats",
                                                 style: TextStyle(
                                                   fontFamily: "PublicSans",
                                                   fontWeight: FontWeight.w500,
