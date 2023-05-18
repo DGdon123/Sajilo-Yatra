@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 import 'controllers/bottom_nav_controller.dart';
@@ -105,8 +107,8 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                 color: const Color(0xFF0062DE),
               ),
             ))
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
+          : Container(
+              color: const Color(0xFFFFFFFF),
               child: Form(
                 key: _formKey,
                 child: Expanded(
@@ -114,116 +116,178 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          heightFactor: 1,
+                          child: Image.asset(
+                            "images/cover.png",
+                            width: 480,
+                            height: 160,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                         Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          height: 2.75.h,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 15.w,
+                            ),
+                            Icon(
+                              Icons.person,
+                              size: 22.sp,
+                              color: const Color(0xFF0062DE),
+                            ),
+                            Container(
+                              width: 2.w,
+                            ),
+                            Text('NAME',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.heebo(
+                                    letterSpacing: 1.4.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4E93E8),
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                        Container(
+                          height: 1.75.h,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          child: SizedBox(
                             child: TextFormField(
                               controller: _nameController,
                               maxLines: 1,
-                              cursorColor: Colors.black,
+                              cursorColor: Colors.white,
                               keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.edit,
-                                  size: UiHelper.displayHeight(context) * 0.028,
-                                  color: const Color(0xFF222222),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
+                                filled: true,
+                                fillColor: const Color(0xFF4E93E8),
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFA6AEB0),
-                                      width: 2,
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
                                       style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                labelText: 'Full Name *',
-                                hintText: 'Enter Your Full Name',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
+                                      style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                hintText: 'Enter Your Name',
                                 hintStyle: TextStyle(
-                                  height:
-                                      UiHelper.displayHeight(context) * 0.002,
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFA6AEB0),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.043,
-                                ),
-                                labelStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF222222),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.045,
-                                ),
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFFFFFFFF),
+                                    fontSize: 16.8.sp),
                                 suffixIconColor:
                                     const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
-                                fontSize:
-                                    UiHelper.displayWidth(context) * 0.045,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFFA6AEB0),
-                              ),
+                                  fontSize: 16.8.sp,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Full Name field cannot be empty';
+                                  return 'Name field cannot be empty';
                                 }
+
                                 final nameRegExp =
                                     RegExp(r'^[A-Za-z]+(?:\s[A-Za-z]+)*$');
                                 if (!nameRegExp.hasMatch(value)) {
                                   return 'Please enter a valid name';
                                 }
+
                                 return null;
+                              },
+                              onChanged: (String val) {
+                                username = val;
                               },
                             ),
                           ),
                         ),
                         Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          height: 1.75.h,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 15.w,
+                            ),
+                            Icon(
+                              Icons.mail_rounded,
+                              size: 22.sp,
+                              color: const Color(0xFF0062DE),
+                            ),
+                            Container(
+                              width: 2.w,
+                            ),
+                            Text('EMAIL',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.heebo(
+                                    letterSpacing: 1.4.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4E93E8),
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                        Container(
+                          height: 1.75.h,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          child: SizedBox(
+                            width: 80.w,
                             child: TextFormField(
                               controller: _emailController,
                               maxLines: 1,
-                              cursorColor: Colors.black,
+                              cursorColor: Colors.white,
                               keyboardType: TextInputType.visiblePassword,
                               decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.mail_rounded,
-                                  size: UiHelper.displayHeight(context) * 0.028,
-                                  color: const Color(0xFF222222),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
+                                filled: true,
+                                fillColor: const Color(0xFF4E93E8),
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFA6AEB0),
-                                      width: 2,
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
                                       style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                labelText: 'Email *',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
+                                      style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
                                 hintText: 'Enter Your Email',
                                 hintStyle: TextStyle(
-                                  height:
-                                      UiHelper.displayHeight(context) * 0.002,
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFA6AEB0),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.043,
-                                ),
-                                labelStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF222222),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.045,
-                                ),
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFFFFFFFF),
+                                    fontSize: 16.8.sp),
                                 suffixIconColor:
                                     const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
-                                fontSize:
-                                    UiHelper.displayWidth(context) * 0.045,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFFA6AEB0),
-                              ),
+                                  fontSize: 16.8.sp,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Email field cannot be empty';
@@ -232,57 +296,84 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                                 }
                                 return null;
                               },
+                              onChanged: (String val) {
+                                emailing = val;
+                              },
                             ),
                           ),
                         ),
                         Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          height: 1.75.h,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 15.w,
+                            ),
+                            Icon(
+                              Icons.phone,
+                              size: 22.sp,
+                              color: const Color(0xFF0062DE),
+                            ),
+                            Container(
+                              width: 2.w,
+                            ),
+                            Text('PHONE NUMBER',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.heebo(
+                                    letterSpacing: 1.4.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4E93E8),
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                        Container(
+                          height: 1.75.h,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          child: SizedBox(
+                            width: 80.w,
                             child: TextFormField(
                               controller: _phoneController,
                               maxLines: 1,
-                              cursorColor: Colors.black,
+                              cursorColor: Colors.white,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.phone,
-                                  size: UiHelper.displayHeight(context) * 0.028,
-                                  color: const Color(0xFF222222),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
+                                filled: true,
+                                fillColor: const Color(0xFF4E93E8),
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFA6AEB0),
-                                      width: 2,
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
                                       style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                labelText: 'Phone Number *',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
+                                      style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
                                 hintText: 'Enter Your Phone Number',
                                 hintStyle: TextStyle(
-                                  height:
-                                      UiHelper.displayHeight(context) * 0.002,
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFA6AEB0),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.043,
-                                ),
-                                labelStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF222222),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.045,
-                                ),
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFFFFFFFF),
+                                    fontSize: 16.8.sp),
                                 suffixIconColor:
                                     const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
-                                fontSize:
-                                    UiHelper.displayWidth(context) * 0.045,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFFA6AEB0),
-                              ),
+                                  fontSize: 16.8.sp,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Phone Number field cannot be empty';
@@ -292,57 +383,84 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                                 }
                                 return null;
                               },
+                              onChanged: (String val) {
+                                phonenumber = val;
+                              },
                             ),
                           ),
                         ),
                         Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                          height: 1.75.h,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 15.w,
+                            ),
+                            Icon(
+                              Icons.person,
+                              size: 22.sp,
+                              color: const Color(0xFF0062DE),
+                            ),
+                            Container(
+                              width: 2.w,
+                            ),
+                            Text('FEEDBACK',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.heebo(
+                                    letterSpacing: 1.4.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF4E93E8),
+                                    fontSize: 16.sp)),
+                          ],
+                        ),
+                        Container(
+                          height: 1.75.h,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30, right: 30),
+                          child: SizedBox(
+                            width: 80.w,
                             child: TextFormField(
                               controller: _discountController,
-                              maxLines: 1,
-                              cursorColor: Colors.black,
-                              keyboardType: TextInputType.visiblePassword,
+                              maxLines: 4,
+                              cursorColor: Colors.white,
+                              keyboardType: TextInputType.multiline,
                               decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.edit,
-                                  size: UiHelper.displayHeight(context) * 0.028,
-                                  color: const Color(0xFF222222),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
+                                filled: true,
+                                fillColor: const Color(0xFF4E93E8),
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Color(0xFFA6AEB0),
-                                      width: 2,
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
                                       style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
                                 ),
-                                labelText: 'Feedback *',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: const Color(0xFF4E93E8),
+                                      width: 1.w,
+                                      style: BorderStyle.solid),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
                                 hintText: 'Enter Your Feedback',
                                 hintStyle: TextStyle(
-                                  height:
-                                      UiHelper.displayHeight(context) * 0.002,
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFFA6AEB0),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.043,
-                                ),
-                                labelStyle: TextStyle(
-                                  fontFamily: "Mulish",
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF222222),
-                                  fontSize:
-                                      UiHelper.displayWidth(context) * 0.045,
-                                ),
+                                    fontFamily: "Mulish",
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFFFFFFFF),
+                                    fontSize: 16.8.sp),
                                 suffixIconColor:
                                     const Color.fromARGB(255, 255, 0, 0),
                               ),
                               style: TextStyle(
-                                fontSize:
-                                    UiHelper.displayWidth(context) * 0.045,
-                                fontFamily: "Mulish",
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFFA6AEB0),
-                              ),
+                                  fontSize: 16.8.sp,
+                                  fontFamily: "Mulish",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Feedback field cannot be empty';
@@ -354,17 +472,20 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                                 }
                                 return null;
                               },
+                              onChanged: (String val) {
+                                username = val;
+                              },
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: UiHelper.displayHeight(context) * 0.035,
+                        Container(
+                          height: 4.h,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: const EdgeInsets.only(left: 30, right: 30),
                           child: SizedBox(
-                            height: UiHelper.displayHeight(context) * 0.069,
-                            width: UiHelper.displayWidth(context) * 0.1,
+                            height: 8.h,
+                            width: 80.w,
                             child: GetBuilder<BottomNavController>(
                                 builder: (data) {
                               return ElevatedButton(
@@ -375,22 +496,17 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
 
                                   shape: RoundedRectangleBorder(
                                       //to set border radius to button
-                                      borderRadius: BorderRadius.circular(3)),
+                                      borderRadius: BorderRadius.circular(8)),
                                 ),
-                                child: Text(
-                                  "Submit",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    height:
-                                        UiHelper.displayHeight(context) * 0.001,
-                                    fontFamily: "ZenKakuGothicAntique",
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    fontSize:
-                                        UiHelper.displayWidth(context) * 0.048,
-                                  ),
-                                ),
+                                child: Text("SUBMIT",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.varelaRound(
+                                      letterSpacing: 6.5.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
+                                      fontSize: 18.sp,
+                                    )),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate() &&
                                       _nameController.text.isNotEmpty &&
@@ -411,7 +527,7 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                                       text: 'Feedback Submitted Successfully!',
                                       confirmBtnColor: const Color(0xFF0062DE),
                                       onConfirmBtnTap: () {
-                                        Get.offAndToNamed('/hun1');
+                                        Get.back();
                                       },
                                     );
                                   }
@@ -419,6 +535,9 @@ class _FeedbacksScreenState extends State<FeedbacksScreen> {
                               );
                             }),
                           ),
+                        ),
+                        Container(
+                          height: 3.4.h,
                         ),
                       ],
                     ),

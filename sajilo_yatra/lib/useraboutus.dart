@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class AboutUs extends StatefulWidget {
+class UAboutUs extends StatefulWidget {
   final String? going;
   final String? leaving;
   final String? city;
   final int initialIndex;
-  const AboutUs(
+  const UAboutUs(
       {Key? key, this.going, this.leaving, this.city, this.initialIndex = 0})
       : super(key: key);
 
   @override
-  State<AboutUs> createState() => _AboutUsState();
+  State<UAboutUs> createState() => _UAboutUsState();
 }
 
-class _AboutUsState extends State<AboutUs> {
+class _UAboutUsState extends State<UAboutUs> {
   @override
   var vehicle = ['Bus', 'Jeep', 'MicroBus', 'Taxi', 'Others'];
   var vehicle1 = [];
@@ -60,7 +60,7 @@ class _AboutUsState extends State<AboutUs> {
                 size: 25,
               ),
               onPressed: () {
-                Get.toNamed('/third2');
+                Get.back();
               },
             );
           },

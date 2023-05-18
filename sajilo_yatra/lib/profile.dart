@@ -233,7 +233,7 @@ class _FourthRouteState extends State<FourthRoute> {
                   size: 25,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
               );
             },

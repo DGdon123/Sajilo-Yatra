@@ -1,11 +1,7 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:flutter/material.dart';
-
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:get/get.dart';
 
 class NinethScreen extends StatefulWidget {
   const NinethScreen({Key? key}) : super(key: key);
@@ -40,6 +36,20 @@ class _NinethScreenState extends State<NinethScreen> {
               fontWeight: FontWeight.w900,
             )),
         elevation: 0,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Color(0xFFFFFFFF),
+                size: 25,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -121,7 +131,7 @@ class _NinethScreenState extends State<NinethScreen> {
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Yes, it is the most safest payment platform ever done. \nUsers would perform cash transactions hand to hand \nwith the vehicle owner.",
+                          "Yes, it is the most safest payment platform ever done. Users would perform cash transactions hand \nto hand with the vehicle owner.",
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
@@ -175,43 +185,6 @@ class _NinethScreenState extends State<NinethScreen> {
                 color: const Color.fromARGB(255, 242, 243, 245),
                 child: ExpansionTile(
                   title: const Text(
-                    "Drivers do not respond",
-                    style: TextStyle(
-                        color: Color(0xFF222222),
-                        fontSize: 16.8,
-                        fontFamily: "Cambay",
-                        fontWeight: FontWeight.w600),
-                  ),
-                  trailing: const Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 28,
-                    color: Color(0xFF222222),
-                  ),
-                  children: [
-                    Container(
-                      color: const Color(0xFFFFFFFF),
-                      height: 118,
-                      width: 400,
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "If a driver has not responded to your ride request, try \nincreasing the price for the ride, then resubmit your \nrequest. Bear in mind that during rush hour drivers \nare busier, so expect to pay more for the ride.",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15,
-                            fontFamily: "Athiti",
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-            Card(
-                margin: const EdgeInsets.only(top: 15, left: 12, right: 12),
-                color: const Color.fromARGB(255, 242, 243, 245),
-                child: ExpansionTile(
-                  title: const Text(
                     "How to leave a review for a driver",
                     style: TextStyle(
                         color: Color(0xFF222222),
@@ -232,7 +205,7 @@ class _NinethScreenState extends State<NinethScreen> {
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Once the app immediately after the ride is completed. \nYou will see a window where you can evaluate \nthe driver and write a review. If you did not enjoy \nyour ride and you decide to write a negative \nreview, don’t worry - the driver will not see that \nit was you.",
+                          "Once the app immediately after the ride is completed. You will see a window where you can evaluate the driver and write a review. If you did \nnot enjoy your ride and you decide to write a \nnegative review, don’t worry - the driver will not \nsee that it was you.",
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
@@ -344,7 +317,7 @@ class _NinethScreenState extends State<NinethScreen> {
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Unfortunately, the vehicle cannot wait for delayed \npassengers. Our vehicles travel within a network and \nare bound to a timetable. Please ensure that you are \nat the stop at least 15 minutes before departure.\n\nIf you realize that you’re not going to make it, you can \ncancel your ride up to 15 minutes before departure via \nBooking screen.",
+                          "Unfortunately, the vehicle cannot wait for delayed \npassengers. Our vehicles travel within a network and \nare bound to a timetable. Please ensure that you are \nat the stop at least 15 minutes before departure.\n\nIf you realize that you’re not going to make it, you can cancel your ride up to 15 minutes before departure via Booking screen.",
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 15,
