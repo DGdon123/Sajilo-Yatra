@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
@@ -662,21 +663,11 @@ class _OfferTwoState extends State<OfferTwo> {
                                 String code =
                                     "UIGF78"; // replace with the actual code string
                                 Clipboard.setData(ClipboardData(text: code));
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "Code copied to clipboard",
-                                      style: TextStyle(
-                                        color: Color(0xFFFFFFFF),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: 'Nunito',
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    duration: Duration(milliseconds: 1400),
-                                    backgroundColor: Color(0xFF0062DE),
-                                  ),
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: 'Code copied to clipboard',
+                                  confirmBtnColor: const Color(0xFF0062DE),
                                 );
                               },
                             )),

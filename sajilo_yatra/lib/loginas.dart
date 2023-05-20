@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:get/get.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class FirstScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: 65),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(
+                backgroundColor: const Color.fromARGB(
                     255, 118, 173, 240), //background color of button
                 //border width and color
 
@@ -46,7 +47,7 @@ class FirstScreen extends StatelessWidget {
                     fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/third');
+                Get.toNamed('/third');
               },
             ),
           ),
@@ -65,7 +66,7 @@ class FirstScreen extends StatelessWidget {
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(
+                backgroundColor: const Color.fromARGB(
                     255, 118, 173, 240), //background color of button
                 //border width and color
 
@@ -85,7 +86,7 @@ class FirstScreen extends StatelessWidget {
                     fontSize: UiHelper.displayWidth(context) * 0.038),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/fourth');
+                Get.toNamed('/fourth');
               },
             ),
           ),

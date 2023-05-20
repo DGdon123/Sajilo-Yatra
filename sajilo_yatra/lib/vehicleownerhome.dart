@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
-import 'package:sajilo_yatra/service/mail_service.dart';
+
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class VehicleHome extends StatefulWidget {
@@ -802,9 +802,7 @@ class _VehicleHomeState extends State<VehicleHome> {
                                       color: Color(0xFFFFFFFF),
                                       fontSize: 16),
                                 ),
-                                onPressed: () {
-                                  sendMail();
-                                }),
+                                onPressed: () {}),
                           ),
                         )
                       ]),

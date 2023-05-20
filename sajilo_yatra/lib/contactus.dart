@@ -383,7 +383,7 @@ class _ContactState extends State<Contact> {
                               //to set border radius to button
                               borderRadius: BorderRadius.circular(8)),
                         ),
-                        child: Text("SUBMIT",
+                        child: Text("SEND",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.varelaRound(
                               letterSpacing: 6.5.sp,

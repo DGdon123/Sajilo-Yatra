@@ -59,28 +59,24 @@ class Home extends StatelessWidget {
               iconSize: 24,
               tabBackgroundColor: const Color(0xFF0062DE).withOpacity(0.85),
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
-              tabMargin: const EdgeInsets.only(left: 9.3, right: 9.3),
+              tabMargin: const EdgeInsets.only(left: 15, right: 15),
               tabs: const [
                 GButton(
                   icon: Icons.home_filled,
                   text: 'Home',
                 ),
                 GButton(
-                  icon: Icons.work,
-                  text: 'Bookings',
-                ),
-                GButton(
                   icon: Icons.menu,
                   text: 'Menu',
+                ),
+                GButton(
+                  icon: Icons.work,
+                  text: 'Bookings',
                 ),
                 GButton(
                   icon: Icons.help,
                   text: 'Help',
                 ),
-                GButton(
-                  icon: Icons.person,
-                  text: 'Profile',
-                )
               ],
               onTabChange: (index) {
                 context.changeIndex(index);

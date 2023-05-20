@@ -409,21 +409,18 @@ class _RideState extends State<Ride> {
                                       dob: dobController.text)));
                         }
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              "Please fill out all the fields",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.2,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Nunito',
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            duration: Duration(milliseconds: 1200),
-                            backgroundColor: Colors.blue,
-                          ),
+                        Get.snackbar(
+                          "Error",
+                          "Please fill out all the fields",
+                          backgroundColor: Colors.red.shade400,
+                          colorText: Colors.grey.shade900,
+                          duration: const Duration(milliseconds: 3000),
+                          snackPosition: SnackPosition.TOP,
+                          margin: const EdgeInsets.all(10),
+                          borderRadius: 10,
+                          borderWidth: 2,
+                          borderColor: Colors.red,
+                          animationDuration: const Duration(milliseconds: 400),
                         );
                       }
                     },

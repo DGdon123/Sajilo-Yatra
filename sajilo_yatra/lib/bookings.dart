@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
@@ -780,6 +781,7 @@ class _EighthRouteState extends State<EighthRoute> {
                                                           .docs.isNotEmpty) {
                                                         _deleteItem(snapshot
                                                             .docs[0].id);
+                                                        Get.toNamed('/hun1');
                                                       }
                                                     }).catchError((error) {
                                                       print(
@@ -1158,7 +1160,7 @@ class _EighthRouteState extends State<EighthRoute> {
                 ),
                 pw.Container(width: 50),
                 pw.Text(
-                  'Phone: ',
+                  'Age: ',
                   style: pw.TextStyle(
                     fontSize: 20,
                     fontWeight: pw.FontWeight.bold,
@@ -1166,7 +1168,7 @@ class _EighthRouteState extends State<EighthRoute> {
                   ),
                 ),
                 pw.Text(
-                  phoneNumber!,
+                  age!,
                   style: pw.TextStyle(
                     fontSize: 20,
                     fontWeight: pw.FontWeight.normal,
@@ -1195,7 +1197,7 @@ class _EighthRouteState extends State<EighthRoute> {
                 ),
                 pw.Container(width: 50),
                 pw.Text(
-                  'Age: ',
+                  'Phone: ',
                   style: pw.TextStyle(
                     fontSize: 20,
                     fontWeight: pw.FontWeight.bold,
@@ -1203,64 +1205,7 @@ class _EighthRouteState extends State<EighthRoute> {
                   ),
                 ),
                 pw.Text(
-                  age!,
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.normal,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-              ]),
-              pw.Container(height: 10),
-              pw.Row(children: [
-                pw.Container(width: 50),
-                pw.Text(
-                  'Departing Time: ',
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.bold,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-                pw.Text(
-                  depart,
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.normal,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-                pw.Container(width: 15),
-                pw.Text(
-                  'Date: ',
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.bold,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-                pw.Text(
-                  date,
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.normal,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-              ]),
-              pw.Container(height: 10),
-              pw.Row(children: [
-                pw.Container(width: 50),
-                pw.Text(
-                  'Arriving Time: ',
-                  style: pw.TextStyle(
-                    fontSize: 20,
-                    fontWeight: pw.FontWeight.bold,
-                    color: const PdfColor.fromInt(0xFF2222222),
-                  ),
-                ),
-                pw.Text(
-                  arrive,
+                  phoneNumber!,
                   style: pw.TextStyle(
                     fontSize: 20,
                     fontWeight: pw.FontWeight.normal,

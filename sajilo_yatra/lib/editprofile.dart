@@ -2,11 +2,11 @@
 
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:sajilo_yatra/ui_helper.dart';
 
 class Edit extends StatefulWidget {
@@ -30,11 +30,11 @@ class _EditState extends State<Edit> {
   final _genController = TextEditingController();
   final _ageController = TextEditingController();
   final _dobController = TextEditingController();
-  String? dropdownvalue;
+  String dropdownvalue = 'Male';
 
-  bool _isLoading = false;
-  bool _isObscured = true;
-  final _storage = FlutterSecureStorage();
+  final bool _isLoading = false;
+  final bool _isObscured = true;
+  final _storage = const FlutterSecureStorage();
   var isLoading = true;
   String? username;
   String? locat;
@@ -97,7 +97,6 @@ class _EditState extends State<Edit> {
         address.isNotEmpty &&
         mobile.isNotEmpty &&
         age.isNotEmpty &&
-        gender != null &&
         dob.isNotEmpty) {
       final userDocs = await FirebaseFirestore.instance
           .collection("users")
@@ -117,7 +116,7 @@ class _EditState extends State<Edit> {
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text(
                 "User information updated successfully",
                 style: TextStyle(
@@ -128,7 +127,7 @@ class _EditState extends State<Edit> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              duration: const Duration(milliseconds: 1200),
+              duration: Duration(milliseconds: 1200),
               backgroundColor: Colors.blue,
             ),
           );
@@ -137,7 +136,7 @@ class _EditState extends State<Edit> {
           print("User information updated successfully in Firestore");
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text(
                 "Error updating user information in Firestore",
                 style: TextStyle(
@@ -148,7 +147,7 @@ class _EditState extends State<Edit> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              duration: const Duration(milliseconds: 1200),
+              duration: Duration(milliseconds: 1200),
               backgroundColor: Colors.red,
             ),
           );
@@ -157,7 +156,7 @@ class _EditState extends State<Edit> {
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
               "No user found in Firestore",
               style: TextStyle(
@@ -168,7 +167,7 @@ class _EditState extends State<Edit> {
               ),
               textAlign: TextAlign.center,
             ),
-            duration: const Duration(milliseconds: 1200),
+            duration: Duration(milliseconds: 1200),
             backgroundColor: Colors.blue,
           ),
         );
@@ -177,7 +176,7 @@ class _EditState extends State<Edit> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             "Please fill out all fields",
             style: TextStyle(
@@ -188,7 +187,7 @@ class _EditState extends State<Edit> {
             ),
             textAlign: TextAlign.center,
           ),
-          duration: const Duration(milliseconds: 1200),
+          duration: Duration(milliseconds: 1200),
           backgroundColor: Colors.blue,
         ),
       );
@@ -202,15 +201,14 @@ class _EditState extends State<Edit> {
     width = size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0062DE),
+        backgroundColor: const Color(0xFF0062DE),
         centerTitle: true,
-        title: const Text('Edit My Profile',
+        title: Text('Edit Profile',
             style: TextStyle(
-              color: Color(0xFFFFFFFF),
-              fontFamily: 'Roboto Bold',
-              fontSize: 22,
-              height: 1.19,
-              fontWeight: FontWeight.w500,
+              color: const Color(0xFFFFFFFF),
+              fontFamily: 'ComicNeue',
+              fontSize: 19.5.sp,
+              fontWeight: FontWeight.w900,
             )),
         elevation: 0,
         leading: Builder(
@@ -235,7 +233,7 @@ class _EditState extends State<Edit> {
                 color: Color(0xFF0062DE),
               )
             : Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -243,6 +241,7 @@ class _EditState extends State<Edit> {
                     children: <Widget>[
                       Expanded(
                         child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
                           child: Container(
                             child: Column(
                               children: [
@@ -262,9 +261,10 @@ class _EditState extends State<Edit> {
                                           size:
                                               UiHelper.displayHeight(context) *
                                                   0.028,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFFA6AEB0),
                                               width: 2,
@@ -278,7 +278,7 @@ class _EditState extends State<Edit> {
                                                   0.002,
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFA6AEB0),
+                                          color: const Color(0xFFA6AEB0),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.043,
@@ -286,13 +286,13 @@ class _EditState extends State<Edit> {
                                         labelStyle: TextStyle(
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.045,
                                         ),
-                                        suffixIconColor:
-                                            Color.fromARGB(255, 255, 0, 0),
+                                        suffixIconColor: const Color.fromARGB(
+                                            255, 255, 0, 0),
                                       ),
                                       style: TextStyle(
                                         fontSize:
@@ -300,13 +300,20 @@ class _EditState extends State<Edit> {
                                                 0.045,
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFFA6AEB0),
+                                        color: const Color(0xFFA6AEB0),
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Email field cannot be empty';
+                                          return 'Full Name field cannot be empty';
                                         }
-                                        return '';
+
+                                        final nameRegExp = RegExp(
+                                            r'^[A-Za-z]+(?:\s[A-Za-z]+)*$');
+                                        if (!nameRegExp.hasMatch(value)) {
+                                          return 'Please enter a valid name';
+                                        }
+
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -327,9 +334,10 @@ class _EditState extends State<Edit> {
                                           size:
                                               UiHelper.displayHeight(context) *
                                                   0.028,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFFA6AEB0),
                                               width: 2,
@@ -343,7 +351,7 @@ class _EditState extends State<Edit> {
                                                   0.002,
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFA6AEB0),
+                                          color: const Color(0xFFA6AEB0),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.043,
@@ -351,13 +359,13 @@ class _EditState extends State<Edit> {
                                         labelStyle: TextStyle(
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.045,
                                         ),
-                                        suffixIconColor:
-                                            Color.fromARGB(255, 255, 0, 0),
+                                        suffixIconColor: const Color.fromARGB(
+                                            255, 255, 0, 0),
                                       ),
                                       style: TextStyle(
                                         fontSize:
@@ -365,13 +373,13 @@ class _EditState extends State<Edit> {
                                                 0.045,
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFFA6AEB0),
+                                        color: const Color(0xFFA6AEB0),
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Email field cannot be empty';
+                                          return 'Address field cannot be empty';
                                         }
-                                        return '';
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -391,9 +399,10 @@ class _EditState extends State<Edit> {
                                           size:
                                               UiHelper.displayHeight(context) *
                                                   0.028,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFFA6AEB0),
                                               width: 2,
@@ -407,7 +416,7 @@ class _EditState extends State<Edit> {
                                                   0.002,
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFA6AEB0),
+                                          color: const Color(0xFFA6AEB0),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.043,
@@ -415,13 +424,13 @@ class _EditState extends State<Edit> {
                                         labelStyle: TextStyle(
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.045,
                                         ),
-                                        suffixIconColor:
-                                            Color.fromARGB(255, 255, 0, 0),
+                                        suffixIconColor: const Color.fromARGB(
+                                            255, 255, 0, 0),
                                       ),
                                       style: TextStyle(
                                         fontSize:
@@ -429,13 +438,16 @@ class _EditState extends State<Edit> {
                                                 0.045,
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFFA6AEB0),
+                                        color: const Color(0xFFA6AEB0),
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Email field cannot be empty';
+                                          return 'Mobile Number field cannot be empty';
+                                        } else if (!RegExp(r'^[0-9]{10}$')
+                                            .hasMatch(value)) {
+                                          return 'Please enter a valid 10-digit phone number';
                                         }
-                                        return '';
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -450,7 +462,8 @@ class _EditState extends State<Edit> {
                                       cursorColor: Colors.black,
                                       keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
-                                        focusedBorder: UnderlineInputBorder(
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color(0xFFA6AEB0),
                                               width: 2,
@@ -464,7 +477,7 @@ class _EditState extends State<Edit> {
                                                   0.002,
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFFA6AEB0),
+                                          color: const Color(0xFFA6AEB0),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.043,
@@ -472,13 +485,13 @@ class _EditState extends State<Edit> {
                                         labelStyle: TextStyle(
                                           fontFamily: "Mulish",
                                           fontWeight: FontWeight.w600,
-                                          color: Color(0xFF222222),
+                                          color: const Color(0xFF222222),
                                           fontSize:
                                               UiHelper.displayWidth(context) *
                                                   0.045,
                                         ),
-                                        suffixIconColor:
-                                            Color.fromARGB(255, 255, 0, 0),
+                                        suffixIconColor: const Color.fromARGB(
+                                            255, 255, 0, 0),
                                       ),
                                       style: TextStyle(
                                         fontSize:
@@ -486,139 +499,180 @@ class _EditState extends State<Edit> {
                                                 0.045,
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFFA6AEB0),
+                                        color: const Color(0xFFA6AEB0),
                                       ),
                                       validator: (value) {
                                         if (value!.isEmpty) {
-                                          return 'Email field cannot be empty';
+                                          return 'Age field cannot be empty';
                                         }
-                                        return '';
+                                        if (int.tryParse(value) == null) {
+                                          return 'Age must be a valid number';
+                                        }
+                                        final age = int.parse(value);
+                                        if (age < 6 || age > 100) {
+                                          return 'Age must be between 6 and 100';
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
                                 ),
                                 Container(
+                                  height: 0.4.h,
+                                ),
+                                Container(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 13, right: 20, top: 3),
-                                    child: DropdownButton2(
-                                      searchController: _genController,
-                                      dropdownMaxHeight: 155,
-                                      itemSplashColor: Color(0xFF9BC2F2),
-                                      itemPadding:
-                                          const EdgeInsets.only(left: 12),
-                                      itemHighlightColor: Color(0xFF9BC2F2),
-                                      isExpanded: true,
-                                      iconSize: UiHelper.displayWidth(context) *
-                                          0.085,
-                                      buttonPadding: const EdgeInsets.only(
-                                          top: 5, right: 10),
-                                      iconEnabledColor: const Color(0xFF222222),
-                                      iconDisabledColor:
-                                          const Color(0xFF222222),
-                                      style: TextStyle(
-                                        height: 1,
+                                        left: 20, right: 20),
+                                    child: TextFormField(
+                                      controller: _genController,
+                                      readOnly: true,
+                                      maxLines: 1,
+                                      cursorColor: Colors.black,
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        suffixIcon: Icon(
+                                          Icons.person,
+                                          size:
+                                              UiHelper.displayHeight(context) *
+                                                  0.03,
+                                          color: const Color(0xFF222222),
+                                        ),
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFA6AEB0),
+                                              width: 2,
+                                              style: BorderStyle.solid),
+                                        ),
+                                        labelText: 'Select Gender',
+                                        labelStyle: const TextStyle(
+                                          fontSize: 15.4,
+                                          color: Color(0xFF222222),
+                                        ),
+                                        prefixIconColor:
+                                            const Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      style: const TextStyle(
                                         fontFamily: "Mulish",
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xFF222222),
-                                        fontSize:
-                                            UiHelper.displayWidth(context) *
-                                                0.043,
+                                        fontSize: 16.7,
                                       ),
-                                      underline: Container(
-                                        margin: const EdgeInsets.only(top: 45),
-                                        height: 1,
-                                        color: Colors.transparent,
-                                      ),
-                                      hint: const Text(
-                                        "Select Gender",
-                                        style: TextStyle(
-                                            fontSize: 15.4,
-                                            color: Color(0xFF222222)),
-                                      ),
-                                      value: dropdownvalue,
-                                      items: items.map((itemone) {
-                                        return DropdownMenuItem(
-                                            value: itemone,
-                                            child: Text(itemone));
-                                      }).toList(),
-                                      onChanged: (String? newvalue) {
-                                        setState(() {
-                                          dropdownvalue = newvalue!;
-                                        });
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please select a gender';
+                                        }
+                                        return null;
+                                      },
+                                      onTap: () async {
+                                        final selectedGender =
+                                            await showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Select Gender'),
+                                              content: DropdownButtonFormField<
+                                                  String>(
+                                                value: dropdownvalue,
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    dropdownvalue = newValue!;
+                                                    _genController.text =
+                                                        newValue;
+                                                  });
+                                                  Navigator.of(context)
+                                                      .pop(newValue);
+                                                },
+                                                items: items.map((String item) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: item,
+                                                    child: Text(item),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            );
+                                          },
+                                        );
+
+                                        if (selectedGender != null) {
+                                          setState(() {
+                                            _genController.text =
+                                                selectedGender;
+                                          });
+                                        }
                                       },
                                     ),
                                   ),
                                 ),
                                 Container(
+                                  height: 0.4.h,
+                                ),
+                                Container(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 20, right: 20, top: 13),
-                                    child: Column(
-                                      children: [
-                                        TextFormField(
-                                          controller: _dobController,
-                                          decoration: InputDecoration(
-                                            filled: true,
-                                            fillColor: Color(0xFFFFFFFF),
-                                            suffixIcon: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 00),
-                                              child: Icon(
-                                                Icons.calendar_month_rounded,
-                                                size: UiHelper.displayHeight(
-                                                        context) *
-                                                    0.028,
-                                                color: Color(0xFF222222),
-                                              ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Color(0xFFA6AEB0),
-                                                  width: 2,
-                                                  style: BorderStyle.solid),
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.only(right: 18.5),
-                                            labelText: 'Date of Birth',
-                                            labelStyle: TextStyle(
-                                              fontFamily: "Mulish",
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xFF222222),
-                                              fontSize: UiHelper.displayWidth(
-                                                      context) *
-                                                  0.045,
-                                            ),
-                                            suffixIconColor:
-                                                Color.fromARGB(255, 255, 0, 0),
-                                          ),
-                                          style: TextStyle(
-                                            fontSize:
-                                                UiHelper.displayWidth(context) *
-                                                    0.045,
-                                            fontFamily: "Mulish",
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFFA6AEB0),
-                                          ),
-                                          onTap: () async {
-                                            FocusScope.of(context)
-                                                .requestFocus(new FocusNode());
-                                            final DateTime? date =
-                                                await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1900),
-                                              lastDate: DateTime(2100),
-                                            );
-                                            if (date != null) {
-                                              _dobController.text =
-                                                  DateFormat("yyyy-MM-dd")
-                                                      .format(date);
-                                              dob = date;
-                                            }
-                                          },
+                                        left: 20, right: 20),
+                                    child: TextFormField(
+                                      controller: _dobController,
+                                      readOnly: true,
+                                      maxLines: 1,
+                                      cursorColor: Colors.black,
+                                      keyboardType: TextInputType.number,
+                                      decoration: InputDecoration(
+                                        suffixIcon: Icon(
+                                          Icons.calendar_month_rounded,
+                                          size:
+                                              UiHelper.displayHeight(context) *
+                                                  0.03,
+                                          color: const Color(0xFF222222),
                                         ),
-                                      ],
+                                        focusedBorder:
+                                            const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xFFA6AEB0),
+                                              width: 2,
+                                              style: BorderStyle.solid),
+                                        ),
+                                        labelText: 'Date of Birth',
+                                        labelStyle: const TextStyle(
+                                          fontSize: 15.4,
+                                          color: Color(0xFF222222),
+                                        ),
+                                        prefixIconColor:
+                                            const Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                      style: const TextStyle(
+                                        fontFamily: "Mulish",
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF222222),
+                                        fontSize: 16.7,
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please select your date of birth';
+                                        }
+                                        // Add any additional validation logic for the date if needed
+                                        return null;
+                                      },
+                                      onTap: () async {
+                                        FocusScope.of(context)
+                                            .requestFocus(new FocusNode());
+                                        final DateTime? date =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1900),
+                                          lastDate: DateTime.now(),
+                                        );
+                                        if (date != null) {
+                                          _dobController.text =
+                                              DateFormat("yyyy-MM-dd")
+                                                  .format(date);
+                                          dob = date;
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),
@@ -634,7 +688,7 @@ class _EditState extends State<Edit> {
                                       padding: const EdgeInsets.only(
                                         right: 17,
                                       ),
-                                      child: Container(
+                                      child: SizedBox(
                                         height:
                                             UiHelper.displayHeight(context) *
                                                 0.069,
@@ -642,7 +696,7 @@ class _EditState extends State<Edit> {
                                             0.32,
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: const Color(
+                                            backgroundColor: const Color(
                                                 0xFF0062DE), //background color of button
                                             //border width and color
 
@@ -651,6 +705,12 @@ class _EditState extends State<Edit> {
                                                 borderRadius:
                                                     BorderRadius.circular(3)),
                                           ),
+                                          onPressed: () {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              _resetPassword;
+                                            }
+                                          },
                                           child: Text(
                                             "Save",
                                             textAlign: TextAlign.center,
@@ -661,20 +721,19 @@ class _EditState extends State<Edit> {
                                               fontFamily:
                                                   "ZenKakuGothicAntique",
                                               fontWeight: FontWeight.w600,
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                   255, 255, 255, 255),
                                               fontSize: UiHelper.displayWidth(
                                                       context) *
                                                   0.048,
                                             ),
                                           ),
-                                          onPressed: _resetPassword,
                                         ),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 7),
-                                      child: Container(
+                                      child: SizedBox(
                                         height:
                                             UiHelper.displayHeight(context) *
                                                 0.069,
@@ -682,7 +741,7 @@ class _EditState extends State<Edit> {
                                             0.32,
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              primary: const Color(
+                                              backgroundColor: const Color(
                                                   0xFFFFFFFF), //background color of button
                                               //border width and color
 
@@ -701,7 +760,7 @@ class _EditState extends State<Edit> {
                                                 fontFamily:
                                                     "ZenKakuGothicAntique",
                                                 fontWeight: FontWeight.w600,
-                                                color: Color(0xFFA6AEB0),
+                                                color: const Color(0xFFA6AEB0),
                                                 fontSize: UiHelper.displayWidth(
                                                         context) *
                                                     0.048,
@@ -733,7 +792,7 @@ class CurvePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = Color(0xFF0062DE);
+    paint.color = const Color(0xFF0062DE);
     paint.style = PaintingStyle.fill; // Change this to fill
 
     var path = Path();

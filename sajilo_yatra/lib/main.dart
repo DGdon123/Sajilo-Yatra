@@ -199,12 +199,28 @@ Future<void> main() async {
                 transitionDuration: const Duration(milliseconds: 600),
                 transition: Transition.cupertino,
               ),
+              GetPage(
+                name: '/third',
+                page: () => const FifthScreen(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/third',
+                page: () => const FifthScreen(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/fourth',
+                page: () => const FifthRoute(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
             ],
             routes: {
               // When navigating to the "/" route, build the FirstScreen widget.
 
-              '/third': (context) => const FifthScreen(),
-              '/fourth': (context) => const FifthRoute(),
               '/fifth': (context) => const SixthScreen(),
               '/sixth': (context) => const SixthRoute(),
 

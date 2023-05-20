@@ -5,13 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
 import 'package:sajilo_yatra/ui_helper.dart';
 
-import '../service/mail_service.dart';
+
 
 class OfferThree extends StatefulWidget {
   const OfferThree({Key? key}) : super(key: key);
@@ -667,21 +668,11 @@ class _OfferThreeState extends State<OfferThree> {
                                 String code =
                                     "HRDTY56"; // replace with the actual code string
                                 Clipboard.setData(ClipboardData(text: code));
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "Code copied to clipboard",
-                                      style: TextStyle(
-                                        color: Color(0xFFFFFFFF),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: 'Nunito',
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    duration: Duration(milliseconds: 1400),
-                                    backgroundColor: Color(0xFF0062DE),
-                                  ),
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: 'Code copied to clipboard',
+                                  confirmBtnColor: const Color(0xFF0062DE),
                                 );
                               },
                             )),
@@ -711,7 +702,7 @@ class _OfferThreeState extends State<OfferThree> {
                                 ),
                               ),
                               onPressed: () {
-                                sendMail();
+                                Navigator.pushNamed(context, '/tenth');
                               },
                             )),
                       ],

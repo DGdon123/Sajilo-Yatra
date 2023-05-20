@@ -77,7 +77,7 @@ class _FourthRouteState extends State<FourthRoute> {
         emailing = email;
         phonenumber = phoneNumber;
         gen = gender;
-        aging = age;
+        aging = age.toString();
         dobing = dob;
 
         isLoading = false;
@@ -852,7 +852,7 @@ class _FourthRouteState extends State<FourthRoute> {
                                                       width: width * 0.65,
                                                       height: height * 0.03,
                                                       child: Text(
-                                                        dobing,
+                                                        (dobing).split(' ')[0],
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(

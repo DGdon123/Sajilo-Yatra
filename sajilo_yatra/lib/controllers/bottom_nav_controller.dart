@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../bookings.dart';
 import '../help.dart';
 import '../menu.dart';
-import '../profile.dart';
 import '../userhome.dart';
 
 class BottomNavController extends GetxController {
@@ -14,12 +13,9 @@ class BottomNavController extends GetxController {
     const ThirdRoute(
       userId: '',
     ),
-    const EighthRoute(),
     const Menu(),
+    const EighthRoute(),
     const NinethScreen(),
-    const FourthRoute(
-      userId: '',
-    ),
   ];
 
   void goToEighthRoute() {
