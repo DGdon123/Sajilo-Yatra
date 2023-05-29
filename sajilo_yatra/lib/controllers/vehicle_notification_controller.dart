@@ -6,7 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-class NotificationController extends GetxController {
+class VNotificationController extends GetxController {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -64,8 +64,8 @@ class NotificationController extends GetxController {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       1,
-      'Hot Offers!',
-      'Book your tickets now!',
+      'Hurry Up!',
+      'Publish your vehicle availability right now!',
       tzdatetime,
       notify,
       uiLocalNotificationDateInterpretation:

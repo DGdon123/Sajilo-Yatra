@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sajilo_yatra/vehiclemenu.dart';
+import 'package:sajilo_yatra/vehicle_owners_menu/vehiclemenu.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicleride.dart';
 
-import '../vehcileprofile.dart';
-import '../vehicleownerhome.dart';
-import '../vehicletickets.dart';
-import '../vhelp.dart';
+import '../vehicle_owners/vehicleownerhome.dart';
+import '../vehicle_owners/vehicletickets.dart';
 
 class NavController extends GetxController {
   int selectedIndex = 0;
@@ -15,13 +14,11 @@ class NavController extends GetxController {
       userId: '',
       going: '',
       leaving: '',
+      location: '',
     ),
-    const VehicleTickets(),
     const VMenu(),
-    const VHelp(),
-    const Profile(
-      userId: '',
-    ),
+    const VehicleTickets(),
+    const VehicleRide(),
   ];
 
   changeIndex(index) {

@@ -8,7 +8,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
-import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:sajilo_yatra/helpers/ui_helper.dart';
 
 class OfferFour extends StatefulWidget {
   const OfferFour({Key? key}) : super(key: key);

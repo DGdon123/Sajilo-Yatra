@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../bookings.dart';
-import '../help.dart';
-import '../menu.dart';
-import '../userhome.dart';
+import '../users/bookings.dart';
+import '../users_menu/menu.dart';
+import '../users/userhome.dart';
+import '../users/userrentals.dart';
 
 class BottomNavController extends GetxController {
   int selectedIndex = 0;
@@ -15,7 +15,7 @@ class BottomNavController extends GetxController {
     ),
     const Menu(),
     const EighthRoute(),
-    const NinethScreen(),
+    const UEighthRoute(),
   ];
 
   void goToEighthRoute() {

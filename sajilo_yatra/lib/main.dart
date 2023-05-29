@@ -1,60 +1,66 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sajilo_yatra/contactus.dart';
-import 'package:sajilo_yatra/help.dart';
-import 'package:sajilo_yatra/home.dart';
+import 'package:sajilo_yatra/users_menu/contactus.dart';
+import 'package:sajilo_yatra/users_menu/help.dart';
+import 'package:sajilo_yatra/bottom_bar/home.dart';
+import 'package:sajilo_yatra/users/meeting.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%202.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%203.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%204.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy%205.dart';
 import 'package:sajilo_yatra/offers/offerone%20copy.dart';
 import 'package:sajilo_yatra/offers/offerone.dart';
-import 'package:sajilo_yatra/outstationgoing.dart';
-import 'package:sajilo_yatra/outstationleaving.dart';
+
 import 'package:get/get.dart';
-import 'package:sajilo_yatra/payment.dart';
+import 'package:sajilo_yatra/users/payment.dart';
 
-import 'package:sajilo_yatra/profile.dart';
-import 'package:sajilo_yatra/ride.dart';
-import 'package:sajilo_yatra/ridesearch.dart';
-import 'package:sajilo_yatra/search.dart';
+import 'package:sajilo_yatra/users/profile.dart';
+import 'package:sajilo_yatra/users/ride.dart';
+import 'package:sajilo_yatra/users/ridesearch.dart';
+import 'package:sajilo_yatra/users/search.dart';
 
-import 'package:sajilo_yatra/tickets.dart';
-import 'package:sajilo_yatra/useraboutus.dart';
-import 'package:sajilo_yatra/userdetails.dart';
+import 'package:sajilo_yatra/users/tickets.dart';
+import 'package:sajilo_yatra/users_menu/useraboutus.dart';
+import 'package:sajilo_yatra/vehicle_owners/userdetails.dart';
 import 'package:flutter/services.dart';
 
-import 'package:sajilo_yatra/userhome.dart';
-import 'package:sajilo_yatra/userregister.dart';
-import 'package:sajilo_yatra/vehcileprofile.dart';
-import 'package:sajilo_yatra/vehicle_editprofile.dart';
-import 'package:sajilo_yatra/vehiclegoing.dart';
-import 'package:sajilo_yatra/vehicleleaving.dart';
-import 'package:sajilo_yatra/vehiclemenu.dart';
-import 'package:sajilo_yatra/vehicleownerforgotpassword.dart';
-import 'package:sajilo_yatra/vehicleownerhome.dart';
-import 'package:sajilo_yatra/vehicleownerlogin.dart';
-import 'package:sajilo_yatra/vehicleownerregister.dart';
-import 'package:sajilo_yatra/vehicletickets.dart';
-import 'package:sajilo_yatra/vhelp.dart';
-import 'aboutus.dart';
-import 'city.dart';
-import 'editprofile.dart';
-import 'feedbacks.dart';
-import 'forgotpassword.dart';
-import 'going.dart';
+import 'package:sajilo_yatra/users/userhome.dart';
+import 'package:sajilo_yatra/users_login/userregister.dart';
+import 'package:sajilo_yatra/vehicle_owners/userrentaldetails.dart';
+import 'package:sajilo_yatra/users/userrentals.dart';
+import 'package:sajilo_yatra/vehicle_owners_menu/vcontactus.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehcileprofile.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicle_editprofile.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicle_payment.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehiclegoing.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicleleaving.dart';
+import 'package:sajilo_yatra/vehicle_owners_menu/vehiclemenu.dart';
+import 'package:sajilo_yatra/vehicle_owners_login/vehicleownerforgotpassword.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicleownerhome.dart';
+import 'package:sajilo_yatra/vehicle_owners_login/vehicleownerlogin.dart';
+import 'package:sajilo_yatra/vehicle_owners_login/vehicleownerregister.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicleride.dart';
+import 'package:sajilo_yatra/vehicle_owners/vehicletickets.dart';
+import 'package:sajilo_yatra/vehicle_owners_menu/vfeedbacks.dart';
+import 'package:sajilo_yatra/vehicle_owners_menu/vhelp.dart';
+import 'users_menu/aboutus.dart';
+import 'users/city.dart';
+import 'users/editprofile.dart';
+import 'users_menu/feedbacks.dart';
+import 'users_login/forgotpassword.dart';
+import 'users/going.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'homepage.dart';
+import 'bottom_bar/homepage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'leaving.dart';
+import 'users/leaving.dart';
 
-import 'menu.dart';
-import 'userlogin.dart';
-import 'loginas.dart';
-import 'splashscreen.dart';
+import 'users_menu/menu.dart';
+import 'users_login/userlogin.dart';
+import 'start_screen/loginas.dart';
+import 'start_screen/splashscreen.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -97,13 +103,13 @@ Future<void> main() async {
                 name: '/third3',
                 page: () => const UsersScreen(),
                 transitionDuration: const Duration(milliseconds: 600),
-                transition: Transition.cupertinoDialog,
+                transition: Transition.cupertino,
               ),
               GetPage(
                 name: '/third2',
                 page: () => const HomePage(),
                 transitionDuration: const Duration(milliseconds: 600),
-                transition: Transition.fade,
+                transition: Transition.cupertino,
               ),
               GetPage(
                 name: '/third4',
@@ -153,7 +159,7 @@ Future<void> main() async {
                   userId: '',
                 ),
                 transitionDuration: const Duration(milliseconds: 600),
-                transition: Transition.fade,
+                transition: Transition.cupertino,
               ),
               GetPage(
                 name: '/hun1',
@@ -206,14 +212,81 @@ Future<void> main() async {
                 transition: Transition.cupertino,
               ),
               GetPage(
-                name: '/third',
-                page: () => const FifthScreen(),
+                name: '/fourth',
+                page: () => const FifthRoute(),
                 transitionDuration: const Duration(milliseconds: 600),
                 transition: Transition.cupertino,
               ),
               GetPage(
-                name: '/fourth',
-                page: () => const FifthRoute(),
+                name: '/line6',
+                page: () => const PasswordScreen(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line25',
+                page: () => const VLocation(
+                  going: '',
+                  leaving: '',
+                  location: '',
+                ),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line7',
+                page: () => const VehicleHome(
+                  userId: '',
+                  going: '',
+                  leaving: '',
+                  location: '',
+                ),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line13',
+                page: () => const Profile(
+                  userId: '',
+                ),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line26',
+                page: () => const VehicleRide(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line27',
+                page: () => const VFeedbacksScreen(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line28',
+                page: () => const VContact(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line29',
+                page: () => const VPayment(
+                  userId: '',
+                ),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line30',
+                page: () => const UEighthRoute(),
+                transitionDuration: const Duration(milliseconds: 600),
+                transition: Transition.cupertino,
+              ),
+              GetPage(
+                name: '/line31',
+                page: () => const RUsersScreen(),
                 transitionDuration: const Duration(milliseconds: 600),
                 transition: Transition.cupertino,
               ),
@@ -230,7 +303,7 @@ Future<void> main() async {
               '/fourteenth': (context) => const FourthRoute(
                     userId: '',
                   ),
-              '/fifteenth': (context) => ForgotPasswordScreen(),
+              '/fifteenth': (context) => const ForgotPasswordScreen(),
 
               '/seventeenth': (context) => const Menu(),
               '/eighteenth': (context) => const Ride(),
@@ -240,15 +313,9 @@ Future<void> main() async {
               '/line2': (context) => const Payment(
                     userId: '',
                   ),
-              '/line3': (context) => const OutStation(),
-              '/line4': (context) => const OutRoute(),
+
               '/line5': (context) => const City(),
-              '/line6': (context) => PasswordScreen(),
-              '/line7': (context) => const VehicleHome(
-                    userId: '',
-                    going: '',
-                    leaving: '',
-                  ),
+
               '/line8': (context) => const VehicleLeaving(),
               '/line9': (context) => const VehicleGoing(),
               '/line10': (context) => const VehicleTickets(),
@@ -256,9 +323,7 @@ Future<void> main() async {
                     userId: '',
                   ),
               '/line12': (context) => const OutSearchScreen(),
-              '/line13': (context) => const Profile(
-                    userId: '',
-                  ),
+
               '/line14': ((context) => const VMenu()),
               '/line15': ((context) => const VHelp())
             },

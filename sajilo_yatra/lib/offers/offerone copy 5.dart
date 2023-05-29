@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'dart:convert';
 
-import 'package:sajilo_yatra/ui_helper.dart';
+import 'package:sajilo_yatra/helpers/ui_helper.dart';
 
 class OfferSix extends StatefulWidget {
   const OfferSix({Key? key}) : super(key: key);
